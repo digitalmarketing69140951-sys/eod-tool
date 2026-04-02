@@ -259,6 +259,16 @@
 
     input[type="text"] { color: var(--text-2); cursor: default; font-size: 0.875rem; font-weight: 500; }
 
+    input[type="date"] {
+      color: var(--text); font-size: 0.875rem; font-weight: 500; cursor: pointer;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer; opacity: 0.5;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
     textarea { min-height: 200px; resize: vertical; line-height: 1.75; font-size: 0.9375rem; }
     textarea::placeholder { color: var(--text-3); }
 
@@ -453,7 +463,7 @@
           </div>
           <div class="form-group">
             <label for="dateField">Date</label>
-            <input type="text" id="dateField" readonly />
+            <input type="date" id="dateField" />
           </div>
         </div>
 
@@ -530,7 +540,7 @@
   }
 
   function updateDateDisplays() {
-    dateField.value = todayISO();
+    if (!dateField.value) dateField.value = todayISO();
     topbarDate.textContent = new Date().toLocaleDateString("en-GB", {
       weekday: "long", day: "numeric", month: "long", year: "numeric"
     });
@@ -676,7 +686,7 @@
     clearAlert();
     const member = memberSelect.value.trim();
     const report = eodText.value.trim();
-    const date   = todayISO();
+    const date   = dateField.value || todayISO();
 
     if (!member) { showAlert("error", "Please select your name."); memberSelect.focus(); return; }
     if (!report) { showAlert("error", "Report cannot be empty."); eodText.focus(); return; }
