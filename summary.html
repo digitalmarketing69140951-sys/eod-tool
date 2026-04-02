@@ -258,11 +258,21 @@
     .detail-meta { font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; color: var(--text2); margin-bottom: 1.25rem; }
 
     .detail-body {
-      font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.9;
-      color: var(--text); font-weight: 500; white-space: pre-wrap; word-break: break-word;
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; line-height: 1.8;
+      color: var(--text); word-break: break-word;
       background: var(--bg3); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.25rem; max-height: 55vh; overflow-y: auto;
+      border-radius: 8px; padding: 1.5rem; max-height: 62vh; overflow-y: auto;
     }
+    .detail-body h1 { font-size: 1.15rem; font-weight: 800; margin: 1.4rem 0 0.5rem; color: var(--text); letter-spacing: -0.02em; }
+    .detail-body h2 { font-size: 1rem; font-weight: 700; margin: 1.2rem 0 0.4rem; color: var(--text); text-transform: uppercase; letter-spacing: 0.04em; }
+    .detail-body h3 { font-size: 0.9rem; font-weight: 700; margin: 1rem 0 0.3rem; color: var(--accent); }
+    .detail-body h1:first-child, .detail-body h2:first-child { margin-top: 0; }
+    .detail-body p { margin: 0.4rem 0 0.6rem; color: var(--text2); }
+    .detail-body strong { color: var(--text); font-weight: 700; }
+    .detail-body ul { padding-left: 1.4rem; margin: 0.3rem 0 0.7rem; }
+    .detail-body li { margin: 0.3rem 0; color: var(--text2); }
+    .detail-body hr { border: none; border-top: 1.5px solid var(--border); margin: 1.2rem 0; }
+    .detail-body code { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; background: var(--border); padding: 0.1em 0.4em; border-radius: 4px; }
 
     .detail-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
 
@@ -574,10 +584,45 @@ function renderWeek(members, fridayISO) {
   $("results").style.display = "";
 }
 
+function renderMarkdown(md) {
+  const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const inline = s => esc(s)
+    .replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>")
+    .replace(/\*(.+?)\*/g,"<em>$1</em>")
+    .replace(/`(.+?)`/g,"<code>$1</code>");
+
+  const lines = md.split("\n");
+  let html = "", inUl = false, inSub = false;
+  const closeSub = () => { if (inSub) { html += "</ul></li>"; inSub = false; } };
+  const closeUl  = () => { closeSub(); if (inUl) { html += "</ul>"; inUl = false; } };
+
+  for (const l of lines) {
+    if (/^### /.test(l))      { closeUl(); html += `<h3>${inline(l.slice(4))}</h3>`; }
+    else if (/^## /.test(l))  { closeUl(); html += `<h2>${inline(l.slice(3))}</h2>`; }
+    else if (/^# /.test(l))   { closeUl(); html += `<h1>${inline(l.slice(2))}</h1>`; }
+    else if (/^---+$/.test(l.trim())) { closeUl(); html += "<hr>"; }
+    else if (/^[-*] /.test(l)) {
+      closeSub();
+      if (!inUl) { html += "<ul>"; inUl = true; }
+      html += `<li>${inline(l.slice(2))}`;
+    }
+    else if (/^\s{2,}[-*] /.test(l)) {
+      // indented sub-bullet
+      const text = l.replace(/^\s+[-*] /, "");
+      if (!inSub) { html += "<ul>"; inSub = true; }
+      html += `<li>${inline(text)}</li>`;
+    }
+    else if (l.trim() === "")  { closeUl(); }
+    else                       { closeUl(); html += `<p>${inline(l)}</p>`; }
+  }
+  closeUl();
+  return html;
+}
+
 function openDetail(m, fridayISO) {
   $("detailName").textContent = m.name;
   $("detailMeta").textContent = `Week ending ${fridayISO} · Score: ${m.score ?? "N/A"}`;
-  $("detailBody").textContent = m.report;
+  $("detailBody").innerHTML = renderMarkdown(m.report);
   $("detailOverlay").classList.add("on");
 
   $("detailCopy").onclick = () => {
