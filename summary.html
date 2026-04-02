@@ -412,8 +412,10 @@
     <span class="t-badge">Weekly Audit</span>
   </div>
   <div class="topbar-right">
-    <span class="week-label" id="weekLabel"></span>
-    <button class="btn-reload" id="reloadBtn">↻ Refresh</button>
+    <input type="date" id="fromDate" style="height:34px;background:#f8f9fb;border:1.5px solid #e4e7ef;border-radius:8px;color:#0f1724;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0 0.6rem;outline:none;cursor:pointer;" />
+    <span style="font-size:0.8rem;color:#9ca3af;font-weight:600;">→</span>
+    <input type="date" id="toDate" style="height:34px;background:#f8f9fb;border:1.5px solid #e4e7ef;border-radius:8px;color:#0f1724;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0 0.6rem;outline:none;cursor:pointer;" />
+    <button class="btn-reload" id="loadBtn">Load →</button>
     <a href="index.html" class="btn-nav">← EOD Form</a>
   </div>
 </div>
@@ -458,22 +460,12 @@
   const getToken  = () => localStorage.getItem(GH_KEY) || "";
   const saveToken = t  => localStorage.setItem(GH_KEY, t.trim());
 
-  // ── Week calculation ────────────────────────────
-  function getWeekRange() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun,1=Mon,...,6=Sat
-    const diffToMon = (day === 0) ? -6 : 1 - day;
-    const mon = new Date(now); mon.setDate(now.getDate() + diffToMon);
-    const fri = new Date(mon); fri.setDate(mon.getDate() + 4);
-    return { mon, fri };
-  }
-
   function toISO(d) {
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   }
 
   function formatDate(d) {
-    return d.toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
+    return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
   }
 
   // ── GitHub API ─────────────────────────────────
@@ -596,36 +588,19 @@
 
   const $ = id => document.getElementById(id);
 
-  // ── DOM refs ───────────────────────────────────
+  // ── State ─────────────────────────────────────
   let currentMembers = [];
-  let currentRaw = {};
-  let currentFriday = "";
+  let currentRaw     = {};
+  let selectedFrom   = "";
+  let selectedTo     = "";
 
-  // ── Init ───────────────────────────────────────
-  const { mon, fri } = getWeekRange();
-  const monISO = toISO(mon);
-  const friISO = toISO(fri);
-  currentFriday = friISO;
+  // ── Init — show empty state, wait for user ─────
+  $("stateBox").innerHTML = `
+    <div class="state-icon">📅</div>
+    <div class="state-title">Select a date range</div>
+    <div>Pick From and To dates above, then click Load</div>`;
 
-  $("weekLabel").textContent = `${formatDate(mon)} – ${formatDate(fri)}`;
-
-  // Try cache first, then load from GitHub
-  const cached = sessionStorage.getItem(CACHE_KEY);
-  if (cached) {
-    try {
-      const data = JSON.parse(cached);
-      if (data.friday === friISO && data.members && data.members.length) {
-        currentMembers = data.members;
-        currentRaw = data.raw || {};
-        renderResults(data.members, friISO);
-      } else {
-        loadWeek();
-      }
-    } catch(e) { loadWeek(); }
-  } else {
-    if (!getToken()) { $("tokenOverlay").classList.add("on"); }
-    else { loadWeek(); }
-  }
+  if (!getToken()) $("tokenOverlay").classList.add("on");
 
   // ── Token setup ────────────────────────────────
   $("tokenEye").onclick = () => {
@@ -649,7 +624,6 @@
       if (!r.ok) throw new Error(`GitHub error ${r.status}`);
       saveToken(t);
       $("tokenOverlay").classList.remove("on");
-      loadWeek();
     } catch(e) {
       $("tokenErr").textContent = `⚠ ${e.message}`;
       $("tokenErr").style.display = "block";
@@ -660,13 +634,25 @@
 
   $("tokenInput").onkeydown = e => { if (e.key === "Enter") $("tokenSave").click(); };
 
-  $("reloadBtn").onclick = () => {
-    sessionStorage.removeItem(CACHE_KEY);
-    loadWeek();
+  // ── Load button ────────────────────────────────
+  $("loadBtn").onclick = () => {
+    const from = $("fromDate").value;
+    const to   = $("toDate").value;
+    if (!from || !to) {
+      alert("Please select both From and To dates.");
+      return;
+    }
+    if (from > to) {
+      alert("From date must be before To date.");
+      return;
+    }
+    selectedFrom = from;
+    selectedTo   = to;
+    loadRange(from, to);
   };
 
-  // ── Load week ──────────────────────────────────
-  async function loadWeek() {
+  // ── Load range ─────────────────────────────────
+  async function loadRange(fromISO, toISO) {
     if (!getToken()) { $("tokenOverlay").classList.add("on"); return; }
 
     $("results").style.display = "none";
@@ -674,7 +660,6 @@
     $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading reports…</div><div>Reading EOD files from GitHub</div>`;
 
     try {
-      // Get all member folders under eods/
       const folders = await listDir("eods");
       if (!folders || !folders.length) throw new Error("No eods/ folder found");
 
@@ -685,21 +670,18 @@
         if (folder.type !== "dir") continue;
         const name = folder.name;
 
-        // Read all files in this member's folder for the week
         const files = await listDir(`eods/${name}`);
         if (!files || !files.length) continue;
 
-        // Filter files within Mon–Fri of this week
-        const weekFiles = files.filter(f => {
-          const dateStr = f.name.replace(".md", "");
-          return dateStr >= monISO && dateStr <= friISO;
+        const rangeFiles = files.filter(f => {
+          const d = f.name.replace(".md","");
+          return d >= fromISO && d <= toISO;
         });
 
-        if (!weekFiles.length) continue;
+        if (!rangeFiles.length) continue;
 
-        // Concatenate all week's EOD reports
         let combined = "";
-        for (const f of weekFiles.sort((a,b) => a.name.localeCompare(b.name))) {
+        for (const f of rangeFiles.sort((a,b) => a.name.localeCompare(b.name))) {
           const content = await fetchMD(`eods/${name}/${f.name}`);
           if (content) combined += `\n\n---\n**${f.name.replace(".md","")}**\n\n${content}`;
         }
@@ -713,15 +695,13 @@
       }
 
       if (!members.length) {
-        $("stateBox").innerHTML = `<div class="state-icon">📭</div><div class="state-title">No reports found</div><div>No EOD submissions for this week yet</div>`;
+        $("stateBox").innerHTML = `<div class="state-icon">📭</div><div class="state-title">No reports found</div><div>No EOD submissions for ${fromISO} → ${toISO}</div>`;
         return;
       }
 
-      // Cache in sessionStorage
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ friday: friISO, members, raw }));
       currentMembers = members;
-      currentRaw = raw;
-      renderResults(members, friISO);
+      currentRaw     = raw;
+      renderResults(members, fromISO, toISO);
 
     } catch(e) {
       $("stateBox").innerHTML = `<div class="state-icon">⚠️</div><div class="state-title">Error loading</div><div>${e.message}</div>`;
@@ -729,14 +709,14 @@
   }
 
   // ── Render results ─────────────────────────────
-  function renderResults(members, friday) {
+  function renderResults(members, fromISO, toISO) {
     const sorted = [...members].sort((a,b) => (b.score??-1)-(a.score??-1));
 
     const green = members.filter(m => m.score !== null && m.score >= 70).length;
     const amber = members.filter(m => m.score !== null && m.score >= 40 && m.score < 70).length;
     const red   = members.filter(m => m.score === null || m.score < 40).length;
 
-    $("pageWeek").textContent = `${formatDate(mon)} – ${formatDate(fri)} · ${members.length} members`;
+    $("pageWeek").textContent = `${formatDate(fromISO)} – ${formatDate(toISO)} · ${members.length} members`;
     $("memberCount").textContent = `${members.length} members`;
 
     $("pills").innerHTML = `
@@ -782,7 +762,7 @@
     $("detailContent").innerHTML = `
       <div class="md-body">
         <h1>Weekly Performance Audit — ${name}</h1>
-        <div class="meta-line">Period: ${formatDate(mon)} – ${formatDate(fri)}</div>
+        <div class="meta-line">Period: ${formatDate(selectedFrom)} – ${formatDate(selectedTo)}</div>
         ${scoreHTML}
         ${renderMarkdown(rawText)}
       </div>`;
