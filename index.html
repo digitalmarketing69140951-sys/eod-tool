@@ -172,6 +172,18 @@
       font-size: 0.8125rem; color: var(--text-2); font-weight: 500;
     }
 
+    .btn-nav {
+      font-size: 0.75rem; font-weight: 600; color: var(--brand);
+      background: var(--brand-dim); border: 1.5px solid var(--brand-dim2);
+      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+      display: flex; align-items: center; gap: 0.3rem;
+    }
+
+    .btn-nav:hover { background: var(--brand-dim2); border-color: var(--brand); }
+
     .btn-token {
       font-size: 0.75rem; font-weight: 600; color: var(--text-3);
       background: none; border: 1.5px solid var(--border);
@@ -462,6 +474,7 @@
     </div>
     <div class="topbar-right">
       <div class="topbar-date" id="topbarDate"></div>
+      <a href="summary.html" class="btn-nav">📊 Summary</a>
       <button class="btn-token" id="resetTokenBtn">🔑 Token</button>
     </div>
   </div>
