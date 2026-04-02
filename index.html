@@ -11,27 +11,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --brand:        #4f46e5;
-      --brand-light:  #6366f1;
-      --brand-dim:    rgba(79, 70, 229, 0.08);
-      --brand-dim2:   rgba(79, 70, 229, 0.15);
-      --bg:           #f5f6fa;
-      --surface:      #ffffff;
-      --surface2:     #f9fafb;
-      --border:       #e5e7eb;
-      --border-focus: #4f46e5;
-      --text:         #111827;
-      --text-2:       #6b7280;
-      --text-3:       #9ca3af;
-      --success:      #10b981;
-      --success-dim:  rgba(16, 185, 129, 0.1);
-      --error:        #ef4444;
-      --error-dim:    rgba(239, 68, 68, 0.08);
-      --radius-sm:    8px;
-      --radius:       12px;
-      --radius-lg:    20px;
-      --shadow-sm:    0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-      --shadow:       0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
+      --brand:       #4f46e5;
+      --brand-light: #6366f1;
+      --brand-dim:   rgba(79,70,229,0.08);
+      --brand-dim2:  rgba(79,70,229,0.18);
+      --bg:          #f0f2f8;
+      --surface:     #ffffff;
+      --surface2:    #f8f9fb;
+      --border:      #e4e7ef;
+      --border-focus:#4f46e5;
+      --text:        #0f1724;
+      --text-2:      #6b7280;
+      --text-3:      #adb5bd;
+      --success:     #10b981;
+      --success-dim: rgba(16,185,129,0.10);
+      --error:       #ef4444;
+      --error-dim:   rgba(239,68,68,0.08);
+      --field-h:     48px;
+      --radius-sm:   10px;
+      --radius:      14px;
+      --radius-lg:   22px;
+      --shadow-sm:   0 1px 4px rgba(0,0,0,0.07);
+      --shadow:      0 6px 28px rgba(79,70,229,0.08), 0 1px 4px rgba(0,0,0,0.05);
+      --shadow-top:  0 -1px 0 rgba(0,0,0,0.04);
     }
 
     html { scroll-behavior: smooth; }
@@ -44,331 +46,354 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 0 1rem 4rem;
+      padding: 0 1rem 5rem;
     }
 
-    /* ── Setup Overlay ── */
+    /* ════════════════════════════════
+       SETUP OVERLAY
+    ════════════════════════════════ */
     .setup-overlay {
       display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.45);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
+      position: fixed; inset: 0;
+      background: rgba(15,23,36,0.5);
+      z-index: 200;
+      align-items: center; justify-content: center;
       padding: 1rem;
-      backdrop-filter: blur(3px);
+      backdrop-filter: blur(4px);
     }
 
     .setup-overlay.visible { display: flex; animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .setup-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 2rem;
-      width: 100%;
-      max-width: 460px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      animation: slideUp 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
+      padding: 2.25rem;
+      width: 100%; max-width: 440px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      animation: slideUp 0.28s cubic-bezier(0.34,1.2,0.64,1);
     }
 
     .setup-icon {
-      width: 52px; height: 52px;
+      width: 54px; height: 54px;
       background: var(--brand-dim);
-      border: 1px solid var(--brand-dim2);
+      border: 1.5px solid var(--brand-dim2);
       border-radius: var(--radius);
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 1.25rem;
+      font-size: 1.5rem; margin-bottom: 1.25rem;
     }
 
-    .setup-title {
-      font-size: 1.125rem; font-weight: 800; color: var(--text);
-      margin-bottom: 0.375rem; letter-spacing: -0.02em;
-    }
+    .setup-title { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .setup-sub   { font-size: 0.875rem; color: var(--text-2); line-height: 1.6; margin-bottom: 1.5rem; }
 
-    .setup-sub {
-      font-size: 0.875rem; color: var(--text-2);
-      margin-bottom: 1.5rem; line-height: 1.6;
-    }
+    .setup-label { font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.4rem; display: block; }
 
-    .setup-field { display: flex; flex-direction: column; gap: 0.375rem; margin-bottom: 1rem; }
-    .setup-field label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
+    .token-wrap { position: relative; }
 
-    .token-input-wrap { position: relative; }
-
-    .token-input-wrap input {
+    .token-wrap input {
       width: 100%;
+      height: var(--field-h);
       background: var(--surface2);
-      color: var(--text);
       border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 0.6875rem 2.75rem 0.6875rem 0.875rem;
-      font-family: monospace;
-      font-size: 0.875rem;
+      padding: 0 2.75rem 0 0.9rem;
+      font-family: monospace; font-size: 0.875rem; color: var(--text);
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s;
-      -webkit-appearance: none;
     }
 
-    .token-input-wrap input:focus {
+    .token-wrap input:focus {
       border-color: var(--border-focus);
       box-shadow: 0 0 0 3px var(--brand-dim2);
     }
 
     .toggle-vis {
-      position: absolute; right: 0.75rem; top: 50%;
-      transform: translateY(-50%);
+      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
       background: none; border: none; cursor: pointer;
-      color: var(--text-3); font-size: 1rem; padding: 0; line-height: 1;
+      color: var(--text-3); font-size: 1rem; line-height: 1;
     }
 
-    .toggle-vis:hover { color: var(--text-2); }
+    .token-hint { font-size: 0.75rem; color: var(--text-3); margin-top: 0.4rem; }
 
-    .setup-hint { font-size: 0.75rem; color: var(--text-3); margin-top: 0.375rem; }
+    .setup-error { font-size: 0.8125rem; color: #dc2626; margin-top: 0.75rem; display: none; }
 
-    .btn-save-token {
-      width: 100%;
-      padding: 0.75rem 1rem;
+    .btn-save {
+      width: 100%; height: var(--field-h);
       background: linear-gradient(135deg, var(--brand), var(--brand-light));
-      color: #fff;
-      font-family: 'Inter', sans-serif;
+      color: #fff; font-family: 'Inter', sans-serif;
       font-size: 0.9375rem; font-weight: 700;
       border: none; border-radius: var(--radius-sm);
-      cursor: pointer; margin-top: 1rem;
+      cursor: pointer; margin-top: 1.25rem;
+      box-shadow: 0 4px 16px rgba(79,70,229,0.3);
       transition: opacity 0.15s;
-      box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
     }
 
-    .btn-save-token:hover:not(:disabled) { opacity: 0.9; }
-    .btn-save-token:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-save:hover:not(:disabled) { opacity: 0.9; }
+    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    .setup-error {
-      font-size: 0.8125rem; color: #dc2626;
-      margin-top: 0.75rem; display: none;
-    }
-
-    /* ── Top Bar ── */
+    /* ════════════════════════════════
+       TOP BAR
+    ════════════════════════════════ */
     .topbar {
       width: 100%;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
-      height: 60px; margin-bottom: 2.5rem;
+      height: 62px;
+      margin-bottom: 2.5rem;
       position: sticky; top: 0; z-index: 10;
       box-shadow: var(--shadow-sm);
     }
 
-    .topbar-brand {
-      display: flex; align-items: center; gap: 0.625rem;
-      font-weight: 700; font-size: 0.9375rem; color: var(--text);
-      letter-spacing: -0.01em;
-    }
+    .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
 
     .topbar-logo {
-      width: 32px; height: 32px;
+      width: 36px; height: 36px;
       background: linear-gradient(135deg, var(--brand), var(--brand-light));
-      border-radius: 8px;
+      border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; color: #fff; font-weight: 800;
+      font-size: 0.95rem; color: #fff; font-weight: 800;
+      box-shadow: 0 2px 8px rgba(79,70,229,0.3);
     }
+
+    .topbar-name { font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.01em; }
 
     .topbar-badge {
       font-size: 0.6875rem; font-weight: 600;
       color: var(--brand); background: var(--brand-dim);
       border: 1px solid var(--brand-dim2);
-      padding: 0.2rem 0.6rem; border-radius: 100px; letter-spacing: 0.03em;
+      padding: 0.2rem 0.65rem; border-radius: 100px; letter-spacing: 0.04em;
     }
 
     .topbar-right { display: flex; align-items: center; gap: 1rem; }
 
-    .topbar-date { font-size: 0.8125rem; color: var(--text-2); font-weight: 500; }
+    .topbar-date {
+      font-size: 0.8125rem; color: var(--text-2); font-weight: 500;
+    }
 
     .btn-token {
       font-size: 0.75rem; font-weight: 600; color: var(--text-3);
-      background: none; border: 1px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.3rem 0.625rem;
+      background: none; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
       cursor: pointer; font-family: 'Inter', sans-serif;
       transition: color 0.15s, border-color 0.15s;
+      display: flex; align-items: center; gap: 0.3rem;
     }
 
     .btn-token:hover { color: var(--brand); border-color: var(--brand); }
 
-    /* ── Layout ── */
+    /* ════════════════════════════════
+       PAGE LAYOUT
+    ════════════════════════════════ */
     .page {
-      width: 100%; max-width: 580px;
+      width: 100%; max-width: 600px;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
 
-    .page-title { display: flex; flex-direction: column; gap: 0.25rem; }
-    .page-title h2 {
-      font-size: 1.375rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em;
-    }
-    .page-title p { font-size: 0.875rem; color: var(--text-2); }
+    .page-title { display: flex; flex-direction: column; gap: 0.2rem; }
+    .page-title h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
+    .page-title p  { font-size: 0.875rem; color: var(--text-2); }
 
-    /* ── Card ── */
+    /* ════════════════════════════════
+       CARD
+    ════════════════════════════════ */
     .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow);
     }
 
     .section-label {
       font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: var(--text-3); margin-bottom: 1rem;
+      letter-spacing: 0.09em; color: var(--text-3); margin-bottom: 1.1rem;
     }
 
-    /* ── Form ── */
+    /* ════════════════════════════════
+       FORM FIELDS
+    ════════════════════════════════ */
     .form-row {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-bottom: 1.25rem;
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 0.375rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
 
-    label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
-    label .req { color: var(--brand); margin-left: 2px; }
+    .form-group label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
+    .form-group label .req { color: var(--brand); margin-left: 2px; }
 
-    select, input[type="text"], textarea {
-      width: 100%; background: var(--surface2); color: var(--text);
-      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-      padding: 0.6875rem 0.875rem; font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem; outline: none;
+    /* All field base style */
+    select,
+    input[type="date"],
+    textarea {
+      width: 100%;
+      background: var(--surface2);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      outline: none;
       transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-      -webkit-appearance: none; appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    select:focus, input[type="text"]:focus, textarea:focus {
-      border-color: var(--border-focus); box-shadow: 0 0 0 3px var(--brand-dim2); background: #fff;
+    select:focus,
+    input[type="date"]:focus,
+    textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--brand-dim2);
+      background: #fff;
     }
 
+    /* Select */
     select {
-      cursor: pointer; padding-right: 2.25rem;
+      height: var(--field-h);
+      padding: 0 2.5rem 0 0.9rem;
+      cursor: pointer;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-position: right 0.875rem center;
     }
 
     select option { background: #fff; color: var(--text); }
     select option:disabled { color: var(--text-3); }
 
-    input[type="text"] { color: var(--text-2); cursor: default; font-size: 0.875rem; font-weight: 500; }
-
+    /* Date input — perfectly centered, same height as select */
     input[type="date"] {
-      color: var(--text); font-size: 0.875rem; font-weight: 500; cursor: pointer;
+      height: var(--field-h);
+      padding: 0 0.9rem;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    input[type="date"]::-webkit-datetime-edit        { padding: 0; }
+    input[type="date"]::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+    input[type="date"]::-webkit-inner-spin-button    { display: none; }
+
     input[type="date"]::-webkit-calendar-picker-indicator {
-      cursor: pointer; opacity: 0.5;
+      cursor: pointer;
+      opacity: 0.45;
+      margin-left: 0.5rem;
+      transition: opacity 0.15s;
     }
 
     input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
-    textarea { min-height: 200px; resize: vertical; line-height: 1.75; font-size: 0.9375rem; }
+    /* Textarea */
+    textarea {
+      min-height: 210px;
+      resize: vertical;
+      line-height: 1.75;
+      padding: 0.75rem 0.9rem;
+    }
+
     textarea::placeholder { color: var(--text-3); }
 
-    .char-hint { font-size: 0.75rem; color: var(--text-3); text-align: right; }
+    .char-hint { font-size: 0.75rem; color: var(--text-3); text-align: right; margin-top: 0.3rem; }
 
     .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
 
-    /* ── Submit Button ── */
+    /* ════════════════════════════════
+       SUBMIT BUTTON
+    ════════════════════════════════ */
     .btn-submit {
-      width: 100%; padding: 0.875rem 1.5rem;
+      width: 100%; height: var(--field-h);
       background: linear-gradient(135deg, var(--brand), var(--brand-light));
       color: #fff; font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem; font-weight: 700; border: none;
-      border-radius: var(--radius-sm); cursor: pointer;
+      font-size: 0.9375rem; font-weight: 700;
+      border: none; border-radius: var(--radius-sm);
+      cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
       transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
-      letter-spacing: -0.01em; box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+      letter-spacing: -0.01em;
+      box-shadow: 0 4px 16px rgba(79,70,229,0.35);
     }
 
-    .btn-submit:hover:not(:disabled) { opacity: 0.92; box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45); }
+    .btn-submit:hover:not(:disabled) { opacity: 0.92; box-shadow: 0 6px 22px rgba(79,70,229,0.45); }
     .btn-submit:active:not(:disabled) { transform: scale(0.985); }
     .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
 
     .spinner {
       width: 17px; height: 17px;
-      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      border-radius: 50%; animation: spin 0.65s linear infinite; flex-shrink: 0;
+      border: 2.5px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
     }
+
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Alert ── */
+    /* ════════════════════════════════
+       ALERTS
+    ════════════════════════════════ */
     .alert {
-      padding: 0.75rem 1rem; border-radius: var(--radius-sm); font-size: 0.875rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
       display: flex; align-items: flex-start; gap: 0.5rem;
-      margin-top: 0.875rem; animation: fadeUp 0.2s ease; line-height: 1.5;
+      margin-top: 0.9rem;
+      animation: fadeUp 0.2s ease;
+      line-height: 1.5;
     }
 
     .alert-icon { flex-shrink: 0; }
 
-    .alert-error { background: var(--error-dim); border: 1px solid rgba(239,68,68,0.2); color: #dc2626; }
+    .alert-error   { background: var(--error-dim); border: 1px solid rgba(239,68,68,0.2); color: #dc2626; }
     .alert-warning { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: #b45309; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Success Screen ── */
+    /* ════════════════════════════════
+       SUCCESS SCREEN
+    ════════════════════════════════ */
     .success-screen {
-      display: none; flex-direction: column; align-items: center;
-      text-align: center; padding: 0.5rem 0 1rem;
+      display: none;
+      flex-direction: column; align-items: center; text-align: center;
+      padding: 0.5rem 0 1rem;
     }
 
     .success-screen.visible { display: flex; animation: fadeUp 0.3s ease; }
 
     .success-icon-wrap {
-      width: 80px; height: 80px; background: var(--success-dim);
-      border: 2px solid var(--success); border-radius: 50%;
+      width: 84px; height: 84px;
+      background: var(--success-dim);
+      border: 2.5px solid var(--success);
+      border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-size: 2.25rem; margin-bottom: 1.25rem;
-      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
     }
 
-    @keyframes popIn {
-      from { transform: scale(0.4); opacity: 0; }
-      to   { transform: scale(1);   opacity: 1; }
-    }
-
-    .success-title {
-      font-size: 1.25rem; font-weight: 800; color: var(--text);
-      margin-bottom: 0.375rem; letter-spacing: -0.02em;
-    }
-
-    .success-sub { font-size: 0.875rem; color: var(--text-2); margin-bottom: 1.75rem; }
+    .success-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+    .success-sub   { font-size: 0.875rem; color: var(--text-2); margin-bottom: 1.75rem; }
 
     .success-meta {
       background: var(--surface2); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 1rem 1.5rem;
-      display: flex; gap: 2rem; margin-bottom: 1.25rem;
-      width: 100%; justify-content: center;
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      display: flex; gap: 2rem; justify-content: center;
+      width: 100%; margin-bottom: 1.25rem;
     }
 
-    .meta-item { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-
-    .meta-label {
-      font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.07em; color: var(--text-3);
-    }
-
-    .meta-value { font-size: 0.9375rem; font-weight: 700; color: var(--text); }
+    .meta-item  { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+    .meta-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); }
+    .meta-value { font-size: 0.9375rem; font-weight: 700; }
 
     .file-path {
-      font-size: 0.75rem; color: var(--brand); background: var(--brand-dim);
-      border: 1px solid var(--brand-dim2); border-radius: var(--radius-sm);
-      padding: 0.375rem 0.875rem; margin-bottom: 1.75rem;
-      word-break: break-all; font-weight: 500;
+      font-size: 0.75rem; color: var(--brand);
+      background: var(--brand-dim); border: 1px solid var(--brand-dim2);
+      border-radius: var(--radius-sm); padding: 0.375rem 0.875rem;
+      margin-bottom: 1.75rem; word-break: break-all; font-weight: 500;
     }
 
     .btn-again {
-      padding: 0.6875rem 2rem; background: transparent; color: var(--brand);
+      padding: 0.7rem 2rem; background: transparent; color: var(--brand);
       font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600;
       border: 1.5px solid var(--border); border-radius: var(--radius-sm);
       cursor: pointer; transition: border-color 0.15s, background 0.15s;
@@ -376,9 +401,28 @@
 
     .btn-again:hover { border-color: var(--brand); background: var(--brand-dim); }
 
-    .footer { margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-3); text-align: center; }
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    .footer {
+      margin-top: 1.75rem; font-size: 0.75rem; color: var(--text-3); text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
 
-    @media (max-width: 520px) {
+    .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
+
+    /* ════════════════════════════════
+       ANIMATIONS
+    ════════════════════════════════ */
+    @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes popIn   { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width: 540px) {
       .topbar { padding: 0 1rem; }
       .topbar-date { display: none; }
       .card { padding: 1.5rem; }
@@ -389,44 +433,40 @@
 </head>
 <body>
 
-  <!-- ══ SETUP OVERLAY — shown on first visit ══ -->
+  <!-- ══ SETUP OVERLAY ══ -->
   <div class="setup-overlay" id="setupOverlay">
     <div class="setup-card">
       <div class="setup-icon">🔑</div>
       <div class="setup-title">One-time Setup</div>
       <div class="setup-sub">
-        Enter your GitHub Personal Access Token to connect to the EOD reports repo.
-        It's saved only in <strong>your browser</strong> — no one else can see it.
+        Enter your GitHub Personal Access Token to connect to the EOD reports repository.
+        Saved only in <strong>your browser</strong> — no one else can see it.
       </div>
-
-      <div class="setup-field">
-        <label for="tokenInput">GitHub Personal Access Token</label>
-        <div class="token-input-wrap">
-          <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
-          <button class="toggle-vis" id="toggleVis" type="button">👁</button>
-        </div>
-        <div class="setup-hint">Needs <strong>repo</strong> scope. Stored in localStorage — never sent anywhere except GitHub API.</div>
+      <label class="setup-label" for="tokenInput">GitHub Personal Access Token</label>
+      <div class="token-wrap">
+        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+        <button class="toggle-vis" id="toggleVis" type="button">👁</button>
       </div>
-
+      <div class="token-hint">Needs <strong>repo</strong> scope · Stored in localStorage only</div>
       <div class="setup-error" id="setupError"></div>
-
-      <button class="btn-save-token" id="saveTokenBtn">Save &amp; Continue →</button>
+      <button class="btn-save" id="saveTokenBtn">Save &amp; Continue →</button>
     </div>
   </div>
 
   <!-- ══ TOP BAR ══ -->
   <div class="topbar">
-    <div class="topbar-brand">
+    <div class="topbar-left">
       <div class="topbar-logo">DM</div>
-      Digit Web Lanks
+      <span class="topbar-name">Digit Web Lanks</span>
       <span class="topbar-badge">EOD Portal</span>
     </div>
     <div class="topbar-right">
       <div class="topbar-date" id="topbarDate"></div>
-      <button class="btn-token" id="resetTokenBtn">🔑 Change Token</button>
+      <button class="btn-token" id="resetTokenBtn">🔑 Token</button>
     </div>
   </div>
 
+  <!-- ══ PAGE ══ -->
   <div class="page">
 
     <div class="page-title">
@@ -469,10 +509,7 @@
 
         <div class="form-group" style="margin-bottom:1.25rem">
           <label for="eodText">Today's Report <span class="req">*</span></label>
-          <textarea
-            id="eodText"
-            placeholder="Summarise your day…&#10;&#10;• Campaigns managed / updated&#10;• Content created or published&#10;• Ads reviewed or optimised&#10;• Meetings attended&#10;• Blockers or issues&#10;• Plan for tomorrow"
-          ></textarea>
+          <textarea id="eodText" placeholder="Summarise your day…&#10;&#10;• Campaigns managed / updated&#10;• Content created or published&#10;• Ads reviewed or optimised&#10;• Meetings attended&#10;• Blockers or issues&#10;• Plan for tomorrow"></textarea>
           <div class="char-hint" id="charHint">0 characters</div>
         </div>
 
@@ -490,8 +527,7 @@
       <div class="success-screen" id="successView">
         <div class="success-icon-wrap">✓</div>
         <div class="success-title">Report Submitted!</div>
-        <div class="success-sub">Your EOD report has been saved successfully.</div>
-
+        <div class="success-sub">Your EOD report has been saved to the repository.</div>
         <div class="success-meta">
           <div class="meta-item">
             <span class="meta-label">Member</span>
@@ -506,112 +542,109 @@
             <span class="meta-value" id="sAction">—</span>
           </div>
         </div>
-
         <div class="file-path" id="sPath">—</div>
         <button class="btn-again" id="submitAnotherBtn">Submit Another Report</button>
       </div>
 
     </div>
 
-    <div class="footer">Saved to GitHub via Contents API &nbsp;·&nbsp; Digit Web Lanks — Digital Marketing Team</div>
+    <div class="footer">
+      <span>Saved to GitHub via Contents API</span>
+      <span class="footer-dot"></span>
+      <span>Digit Web Lanks — Digital Marketing Team</span>
+    </div>
+
   </div>
 
 <script>
-  /* ══════════════════════════════════════
-     CONFIG — no token here, it's in localStorage
-  ══════════════════════════════════════ */
   const CONFIG = {
     REPO_OWNER: "digitalmarketing69140951-sys",
     REPO_NAME:  "eod-reports",
     BRANCH:     "main"
   };
 
-  const TOKEN_KEY = "eod_gh_token";
-
-  // ── Token helpers ─────────────────────
+  const TOKEN_KEY  = "eod_gh_token";
   const getToken   = () => localStorage.getItem(TOKEN_KEY) || "";
   const saveToken  = (t) => localStorage.setItem(TOKEN_KEY, t.trim());
   const clearToken = () => localStorage.removeItem(TOKEN_KEY);
 
-  // ── Date helpers ──────────────────────
+  // ── Date ─────────────────────────────
   function todayISO() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   }
 
-  function updateDateDisplays() {
+  function updateDate() {
     if (!dateField.value) dateField.value = todayISO();
     topbarDate.textContent = new Date().toLocaleDateString("en-GB", {
       weekday: "long", day: "numeric", month: "long", year: "numeric"
     });
   }
 
-  function scheduleMidnightRefresh() {
+  function scheduleMidnight() {
     const now = new Date();
-    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
-    setTimeout(() => { updateDateDisplays(); scheduleMidnightRefresh(); }, midnight - now);
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 5);
+    setTimeout(() => { updateDate(); scheduleMidnight(); }, next - now);
   }
 
   // ── GitHub API ────────────────────────
-  function toBase64(str) { return btoa(unescape(encodeURIComponent(str))); }
+  const toBase64 = (str) => btoa(unescape(encodeURIComponent(str)));
 
-  function apiURL(member, date) {
-    return `https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/contents/eods/${encodeURIComponent(member)}/${date}.md`;
-  }
+  const apiURL = (member, date) =>
+    `https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/contents/eods/${encodeURIComponent(member)}/${date}.md`;
 
-  function headers() {
-    return {
-      "Authorization": `Bearer ${getToken()}`,
-      "Accept": "application/vnd.github+json",
-      "Content-Type": "application/json",
-      "X-GitHub-Api-Version": "2022-11-28"
-    };
-  }
+  const ghHeaders = () => ({
+    "Authorization": `Bearer ${getToken()}`,
+    "Accept": "application/vnd.github+json",
+    "Content-Type": "application/json",
+    "X-GitHub-Api-Version": "2022-11-28"
+  });
 
   async function getFile(url) {
-    const res = await fetch(url, { headers: headers() });
-    if (res.status === 404) return null;
-    if (!res.ok) { const b = await res.json().catch(()=>({})); throw new Error(`GET ${res.status}: ${b.message||res.statusText}`); }
-    return res.json();
+    const r = await fetch(url, { headers: ghHeaders() });
+    if (r.status === 404) return null;
+    if (!r.ok) { const b = await r.json().catch(()=>{}); throw new Error(`GET ${r.status}: ${b?.message||r.statusText}`); }
+    return r.json();
   }
 
   async function putFile(url, payload) {
-    const res = await fetch(url, { method: "PUT", headers: headers(), body: JSON.stringify(payload) });
-    const b = await res.json().catch(()=>({}));
-    if (!res.ok) throw new Error(`PUT ${res.status}: ${b.message||res.statusText}`);
+    const r = await fetch(url, { method:"PUT", headers: ghHeaders(), body: JSON.stringify(payload) });
+    const b = await r.json().catch(()=>{});
+    if (!r.ok) throw new Error(`PUT ${r.status}: ${b?.message||r.statusText}`);
     return b;
   }
 
-  // ── DOM refs ──────────────────────────
-  const setupOverlay  = document.getElementById("setupOverlay");
-  const tokenInput    = document.getElementById("tokenInput");
-  const toggleVis     = document.getElementById("toggleVis");
-  const saveTokenBtn  = document.getElementById("saveTokenBtn");
-  const setupError    = document.getElementById("setupError");
-  const resetTokenBtn = document.getElementById("resetTokenBtn");
-  const memberSelect  = document.getElementById("memberSelect");
-  const dateField     = document.getElementById("dateField");
-  const eodText       = document.getElementById("eodText");
-  const charHint      = document.getElementById("charHint");
-  const submitBtn     = document.getElementById("submitBtn");
-  const btnLabel      = document.getElementById("btnLabel");
-  const alertBox      = document.getElementById("alertBox");
-  const formView      = document.getElementById("formView");
-  const successView   = document.getElementById("successView");
-  const submitAnotherBtn = document.getElementById("submitAnotherBtn");
-  const topbarDate    = document.getElementById("topbarDate");
+  // ── DOM ───────────────────────────────
+  const $ = (id) => document.getElementById(id);
+  const setupOverlay  = $("setupOverlay");
+  const tokenInput    = $("tokenInput");
+  const toggleVis     = $("toggleVis");
+  const saveTokenBtn  = $("saveTokenBtn");
+  const setupError    = $("setupError");
+  const resetTokenBtn = $("resetTokenBtn");
+  const memberSelect  = $("memberSelect");
+  const dateField     = $("dateField");
+  const eodText       = $("eodText");
+  const charHint      = $("charHint");
+  const submitBtn     = $("submitBtn");
+  const btnLabel      = $("btnLabel");
+  const alertBox      = $("alertBox");
+  const formView      = $("formView");
+  const successView   = $("successView");
+  const submitAnotherBtn = $("submitAnotherBtn");
+  const topbarDate    = $("topbarDate");
 
   // ── Init ─────────────────────────────
-  updateDateDisplays();
-  scheduleMidnightRefresh();
+  updateDate();
+  scheduleMidnight();
   if (!getToken()) showSetup();
 
   eodText.addEventListener("input", () => {
     const n = eodText.value.length;
-    charHint.textContent = n === 0 ? "0 characters" : `${n.toLocaleString()} character${n !== 1 ? "s" : ""}`;
+    charHint.textContent = n === 0 ? "0 characters" : `${n.toLocaleString()} character${n!==1?"s":""}`;
   });
 
-  // ── Setup overlay ─────────────────────
+  // ── Setup ─────────────────────────────
   function showSetup() {
     tokenInput.value = "";
     setupError.style.display = "none";
@@ -623,30 +656,26 @@
 
   toggleVis.addEventListener("click", () => {
     const show = tokenInput.type === "password";
-    tokenInput.type = show ? "text" : "password";
+    tokenInput.type  = show ? "text" : "password";
     toggleVis.textContent = show ? "🙈" : "👁";
   });
 
   saveTokenBtn.addEventListener("click", async () => {
     const token = tokenInput.value.trim();
     setupError.style.display = "none";
-
     if (!token.startsWith("ghp_") && !token.startsWith("github_pat_")) {
-      setupError.textContent = "⚠ Enter a valid GitHub token (starts with ghp_ or github_pat_)";
-      setupError.style.display = "block";
-      return;
+      setupError.textContent = "⚠ Enter a valid GitHub token (starts with ghp_)";
+      setupError.style.display = "block"; return;
     }
-
     saveTokenBtn.disabled = true;
     saveTokenBtn.textContent = "Verifying…";
-
     try {
-      const res = await fetch(`https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}`, {
+      const r = await fetch(`https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}`, {
         headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github+json" }
       });
-      if (res.status === 401) throw new Error("Invalid token — check it was copied in full.");
-      if (res.status === 404) throw new Error("Repo not found. Check REPO_OWNER / REPO_NAME in CONFIG.");
-      if (!res.ok) throw new Error(`GitHub error ${res.status}`);
+      if (r.status === 401) throw new Error("Invalid token — copy it again in full.");
+      if (r.status === 404) throw new Error("Repo not found. Check CONFIG values.");
+      if (!r.ok) throw new Error(`GitHub error ${r.status}`);
       saveToken(token);
       hideSetup();
     } catch (err) {
@@ -658,10 +687,10 @@
     }
   });
 
-  tokenInput.addEventListener("keydown", (e) => { if (e.key === "Enter") saveTokenBtn.click(); });
+  tokenInput.addEventListener("keydown", (e) => { if (e.key==="Enter") saveTokenBtn.click(); });
   resetTokenBtn.addEventListener("click", () => { clearToken(); showSetup(); });
 
-  // ── Alerts ───────────────────────────
+  // ── Alert ─────────────────────────────
   function showAlert(type, msg) {
     alertBox.innerHTML = `<div class="alert alert-${type}"><span class="alert-icon">${type==="error"?"✕":"!"}</span><span>${msg}</span></div>`;
   }
@@ -688,8 +717,8 @@
     const report = eodText.value.trim();
     const date   = dateField.value || todayISO();
 
-    if (!member) { showAlert("error", "Please select your name."); memberSelect.focus(); return; }
-    if (!report) { showAlert("error", "Report cannot be empty."); eodText.focus(); return; }
+    if (!member) { showAlert("error","Please select your name."); memberSelect.focus(); return; }
+    if (!report) { showAlert("error","Report cannot be empty."); eodText.focus(); return; }
     if (!getToken()) { showSetup(); return; }
 
     setLoading(true);
@@ -703,34 +732,34 @@
         branch:  CONFIG.BRANCH,
         ...(isUpdate && existing.sha ? { sha: existing.sha } : {})
       });
-      document.getElementById("sName").textContent   = member;
-      document.getElementById("sDate").textContent   = date;
-      document.getElementById("sAction").textContent = isUpdate ? "Updated" : "Created";
-      document.getElementById("sPath").textContent   = `eods/${member}/${date}.md`;
-      formView.style.display = "none";
+      $("sName").textContent   = member;
+      $("sDate").textContent   = date;
+      $("sAction").textContent = isUpdate ? "Updated" : "Created";
+      $("sPath").textContent   = `📁 eods/${member}/${date}.md`;
+      formView.style.display   = "none";
       successView.classList.add("visible");
       setLoading(false);
-    } catch (err) {
+    } catch(err) {
       console.error("[EOD]", err);
       const msg = err.message.includes("401")
-        ? `Token expired or invalid. Click <strong>🔑 Change Token</strong> in the top bar to update it.`
+        ? `Token expired. Click <strong>🔑 Token</strong> in the top bar to update.`
         : `Submission failed: ${err.message}`;
       showAlert("error", msg);
       setLoading(false);
     }
   }
 
-  // ── Reset form ────────────────────────
+  // ── Reset ─────────────────────────────
   function resetForm() {
     memberSelect.value   = "";
     eodText.value        = "";
     charHint.textContent = "0 characters";
+    dateField.value      = todayISO();
     clearAlert();
     successView.classList.remove("visible");
     formView.style.display = "";
   }
 
-  // ── Events ────────────────────────────
   submitBtn.addEventListener("click", handleSubmit);
   submitAnotherBtn.addEventListener("click", resetForm);
   eodText.addEventListener("keydown", (e) => {
