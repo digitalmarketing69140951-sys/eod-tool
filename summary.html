@@ -3,403 +3,328 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weekly Audit — Digit Web Lanka</title>
+  <title>Team Audit Results — Digit Web Lanka</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --brand:      #4f46e5;
-      --brand-l:    #6366f1;
-      --brand-dim:  rgba(79,70,229,0.08);
-      --brand-dim2: rgba(79,70,229,0.18);
-      --bg:         #f0f2f8;
-      --surface:    #ffffff;
-      --surface2:   #f8f9fb;
-      --border:     #e4e7ef;
-      --text:       #0f1724;
-      --text-2:     #6b7280;
-      --text-3:     #9ca3af;
-      --green:      #10b981;
-      --green-dim:  rgba(16,185,129,0.1);
-      --amber:      #d97706;
-      --amber-dim:  rgba(217,119,6,0.1);
-      --red:        #dc2626;
-      --red-dim:    rgba(220,38,38,0.08);
-      --radius-sm:  10px;
-      --radius:     14px;
-      --radius-lg:  22px;
-      --shadow:     0 4px 24px rgba(79,70,229,0.07), 0 1px 4px rgba(0,0,0,0.04);
-      --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+      --bg:      #0a0c10;
+      --bg2:     #0f1218;
+      --bg3:     #151a22;
+      --border:  #1e2530;
+      --border2: #2a3340;
+      --accent:  #00d4a1;
+      --accent2: #0099ff;
+      --warn:    #f59e0b;
+      --error:   #ef4444;
+      --text:    #e8edf5;
+      --text2:   #8892a0;
+      --text3:   #4a5568;
+      --green:   #10b981;
+      --red:     #ef4444;
     }
-
-    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
       background: var(--bg); color: var(--text);
-      min-height: 100vh; padding-bottom: 5rem;
+      min-height: 100vh; padding-bottom: 4rem;
     }
 
-    /* ════ TOPBAR ════ */
+    /* ── TOPBAR ── */
     .topbar {
-      background: var(--surface); border-bottom: 1px solid var(--border);
-      height: 62px; padding: 0 2rem;
+      background: var(--bg2); border-bottom: 1px solid var(--border);
+      height: 58px; padding: 0 2rem;
       display: flex; align-items: center; justify-content: space-between;
-      position: sticky; top: 0; z-index: 50;
-      box-shadow: var(--shadow-sm);
+      position: sticky; top: 0; z-index: 10;
     }
 
     .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
 
-    .t-logo {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--brand), var(--brand-l));
+    .logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 800; color: #fff;
-      box-shadow: 0 2px 8px rgba(79,70,229,0.3);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; font-weight: 600; color: #000;
     }
 
-    .t-name  { font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.01em; }
+    .brand { font-weight: 700; font-size: 0.9rem; }
 
-    .t-badge {
-      font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em;
-      color: var(--brand); background: var(--brand-dim);
-      border: 1px solid var(--brand-dim2);
-      padding: 0.2rem 0.65rem; border-radius: 100px;
+    .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); background: rgba(0,212,161,0.08);
+      border: 1px solid rgba(0,212,161,0.2); border-radius: 4px; padding: 0.2rem 0.5rem;
     }
 
-    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
 
-    .week-label {
-      font-size: 0.8125rem; color: var(--text-2); font-weight: 500;
-      font-family: 'JetBrains Mono', monospace;
+    .week-selector {
+      display: flex; align-items: center; gap: 0.5rem;
     }
 
-    .btn-nav {
-      font-size: 0.75rem; font-weight: 600; color: var(--text-2);
-      text-decoration: none; border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
-      transition: color 0.15s, border-color 0.15s;
+    .week-selector label {
+      font-size: 0.75rem; color: var(--text2); font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
     }
-    .btn-nav:hover { color: var(--brand); border-color: var(--brand); }
 
-    .btn-reload {
-      font-size: 0.75rem; font-weight: 600; color: var(--brand);
-      background: var(--brand-dim); border: 1.5px solid var(--brand-dim2);
-      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      transition: background 0.15s;
+    .week-selector input[type="date"] {
+      height: 34px; background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: 6px; color: var(--text);
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+      padding: 0 0.75rem; outline: none; cursor: pointer;
+      -webkit-appearance: none; appearance: none;
     }
-    .btn-reload:hover { background: var(--brand-dim2); }
 
-    /* ════ TOKEN OVERLAY ════ */
+    .btn-load {
+      height: 34px; padding: 0 1rem;
+      background: rgba(0,212,161,0.1); border: 1px solid rgba(0,212,161,0.25); color: var(--accent);
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
+      border-radius: 6px; cursor: pointer; transition: background 0.15s;
+    }
+    .btn-load:hover { background: rgba(0,212,161,0.18); }
+
+    /* ── GH TOKEN OVERLAY ── */
     .overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(15,23,36,0.55); z-index: 200;
+      background: rgba(0,0,0,0.85); z-index: 200;
       align-items: center; justify-content: center;
-      padding: 1rem; backdrop-filter: blur(5px);
+      padding: 1rem; backdrop-filter: blur(6px);
     }
-    .overlay.on { display: flex; animation: fadeIn 0.2s ease; }
+    .overlay.on { display: flex; }
 
     .modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); padding: 2.25rem;
-      width: 100%; max-width: 440px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
-      animation: slideUp 0.25s cubic-bezier(0.34,1.2,0.64,1);
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 2rem; width: 100%; max-width: 440px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: rise 0.25s cubic-bezier(0.34,1.2,0.64,1);
     }
 
-    .modal-icon {
-      width: 52px; height: 52px; background: var(--brand-dim);
-      border: 1.5px solid var(--brand-dim2); border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; margin-bottom: 1.25rem;
+    .modal-tag {
+      display: inline-block; font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent); background: rgba(0,212,161,0.08);
+      border: 1px solid rgba(0,212,161,0.2); border-radius: 4px;
+      padding: 0.2rem 0.6rem; margin-bottom: 1rem;
     }
 
-    .modal h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
-    .modal p  { font-size: 0.875rem; color: var(--text-2); line-height: 1.6; margin-bottom: 1.5rem; }
+    .modal h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .modal p  { font-size: 0.875rem; color: var(--text2); line-height: 1.7; margin-bottom: 1.5rem; }
 
-    .f-label { font-size: 0.8125rem; font-weight: 600; display: block; margin-bottom: 0.4rem; }
+    .field-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text2); margin-bottom: 0.4rem; display: block; }
 
-    .f-wrap { position: relative; }
-    .f-wrap input {
+    .field-wrap { position: relative; }
+
+    .field-wrap input {
       width: 100%; height: 46px;
-      background: var(--surface2); border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0 2.75rem 0 0.9rem;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.8125rem;
+      background: var(--bg3); border: 1.5px solid var(--border2);
+      border-radius: 8px; padding: 0 2.75rem 0 0.9rem;
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.8125rem;
       color: var(--text); outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.15s;
     }
-    .f-wrap input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-dim2); }
+    .field-wrap input:focus { border-color: var(--accent); }
 
-    .f-eye {
-      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer; color: var(--text-3);
+    .eye-btn {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--text3);
     }
 
-    .f-hint { font-size: 0.75rem; color: var(--text-3); margin-top: 0.4rem; }
-    .f-err  { font-size: 0.8rem; color: var(--red); margin-top: 0.6rem; display: none; }
+    .hint { font-size: 0.7rem; color: var(--text3); margin-top: 0.3rem; font-family: 'IBM Plex Mono', monospace; }
+    .err-msg { font-size: 0.8rem; color: var(--red); margin-top: 0.6rem; display: none; }
 
     .btn-primary {
-      width: 100%; height: 46px; margin-top: 1.25rem;
-      background: linear-gradient(135deg, var(--brand), var(--brand-l)); color: #fff;
-      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 700;
-      border: none; border-radius: var(--radius-sm); cursor: pointer;
-      box-shadow: 0 4px 14px rgba(79,70,229,0.3);
-      transition: opacity 0.15s;
+      width: 100%; height: 46px; background: var(--accent); color: #000;
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer;
+      transition: opacity 0.15s; margin-top: 0.75rem;
     }
-    .btn-primary:hover:not(:disabled) { opacity: 0.9; }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary:hover:not(:disabled) { opacity: 0.88; }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 
-    /* ════ DETAIL OVERLAY ════ */
-    .detail-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(15,23,36,0.6); z-index: 300;
-      align-items: flex-start; justify-content: center;
-      padding: 2rem 1rem; overflow-y: auto;
-      backdrop-filter: blur(6px);
-    }
-    .detail-overlay.on { display: flex; animation: fadeIn 0.2s ease; }
+    /* ── MAIN ── */
+    .main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem; }
 
-    .detail-modal {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius-lg); width: 100%; max-width: 760px;
-      padding: 2.5rem; position: relative;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
-      animation: slideUp 0.25s ease;
-    }
-
-    .d-close {
-      position: absolute; top: 1.25rem; right: 1.25rem;
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text-2); border-radius: 8px; width: 32px; height: 32px;
-      cursor: pointer; font-size: 1rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.15s;
-    }
-    .d-close:hover { background: var(--border); }
-
-    /* ════ MARKDOWN RENDER ════ */
-    .md-body { padding-top: 0.5rem; }
-
-    .md-body h1 {
-      font-size: 1.4rem; font-weight: 800; color: var(--text);
-      letter-spacing: -0.03em; margin-bottom: 0.5rem;
-      padding-bottom: 0.75rem; border-bottom: 2px solid var(--border);
-    }
-
-    .md-body h2 {
-      font-size: 1rem; font-weight: 800; color: var(--text);
-      text-transform: uppercase; letter-spacing: 0.05em;
-      margin-top: 1.75rem; margin-bottom: 0.75rem;
-      padding-bottom: 0.4rem; border-bottom: 1px solid var(--border);
-    }
-
-    .md-body h3 {
-      font-size: 0.875rem; font-weight: 700; color: var(--brand);
-      text-transform: uppercase; letter-spacing: 0.06em;
-      margin-top: 1.25rem; margin-bottom: 0.5rem;
-    }
-
-    .md-body p {
-      font-size: 0.9rem; color: var(--text-2); line-height: 1.7;
-      margin-bottom: 0.6rem;
-    }
-
-    .md-body ul {
-      list-style: none; padding: 0; margin-bottom: 0.75rem;
-    }
-
-    .md-body ul li {
-      font-size: 0.875rem; color: var(--text); line-height: 1.65;
-      padding: 0.35rem 0 0.35rem 1.25rem; position: relative;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .md-body ul li:last-child { border-bottom: none; }
-
-    .md-body ul li::before {
-      content: "→"; position: absolute; left: 0;
-      color: var(--brand); font-weight: 700; font-size: 0.75rem;
-      top: 0.4rem;
-    }
-
-    .md-body strong { font-weight: 700; color: var(--text); }
-
-    .md-body hr {
-      border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;
-    }
-
-    .md-body .meta-line {
-      font-size: 0.8125rem; color: var(--text-2);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 1.5rem;
-    }
-
-    .md-body .verdict-box {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-left: 4px solid var(--brand);
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      padding: 0.875rem 1rem; margin: 0.75rem 0;
-      font-size: 0.875rem; color: var(--text); line-height: 1.6;
-      font-style: italic;
-    }
-
-    .score-badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 700;
-      padding: 0.3rem 0.8rem; border-radius: var(--radius-sm);
-      margin-bottom: 1rem;
-    }
-
-    .score-green { background: var(--green-dim); color: #059669; }
-    .score-amber { background: var(--amber-dim); color: var(--amber); }
-    .score-red   { background: var(--red-dim);   color: var(--red); }
-
-    .d-footer { display: flex; gap: 0.75rem; margin-top: 1.75rem; }
-
-    .btn-copy {
-      flex: 1; height: 42px;
-      background: linear-gradient(135deg, var(--brand), var(--brand-l)); color: #fff;
-      font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 700;
-      border: none; border-radius: var(--radius-sm); cursor: pointer;
-      box-shadow: 0 4px 12px rgba(79,70,229,0.3); transition: opacity 0.15s;
-    }
-    .btn-copy:hover { opacity: 0.88; }
-    .btn-copy.copied { background: var(--green); box-shadow: none; }
-
-    /* ════ MAIN LAYOUT ════ */
-    .main { max-width: 980px; margin: 0 auto; padding: 2.5rem 1.5rem; }
-
-    .page-head {
+    /* ── SUMMARY HEADER ── */
+    .summary-head {
+      margin-bottom: 2rem;
       display: flex; justify-content: space-between; align-items: flex-end;
-      flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;
+      flex-wrap: wrap; gap: 1rem;
     }
 
-    .page-head h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
-    .page-week { font-size: 0.8125rem; color: var(--text-2); font-family: 'JetBrains Mono', monospace; margin-top: 0.2rem; }
+    .summary-head h1 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.03em; }
+    .summary-week { font-size: 0.875rem; color: var(--text2); margin-top: 0.2rem; font-family: 'IBM Plex Mono', monospace; }
 
-    .pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .score-pills { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
     .pill {
-      font-size: 0.75rem; font-weight: 700; font-family: 'JetBrains Mono', monospace;
-      padding: 0.25rem 0.75rem; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 600; font-family: 'IBM Plex Mono', monospace;
+      padding: 0.25rem 0.7rem; border-radius: 100px;
     }
-    .pill-g { background: var(--green-dim); color: #059669; border: 1px solid rgba(16,185,129,0.25); }
-    .pill-a { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(217,119,6,0.25); }
-    .pill-r { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(220,38,38,0.2); }
+    .pill-green { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+    .pill-amber { background: rgba(245,158,11,0.1); color: var(--warn); border: 1px solid rgba(245,158,11,0.25); }
+    .pill-red   { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.25); }
 
-    /* ════ LEADERBOARD ════ */
-    .lb {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      margin-bottom: 2rem; box-shadow: var(--shadow);
-    }
-
-    .lb-header {
-      background: var(--surface2); padding: 0.875rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between;
+    /* ── LEADERBOARD ── */
+    .leaderboard {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-bottom: 2rem;
     }
 
-    .lb-header span { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); }
+    .lb-head {
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .lb-head-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); }
 
     .lb-row {
-      padding: 0.8rem 1.5rem;
+      padding: 0.75rem 1.5rem;
       display: flex; align-items: center; gap: 1rem;
       border-bottom: 1px solid var(--border);
       cursor: pointer; transition: background 0.15s;
     }
     .lb-row:last-child { border-bottom: none; }
-    .lb-row:hover { background: rgba(79,70,229,0.03); }
+    .lb-row:hover { background: rgba(255,255,255,0.02); }
 
-    .lb-rank { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-3); width: 24px; text-align: right; }
+    .lb-rank { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--text3); width: 24px; text-align: right; }
     .lb-name { font-weight: 600; font-size: 0.9rem; flex: 1; }
-    .lb-verdict { font-size: 0.75rem; color: var(--text-2); flex: 2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-style: italic; }
+    .lb-days { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--text3); }
 
-    .sc {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 700;
-      min-width: 50px; text-align: center; padding: 0.25rem 0.6rem; border-radius: 6px;
+    .lb-verdict { font-size: 0.75rem; color: var(--text2); flex: 2; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-style: italic; }
+
+    .lb-score {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.875rem; font-weight: 600;
+      min-width: 46px; text-align: center; padding: 0.2rem 0.6rem;
+      border-radius: 6px;
     }
-    .sc-g { background: var(--green-dim); color: #059669; }
-    .sc-a { background: var(--amber-dim); color: var(--amber); }
-    .sc-r { background: var(--red-dim);   color: var(--red); }
-    .sc-x { background: var(--surface2);  color: var(--text-3); }
+    .sc-green { background: rgba(16,185,129,0.1); color: var(--green); }
+    .sc-amber { background: rgba(245,158,11,0.1); color: var(--warn); }
+    .sc-red   { background: rgba(239,68,68,0.1); color: var(--red); }
+    .sc-grey  { background: var(--bg3); color: var(--text3); }
 
-    /* ════ CARDS ════ */
-    .cards { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    /* ── CARDS ── */
+    .cards-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: var(--radius); overflow: hidden;
-      cursor: pointer; transition: border-color 0.2s, transform 0.15s, box-shadow 0.15s;
-      box-shadow: var(--shadow);
+    .audit-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      cursor: pointer; transition: border-color 0.2s, transform 0.15s;
     }
-    .card:hover { border-color: rgba(79,70,229,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,70,229,0.1); }
+    .audit-card:hover { border-color: var(--border2); transform: translateY(-1px); }
 
-    .card-head {
+    .ac-head {
       padding: 1.1rem 1.25rem 0.9rem;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex; justify-content: space-between; align-items: flex-start;
       border-bottom: 1px solid var(--border);
     }
 
-    .card-name  { font-weight: 700; font-size: 0.95rem; }
-    .card-foot  { padding: 0.75rem 1.25rem 1rem; font-size: 0.8rem; color: var(--text-2); line-height: 1.55; font-style: italic; }
+    .ac-name  { font-weight: 700; font-size: 0.95rem; }
+    .ac-days  { font-size: 0.7rem; font-family: 'IBM Plex Mono', monospace; color: var(--text3); margin-top: 0.1rem; }
 
-    /* ════ STATE BOX ════ */
-    .state-box {
-      text-align: center; padding: 5rem 1rem;
-      color: var(--text-3); font-size: 0.875rem;
+    .ac-verdict {
+      padding: 0.75rem 1.25rem 1rem;
+      font-size: 0.8rem; color: var(--text2); line-height: 1.55; font-style: italic;
     }
-    .state-icon  { font-size: 2.5rem; margin-bottom: 0.75rem; }
-    .state-title { font-size: 1rem; font-weight: 600; color: var(--text-2); margin-bottom: 0.4rem; }
+
+    /* ── DETAIL PANEL ── */
+    .detail-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.9); z-index: 300;
+      align-items: flex-start; justify-content: center;
+      padding: 2rem 1rem; overflow-y: auto;
+      backdrop-filter: blur(4px);
+    }
+    .detail-overlay.on { display: flex; }
+
+    .detail-modal {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 16px; width: 100%; max-width: 720px;
+      padding: 2rem; position: relative;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+      animation: rise 0.2s ease;
+    }
+
+    .detail-close {
+      position: absolute; top: 1.25rem; right: 1.25rem;
+      background: var(--bg3); border: 1px solid var(--border2);
+      color: var(--text2); border-radius: 6px; width: 30px; height: 30px;
+      cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    }
+
+    .detail-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+    .detail-meta { font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; color: var(--text2); margin-bottom: 1.25rem; }
+
+    .detail-body {
+      font-family: 'IBM Plex Mono', monospace; font-size: 0.775rem; line-height: 1.8;
+      color: var(--text2); white-space: pre-wrap; word-break: break-word;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.25rem; max-height: 55vh; overflow-y: auto;
+    }
+
+    .detail-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
+
+    .btn-copy-full {
+      flex: 1; height: 40px; background: var(--accent); color: #000;
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 0.875rem; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer; transition: opacity 0.15s;
+    }
+    .btn-copy-full:hover { opacity: 0.88; }
+    .btn-copy-full.copied { background: var(--green); }
+
+    /* ── LOADING / EMPTY ── */
+    .state-box {
+      text-align: center; padding: 4rem 1rem;
+      color: var(--text3); font-size: 0.875rem;
+    }
+    .state-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .state-title { font-size: 1rem; font-weight: 600; color: var(--text2); margin-bottom: 0.4rem; }
 
     .spin {
-      width: 30px; height: 30px; margin: 0 auto 0.75rem;
-      border: 2.5px solid var(--border); border-top-color: var(--brand);
+      width: 28px; height: 28px; margin: 0 auto 0.75rem;
+      border: 2.5px solid var(--border2); border-top-color: var(--accent);
       border-radius: 50%; animation: spinning 0.7s linear infinite;
     }
 
-    /* ════ ANIMATIONS ════ */
-    @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
-    @keyframes slideUp { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-    @keyframes spinning { to{transform:rotate(360deg)} }
+    @keyframes spinning { to { transform: rotate(360deg); } }
+    @keyframes rise { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     @media (max-width: 600px) {
       .topbar { padding: 0 1rem; }
       .lb-verdict { display: none; }
-      .week-label { display: none; }
+      .week-selector label { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOKEN OVERLAY -->
-<div class="overlay" id="tokenOverlay">
+<!-- GH TOKEN OVERLAY -->
+<div class="overlay" id="ghOverlay">
   <div class="modal">
-    <div class="modal-icon">🔑</div>
-    <h2>GitHub Token Required</h2>
-    <p>Enter your GitHub Personal Access Token to read EOD audit reports from the repository.</p>
-    <label class="f-label">GitHub Personal Access Token</label>
-    <div class="f-wrap">
-      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
-      <button class="f-eye" id="tokenEye">👁</button>
+    <div class="modal-tag">READ ACCESS REQUIRED</div>
+    <h2>GitHub Token</h2>
+    <p>Enter your GitHub token to read audit summaries from the repository. Read-only access is sufficient.</p>
+    <label class="field-label">GitHub Personal Access Token</label>
+    <div class="field-wrap">
+      <input type="password" id="ghInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" />
+      <button class="eye-btn" id="ghEye">👁</button>
     </div>
-    <div class="f-hint">Stored in your browser only · needs <strong>repo</strong> scope</div>
-    <div class="f-err" id="tokenErr"></div>
-    <button class="btn-primary" id="tokenSave">Access Reports →</button>
+    <div class="hint">Stored in your browser only · Used only to read GitHub files</div>
+    <div class="err-msg" id="ghErr"></div>
+    <button class="btn-primary" id="ghSave">Access Reports →</button>
   </div>
 </div>
 
-<!-- DETAIL OVERLAY -->
+<!-- DETAIL MODAL -->
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-modal">
-    <button class="d-close" id="detailClose">✕</button>
-    <div id="detailContent"></div>
-    <div class="d-footer">
-      <button class="btn-copy" id="detailCopy">Copy Raw Report</button>
+    <button class="detail-close" id="detailClose">✕</button>
+    <div class="detail-name" id="detailName"></div>
+    <div class="detail-meta" id="detailMeta"></div>
+    <div class="detail-body" id="detailBody"></div>
+    <div class="detail-footer">
+      <button class="btn-copy-full" id="detailCopy">Copy Report</button>
     </div>
   </div>
 </div>
@@ -407,384 +332,255 @@
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
-    <div class="t-logo">DM</div>
-    <span class="t-name">Digit Web Lanka</span>
-    <span class="t-badge">Weekly Audit</span>
+    <div class="logo">DW</div>
+    <span class="brand">Digit Web Lanka</span>
+    <span class="tag">WEEKLY AUDIT RESULTS</span>
   </div>
   <div class="topbar-right">
-    <input type="date" id="fromDate" style="height:34px;background:#f8f9fb;border:1.5px solid #e4e7ef;border-radius:8px;color:#0f1724;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0 0.6rem;outline:none;cursor:pointer;" />
-    <span style="font-size:0.8rem;color:#9ca3af;font-weight:600;">→</span>
-    <input type="date" id="toDate" style="height:34px;background:#f8f9fb;border:1.5px solid #e4e7ef;border-radius:8px;color:#0f1724;font-family:'JetBrains Mono',monospace;font-size:0.78rem;padding:0 0.6rem;outline:none;cursor:pointer;" />
-    <button class="btn-reload" id="loadBtn">Load →</button>
-    <a href="index.html" class="btn-nav">← EOD Form</a>
+    <div class="week-selector">
+      <label>Week ending</label>
+      <input type="date" id="weekDate" />
+      <button class="btn-load" id="loadBtn">Load →</button>
+    </div>
   </div>
 </div>
 
 <!-- MAIN -->
 <div class="main">
 
+  <!-- STATE: initial / loading / empty -->
   <div id="stateBox" class="state-box">
-    <div class="spin"></div>
-    <div class="state-title">Loading this week's reports…</div>
-    <div>Reading from GitHub</div>
+    <div class="state-icon">📋</div>
+    <div class="state-title">Select a week and click Load</div>
+    <div>Audit results will appear here</div>
   </div>
 
+  <!-- RESULTS (hidden until loaded) -->
   <div id="results" style="display:none">
-    <div class="page-head">
+
+    <div class="summary-head">
       <div>
         <h1>Weekly Audit Results</h1>
-        <div class="page-week" id="pageWeek"></div>
+        <div class="summary-week" id="weekLabel"></div>
       </div>
-      <div class="pills" id="pills"></div>
+      <div class="score-pills" id="scorePills"></div>
     </div>
 
-    <div class="lb" id="lb">
-      <div class="lb-header">
-        <span>Score Ranking</span>
-        <span id="memberCount"></span>
+    <!-- LEADERBOARD -->
+    <div class="leaderboard" id="leaderboard">
+      <div class="lb-head">
+        <span class="lb-head-title">Score Ranking</span>
+        <span class="lb-head-title" id="memberCount"></span>
       </div>
       <div id="lbRows"></div>
     </div>
 
-    <div class="cards" id="cards"></div>
+    <!-- CARDS -->
+    <div class="cards-grid" id="cardsGrid"></div>
+
   </div>
 
 </div>
 
 <script>
-  const REPO_OWNER = "digitalmarketing69140951-sys";
-  const REPO_NAME  = "eod-reports";
-  const GH_KEY     = "eod_gh_token";
-  const CACHE_KEY  = "eod_summary_cache";
+const REPO_OWNER = "digitalmarketing69140951-sys";
+const REPO_NAME  = "eod-reports";
+const GH_KEY     = "eod_gh_token";
 
-  const getToken  = () => localStorage.getItem(GH_KEY) || "";
-  const saveToken = t  => localStorage.setItem(GH_KEY, t.trim());
+const getGH  = () => localStorage.getItem(GH_KEY) || "";
+const saveGH = v => localStorage.setItem(GH_KEY, v.trim());
 
-  function toISO(d) {
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const ghHeaders = () => ({
+  "Authorization": `Bearer ${getGH()}`,
+  "Accept": "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2022-11-28"
+});
+
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+}
+
+async function fetchMD(path) {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+  const r = await fetch(url, { headers: ghHeaders() });
+  if (r.status === 404) return null;
+  if (!r.ok) return null;
+  const j = await r.json();
+  return atob(j.content.replace(/\n/g, ""));
+}
+
+async function listDir(path) {
+  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`;
+  const r = await fetch(url, { headers: ghHeaders() });
+  if (!r.ok) return [];
+  return r.json();
+}
+
+function extractScore(text) {
+  const m = text.match(/WEEKLY SCORE[\s\S]*?(\d{1,3})/i);
+  return m ? parseInt(m[1]) : null;
+}
+
+function extractVerdict(text) {
+  const m = text.match(/ONE[- ]SENTENCE VERDICT[\s\S]*?\n([^\n]+)/i);
+  return m ? m[1].trim() : "";
+}
+
+function scoreClass(s) {
+  if (s === null) return "sc-grey";
+  if (s >= 70) return "sc-green";
+  if (s >= 40) return "sc-amber";
+  return "sc-red";
+}
+
+const $ = id => document.getElementById(id);
+
+// ── setup ──────────────────────────────────────────
+$("weekDate").value = todayISO();
+
+if (!getGH()) $("ghOverlay").classList.add("on");
+
+$("ghEye").onclick = () => {
+  const s = $("ghInput").type === "password";
+  $("ghInput").type = s ? "text" : "password";
+  $("ghEye").textContent = s ? "🙈" : "👁";
+};
+
+$("ghSave").onclick = async () => {
+  const t = $("ghInput").value.trim();
+  $("ghErr").style.display = "none";
+  if (!t.startsWith("ghp_") && !t.startsWith("github_pat_")) {
+    $("ghErr").textContent = "⚠ Must start with ghp_"; $("ghErr").style.display="block"; return;
   }
-
-  function formatDate(d) {
-    return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day:"numeric", month:"short", year:"numeric" });
+  $("ghSave").disabled = true; $("ghSave").textContent = "Verifying…";
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+      headers: { "Authorization": `Bearer ${t}`, "Accept": "application/vnd.github+json" }
+    });
+    if (!r.ok) throw new Error(`GitHub error ${r.status}`);
+    saveGH(t);
+    $("ghOverlay").classList.remove("on");
+  } catch(e) {
+    $("ghErr").textContent = `⚠ ${e.message}`; $("ghErr").style.display = "block";
+  } finally {
+    $("ghSave").disabled = false; $("ghSave").textContent = "Access Reports →";
   }
+};
 
-  // ── GitHub API ─────────────────────────────────
-  const ghHeaders = () => ({
-    "Authorization": `Bearer ${getToken()}`,
-    "Accept": "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28"
+$("ghInput").onkeydown = e => { if(e.key==="Enter") $("ghSave").click(); };
+
+// ── load ──────────────────────────────────────────
+$("loadBtn").onclick = () => loadWeek($("weekDate").value || todayISO());
+
+async function loadWeek(fridayISO) {
+  if (!getGH()) { $("ghOverlay").classList.add("on"); return; }
+
+  $("results").style.display = "none";
+  $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading audit results…</div><div>Reading from GitHub</div>`;
+
+  try {
+    const files = await listDir(`summary/${fridayISO}`);
+    if (!files || !files.length) {
+      $("stateBox").innerHTML = `<div class="state-icon">📭</div><div class="state-title">No audits found</div><div>No results published for week ending ${fridayISO}</div>`;
+      return;
+    }
+
+    const members = files.filter(f => f.name !== "ALL.md" && f.name.endsWith(".md"));
+    const loaded = [];
+
+    for (const f of members) {
+      const name = f.name.replace(".md", "");
+      const content = await fetchMD(`summary/${fridayISO}/${f.name}`);
+      if (!content) continue;
+      // strip the markdown header we added
+      const body = content.replace(/^#.+\n\nScore:.+\n\n/, "");
+      const score = extractScore(body);
+      const verdict = extractVerdict(body);
+      loaded.push({ name, score, verdict, report: body });
+    }
+
+    if (!loaded.length) {
+      $("stateBox").innerHTML = `<div class="state-icon">📭</div><div class="state-title">No audits found</div>`;
+      return;
+    }
+
+    renderWeek(loaded, fridayISO);
+  } catch(e) {
+    $("stateBox").innerHTML = `<div class="state-icon">⚠️</div><div class="state-title">Error loading results</div><div>${e.message}</div>`;
+  }
+}
+
+function renderWeek(members, fridayISO) {
+  // sort by score desc
+  const sorted = [...members].sort((a,b) => (b.score??-1) - (a.score??-1));
+
+  // pills
+  const green = members.filter(m => m.score !== null && m.score >= 70).length;
+  const amber = members.filter(m => m.score !== null && m.score >= 40 && m.score < 70).length;
+  const red   = members.filter(m => m.score === null || m.score < 40).length;
+  $("scorePills").innerHTML = `
+    <span class="pill pill-green">${green} Green</span>
+    <span class="pill pill-amber">${amber} Amber</span>
+    <span class="pill pill-red">${red} Red</span>
+  `;
+
+  $("weekLabel").textContent = `Week ending ${fridayISO} · ${members.length} members audited`;
+  $("memberCount").textContent = `${members.length} members`;
+
+  // leaderboard
+  $("lbRows").innerHTML = sorted.map((m, i) => `
+    <div class="lb-row" data-name="${m.name}">
+      <span class="lb-rank">${i+1}</span>
+      <span class="lb-name">${m.name}</span>
+      <span class="lb-verdict">${m.verdict || "—"}</span>
+      <span class="lb-score ${scoreClass(m.score)}">${m.score ?? "—"}</span>
+    </div>
+  `).join("");
+
+  // cards (unsorted — alphabetical for easy scanning)
+  const alphaSorted = [...members].sort((a,b) => a.name.localeCompare(b.name));
+  $("cardsGrid").innerHTML = alphaSorted.map(m => `
+    <div class="audit-card" data-name="${m.name}">
+      <div class="ac-head">
+        <div>
+          <div class="ac-name">${m.name}</div>
+        </div>
+        <div class="lb-score ${scoreClass(m.score)}">${m.score ?? "—"}</div>
+      </div>
+      <div class="ac-verdict">${m.verdict || "Click to view full report"}</div>
+    </div>
+  `).join("");
+
+  // click handlers
+  document.querySelectorAll(".lb-row, .audit-card").forEach(el => {
+    el.onclick = () => {
+      const name = el.dataset.name;
+      const m = members.find(x => x.name === name);
+      openDetail(m, fridayISO);
+    };
   });
 
-  async function fetchMD(path) {
-    const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, { headers: ghHeaders() });
-    if (!r.ok) return null;
-    const j = await r.json();
-    try { return atob(j.content.replace(/\n/g,"")); } catch(e) { return null; }
-  }
+  $("stateBox").style.display = "none";
+  $("results").style.display = "";
+}
 
-  async function listDir(path) {
-    const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, { headers: ghHeaders() });
-    if (!r.ok) return [];
-    return r.json();
-  }
+function openDetail(m, fridayISO) {
+  $("detailName").textContent = m.name;
+  $("detailMeta").textContent = `Week ending ${fridayISO} · Score: ${m.score ?? "N/A"}`;
+  $("detailBody").textContent = m.report;
+  $("detailOverlay").classList.add("on");
 
-  // ── Markdown parser ────────────────────────────
-  function renderMarkdown(md) {
-    const lines = md.split("\n");
-    let html = "";
-    let inUl = false;
-
-    const closeUl = () => { if (inUl) { html += "</ul>"; inUl = false; } };
-    const escape  = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
-
-    const inline = s =>
-      escape(s)
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/`(.+?)`/g, `<code style="font-family:'JetBrains Mono',monospace;font-size:0.8em;background:#f0f2f8;padding:0.1em 0.3em;border-radius:3px">$1</code>`);
-
-    for (let i = 0; i < lines.length; i++) {
-      const l = lines[i];
-
-      if (/^#{1}\s/.test(l)) {
-        closeUl();
-        const txt = l.replace(/^#+\s/, "");
-        html += `<h1>${inline(txt)}</h1>`;
-        continue;
-      }
-      if (/^#{2}\s/.test(l)) {
-        closeUl();
-        const txt = l.replace(/^#+\s/, "");
-        html += `<h2>${inline(txt)}</h2>`;
-        continue;
-      }
-      if (/^#{3}\s/.test(l)) {
-        closeUl();
-        const txt = l.replace(/^#+\s/, "");
-        html += `<h3>${inline(txt)}</h3>`;
-        continue;
-      }
-      if (/^---+$/.test(l.trim())) {
-        closeUl();
-        html += "<hr>";
-        continue;
-      }
-      if (/^[-•*]\s/.test(l)) {
-        if (!inUl) { html += "<ul>"; inUl = true; }
-        html += `<li>${inline(l.replace(/^[-•*]\s/, ""))}</li>`;
-        continue;
-      }
-      if (/^\s+[-•]\s/.test(l)) {
-        if (!inUl) { html += "<ul>"; inUl = true; }
-        html += `<li>${inline(l.replace(/^\s+[-•]\s/, ""))}</li>`;
-        continue;
-      }
-      // verdict line detection
-      if (/This week,/i.test(l) && l.trim()) {
-        closeUl();
-        html += `<div class="verdict-box">${inline(l.trim())}</div>`;
-        continue;
-      }
-      // Period / metadata line
-      if (/^Period:/i.test(l.trim())) {
-        closeUl();
-        html += `<div class="meta-line">${inline(l.trim())}</div>`;
-        continue;
-      }
-      if (l.trim() === "") {
-        closeUl();
-        continue;
-      }
-      closeUl();
-      html += `<p>${inline(l.trim())}</p>`;
-    }
-    closeUl();
-    return html;
-  }
-
-  function extractScore(text) {
-    const m = text.match(/WEEKLY SCORE[\s\S]{0,50}?(\d{1,3})/i);
-    return m ? parseInt(m[1]) : null;
-  }
-
-  function extractVerdict(text) {
-    const m = text.match(/This week,\s*([^\n]+)/i);
-    return m ? m[0].trim() : "";
-  }
-
-  function scClass(s) {
-    if (s === null) return "sc-x";
-    if (s >= 70)   return "sc-g";
-    if (s >= 40)   return "sc-a";
-    return "sc-r";
-  }
-
-  function scoreClass(s) {
-    if (s === null) return "score-amber";
-    if (s >= 70)   return "score-green";
-    if (s >= 40)   return "score-amber";
-    return "score-red";
-  }
-
-  const $ = id => document.getElementById(id);
-
-  // ── State ─────────────────────────────────────
-  let currentMembers = [];
-  let currentRaw     = {};
-  let selectedFrom   = "";
-  let selectedTo     = "";
-
-  // ── Init — show empty state, wait for user ─────
-  $("stateBox").innerHTML = `
-    <div class="state-icon">📅</div>
-    <div class="state-title">Select a date range</div>
-    <div>Pick From and To dates above, then click Load</div>`;
-
-  if (!getToken()) $("tokenOverlay").classList.add("on");
-
-  // ── Token setup ────────────────────────────────
-  $("tokenEye").onclick = () => {
-    const show = $("tokenInput").type === "password";
-    $("tokenInput").type = show ? "text" : "password";
-    $("tokenEye").textContent = show ? "🙈" : "👁";
-  };
-
-  $("tokenSave").onclick = async () => {
-    const t = $("tokenInput").value.trim();
-    $("tokenErr").style.display = "none";
-    if (!t.startsWith("ghp_") && !t.startsWith("github_pat_")) {
-      $("tokenErr").textContent = "⚠ Must start with ghp_";
-      $("tokenErr").style.display = "block"; return;
-    }
-    $("tokenSave").disabled = true; $("tokenSave").textContent = "Verifying…";
-    try {
-      const r = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
-        headers: { "Authorization": `Bearer ${t}`, "Accept": "application/vnd.github+json" }
-      });
-      if (!r.ok) throw new Error(`GitHub error ${r.status}`);
-      saveToken(t);
-      $("tokenOverlay").classList.remove("on");
-    } catch(e) {
-      $("tokenErr").textContent = `⚠ ${e.message}`;
-      $("tokenErr").style.display = "block";
-    } finally {
-      $("tokenSave").disabled = false; $("tokenSave").textContent = "Access Reports →";
-    }
-  };
-
-  $("tokenInput").onkeydown = e => { if (e.key === "Enter") $("tokenSave").click(); };
-
-  // ── Load button ────────────────────────────────
-  $("loadBtn").onclick = () => {
-    const from = $("fromDate").value;
-    const to   = $("toDate").value;
-    if (!from || !to) {
-      alert("Please select both From and To dates.");
-      return;
-    }
-    if (from > to) {
-      alert("From date must be before To date.");
-      return;
-    }
-    selectedFrom = from;
-    selectedTo   = to;
-    loadRange(from, to);
-  };
-
-  // ── Load range ─────────────────────────────────
-  async function loadRange(fromISO, toISO) {
-    if (!getToken()) { $("tokenOverlay").classList.add("on"); return; }
-
-    $("results").style.display = "none";
-    $("stateBox").style.display = "";
-    $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading reports…</div><div>Reading EOD files from GitHub</div>`;
-
-    try {
-      const folders = await listDir("eods");
-      if (!folders || !folders.length) throw new Error("No eods/ folder found");
-
-      const members = [];
-      const raw = {};
-
-      for (const folder of folders) {
-        if (folder.type !== "dir") continue;
-        const name = folder.name;
-
-        const files = await listDir(`eods/${name}`);
-        if (!files || !files.length) continue;
-
-        const rangeFiles = files.filter(f => {
-          const d = f.name.replace(".md","");
-          return d >= fromISO && d <= toISO;
-        });
-
-        if (!rangeFiles.length) continue;
-
-        let combined = "";
-        for (const f of rangeFiles.sort((a,b) => a.name.localeCompare(b.name))) {
-          const content = await fetchMD(`eods/${name}/${f.name}`);
-          if (content) combined += `\n\n---\n**${f.name.replace(".md","")}**\n\n${content}`;
-        }
-
-        if (!combined.trim()) continue;
-
-        const score   = extractScore(combined);
-        const verdict = extractVerdict(combined);
-        members.push({ name, score, verdict });
-        raw[name] = combined.trim();
-      }
-
-      if (!members.length) {
-        $("stateBox").innerHTML = `<div class="state-icon">📭</div><div class="state-title">No reports found</div><div>No EOD submissions for ${fromISO} → ${toISO}</div>`;
-        return;
-      }
-
-      currentMembers = members;
-      currentRaw     = raw;
-      renderResults(members, fromISO, toISO);
-
-    } catch(e) {
-      $("stateBox").innerHTML = `<div class="state-icon">⚠️</div><div class="state-title">Error loading</div><div>${e.message}</div>`;
-    }
-  }
-
-  // ── Render results ─────────────────────────────
-  function renderResults(members, fromISO, toISO) {
-    const sorted = [...members].sort((a,b) => (b.score??-1)-(a.score??-1));
-
-    const green = members.filter(m => m.score !== null && m.score >= 70).length;
-    const amber = members.filter(m => m.score !== null && m.score >= 40 && m.score < 70).length;
-    const red   = members.filter(m => m.score === null || m.score < 40).length;
-
-    $("pageWeek").textContent = `${formatDate(fromISO)} – ${formatDate(toISO)} · ${members.length} members`;
-    $("memberCount").textContent = `${members.length} members`;
-
-    $("pills").innerHTML = `
-      <span class="pill pill-g">✓ ${green} Green</span>
-      <span class="pill pill-a">⚡ ${amber} Amber</span>
-      <span class="pill pill-r">✕ ${red} Red</span>`;
-
-    $("lbRows").innerHTML = sorted.map((m, i) => `
-      <div class="lb-row" data-name="${m.name}">
-        <span class="lb-rank">${i+1}</span>
-        <span class="lb-name">${m.name}</span>
-        <span class="lb-verdict">${m.verdict || "—"}</span>
-        <span class="sc ${scClass(m.score)}">${m.score ?? "—"}</span>
-      </div>`).join("");
-
-    const alpha = [...members].sort((a,b) => a.name.localeCompare(b.name));
-    $("cards").innerHTML = alpha.map(m => `
-      <div class="card" data-name="${m.name}">
-        <div class="card-head">
-          <span class="card-name">${m.name}</span>
-          <span class="sc ${scClass(m.score)}">${m.score ?? "—"}</span>
-        </div>
-        <div class="card-foot">${m.verdict || "Click to view full report"}</div>
-      </div>`).join("");
-
-    document.querySelectorAll(".lb-row, .card").forEach(el => {
-      el.onclick = () => openDetail(el.dataset.name);
+  $("detailCopy").onclick = () => {
+    navigator.clipboard.writeText(m.report).then(() => {
+      $("detailCopy").textContent = "Copied! ✓"; $("detailCopy").classList.add("copied");
+      setTimeout(() => { $("detailCopy").textContent = "Copy Report"; $("detailCopy").classList.remove("copied"); }, 2000);
     });
-
-    $("stateBox").style.display = "none";
-    $("results").style.display = "";
-  }
-
-  // ── Detail view ────────────────────────────────
-  function openDetail(name) {
-    const member = currentMembers.find(m => m.name === name);
-    const rawText = currentRaw[name] || "";
-
-    const scoreHTML = member.score !== null
-      ? `<span class="score-badge ${scoreClass(member.score)}">Score: ${member.score}/100</span>`
-      : "";
-
-    $("detailContent").innerHTML = `
-      <div class="md-body">
-        <h1>Weekly Performance Audit — ${name}</h1>
-        <div class="meta-line">Period: ${formatDate(selectedFrom)} – ${formatDate(selectedTo)}</div>
-        ${scoreHTML}
-        ${renderMarkdown(rawText)}
-      </div>`;
-
-    $("detailCopy").onclick = () => {
-      navigator.clipboard.writeText(rawText).then(() => {
-        $("detailCopy").textContent = "Copied! ✓";
-        $("detailCopy").classList.add("copied");
-        setTimeout(() => {
-          $("detailCopy").textContent = "Copy Raw Report";
-          $("detailCopy").classList.remove("copied");
-        }, 2000);
-      });
-    };
-
-    $("detailOverlay").classList.add("on");
-  }
-
-  $("detailClose").onclick = () => $("detailOverlay").classList.remove("on");
-  $("detailOverlay").onclick = e => {
-    if (e.target === $("detailOverlay")) $("detailOverlay").classList.remove("on");
   };
+}
+
+$("detailClose").onclick = () => $("detailOverlay").classList.remove("on");
+$("detailOverlay").onclick = e => { if(e.target === $("detailOverlay")) $("detailOverlay").classList.remove("on"); };
 </script>
 </body>
 </html>
