@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Team Audit Results — Digit Web Lanka</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -84,7 +85,16 @@
       font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
       border-radius: 6px; cursor: pointer; transition: opacity 0.15s;
     }
-    .btn-load:hover { opacity: 0.88; }
+    .btn-back {
+  height: 34px; padding: 0 1rem;
+  background: var(--bg3); border: 1px solid var(--border2);
+  color: var(--text2); text-decoration: none;
+  font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8rem; font-weight: 600;
+  border-radius: 6px; cursor: pointer;
+  display: inline-flex; align-items: center;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-back:hover { background: var(--border2); color: var(--text); }
 
     /* ── GH TOKEN OVERLAY ── */
     .overlay {
@@ -345,13 +355,13 @@
   <div class="topbar-left">
     <div class="logo">DW</div>
     <span class="brand">Digit Web Lanka</span>
-    <span class="tag">WEEKLY AUDIT RESULTS</span>
   </div>
   <div class="topbar-right">
     <div class="week-selector">
       <label>Week ending</label>
       <input type="date" id="weekDate" />
       <button class="btn-load" id="loadBtn">Load →</button>
+    <a href="index.html" class="btn-back">← Back</a>
     </div>
   </div>
 </div>
