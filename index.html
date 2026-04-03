@@ -200,7 +200,7 @@
        PAGE LAYOUT
     ════════════════════════════════ */
     .page {
-      width: 100%; max-width: 600px;
+      width: 100%; max-width: 1100px;
       display: flex; flex-direction: column; gap: 1.25rem;
     }
 
@@ -232,6 +232,16 @@
       gap: 1rem; margin-bottom: 1.25rem;
     }
 
+    .date-display {
+      width: 100%; height: var(--field-h);
+      background: var(--surface2); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; padding: 0 0.9rem;
+      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 600;
+      color: var(--brand); letter-spacing: 0.01em;
+      pointer-events: none; user-select: none;
+    }
+
     .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
 
     .form-group label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
@@ -239,7 +249,6 @@
 
     /* All field base style */
     select,
-    input[type="date"],
     textarea {
       width: 100%;
       background: var(--surface2);
@@ -256,7 +265,6 @@
     }
 
     select:focus,
-    input[type="date"]:focus,
     textarea:focus {
       border-color: var(--border-focus);
       box-shadow: 0 0 0 3px var(--brand-dim2);
@@ -276,29 +284,6 @@
     select option { background: #fff; color: var(--text); }
     select option:disabled { color: var(--text-3); }
 
-    /* Date input — perfectly centered, same height as select */
-    input[type="date"] {
-      height: var(--field-h);
-      padding: 0 0.9rem;
-      cursor: pointer;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    input[type="date"]::-webkit-datetime-edit        { padding: 0; }
-    input[type="date"]::-webkit-datetime-edit-fields-wrapper { padding: 0; }
-    input[type="date"]::-webkit-inner-spin-button    { display: none; }
-
-    input[type="date"]::-webkit-calendar-picker-indicator {
-      cursor: pointer;
-      opacity: 0.45;
-      margin-left: 0.5rem;
-      transition: opacity 0.15s;
-    }
-
-    input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
 
     /* Textarea */
     textarea {
@@ -313,6 +298,50 @@
     .char-hint { font-size: 0.75rem; color: var(--text-3); text-align: right; margin-top: 0.3rem; }
 
     .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+
+    /* ════════════════════════════════
+       TWO-COLUMN LAYOUT
+    ════════════════════════════════ */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    /* ════════════════════════════════
+       LEAVE SECTION
+    ════════════════════════════════ */
+    .leave-hint {
+      font-size: 0.8125rem; color: var(--text-2);
+      margin-bottom: 1.25rem; line-height: 1.6;
+    }
+
+    .leave-date-input {
+      width: 100%; height: var(--field-h);
+      background: var(--surface2); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0 0.9rem;
+      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 500;
+      color: var(--text); outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none; appearance: none; cursor: pointer;
+    }
+    .leave-date-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--brand-dim2);
+    }
+
+.btn-leave {
+      width: 100%; height: var(--field-h);
+      border-radius: var(--radius-sm); cursor: pointer;
+      font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700;
+      color: #92400e;
+      border: 1.5px solid rgba(217,119,6,0.4);
+      background: rgba(217,119,6,0.08);
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .btn-leave:hover:not(:disabled) { background: rgba(217,119,6,0.15); border-color: rgba(217,119,6,0.7); }
+    .btn-leave:disabled { opacity: 0.5; cursor: not-allowed; }
 
     /* ════════════════════════════════
        SUBMIT BUTTON
@@ -435,6 +464,10 @@
     /* ════════════════════════════════
        RESPONSIVE
     ════════════════════════════════ */
+    @media (max-width: 900px) {
+      .main-layout { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 540px) {
       .topbar { padding: 0 1rem; }
       .topbar-date { display: none; }
@@ -488,6 +521,8 @@
       <p>Digital Marketing Team — Daily Status Update</p>
     </div>
 
+    <div class="main-layout">
+
     <div class="card">
 
       <!-- FORM VIEW -->
@@ -516,8 +551,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="dateField">Date</label>
-            <input type="date" id="dateField" />
+            <label>Today's Date</label>
+            <div class="date-display" id="formDateDisplay"></div>
           </div>
         </div>
 
@@ -562,6 +597,40 @@
 
     </div>
 
+    <!-- LEAVE CARD — right column -->
+    <div class="card leave-card">
+      <div class="section-label">Mark as Leave</div>
+      <p class="leave-hint">Select your name and the date you were on leave.</p>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label for="leaveMember">Your Name <span class="req">*</span></label>
+        <select id="leaveMember">
+          <option value="" disabled selected>Select name…</option>
+          <option>Kuberan</option>
+          <option>Piranav</option>
+          <option>Mahima</option>
+          <option>Sonya</option>
+          <option>Kamshi</option>
+          <option>Hetheesa</option>
+          <option>Dilaksi</option>
+          <option>Sukirtha</option>
+          <option>Thishoban</option>
+          <option>Theekshy</option>
+          <option>Thivajini</option>
+          <option>Ripson</option>
+          <option>Jefry</option>
+          <option>Sajeepan</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label for="leaveDate">Leave Date <span class="req">*</span></label>
+        <input type="date" id="leaveDate" class="leave-date-input" />
+      </div>
+      <button class="btn-leave" id="leaveBtn" type="button">🏖 Mark Leave</button>
+      <div id="leaveAlert"></div>
+    </div>
+
+    </div><!-- end main-layout -->
+
     <div class="footer">
       <span>Saved to GitHub via Contents API</span>
       <span class="footer-dot"></span>
@@ -589,9 +658,13 @@
   }
 
   function updateDate() {
-    if (!dateField.value) dateField.value = todayISO();
-    topbarDate.textContent = new Date().toLocaleDateString("en-GB", {
+    const now = new Date();
+    topbarDate.textContent = now.toLocaleDateString("en-GB", {
       weekday: "long", day: "numeric", month: "long", year: "numeric"
+    });
+    const formDate = $("formDateDisplay");
+    if (formDate) formDate.textContent = now.toLocaleDateString("en-GB", {
+      weekday: "short", day: "numeric", month: "short", year: "numeric"
     });
   }
 
@@ -637,7 +710,6 @@
   const setupError    = $("setupError");
   const resetTokenBtn = $("resetTokenBtn");
   const memberSelect  = $("memberSelect");
-  const dateField     = $("dateField");
   const eodText       = $("eodText");
   const charHint      = $("charHint");
   const submitBtn     = $("submitBtn");
@@ -729,7 +801,7 @@
     clearAlert();
     const member = memberSelect.value.trim();
     const report = eodText.value.trim();
-    const date   = dateField.value || todayISO();
+    const date   = todayISO();
 
     if (!member) { showAlert("error","Please select your name."); memberSelect.focus(); return; }
     if (!report) { showAlert("error","Report cannot be empty."); eodText.focus(); return; }
@@ -768,7 +840,6 @@
     memberSelect.value   = "";
     eodText.value        = "";
     charHint.textContent = "0 characters";
-    dateField.value      = todayISO();
     clearAlert();
     successView.classList.remove("visible");
     formView.style.display = "";
@@ -778,6 +849,45 @@
   submitAnotherBtn.addEventListener("click", resetForm);
   eodText.addEventListener("keydown", (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === "Enter") handleSubmit();
+  });
+
+  // ── Leave ─────────────────────────────
+  function showLeaveAlert(type, msg) {
+    $("leaveAlert").innerHTML = `<div class="alert alert-${type}" style="margin-top:0.75rem">${msg}</div>`;
+    setTimeout(() => { $("leaveAlert").innerHTML = ""; }, 4000);
+  }
+
+  $("leaveBtn").addEventListener("click", async () => {
+    const member = $("leaveMember").value.trim();
+    const date   = $("leaveDate").value;
+    if (!member) { showLeaveAlert("error","Please select your name."); $("leaveMember").focus(); return; }
+    if (!date)   { showLeaveAlert("error","Please select a leave date."); return; }
+    if (!getToken()) { showSetup(); return; }
+
+    $("leaveBtn").disabled = true;
+    $("leaveBtn").textContent = "Saving…";
+    try {
+      const url      = apiURL(member, date);
+      const existing = await getFile(url);
+      const content  = `# Leave\n\nMember: ${member}\nDate: ${date}\nStatus: On Leave`;
+      await putFile(url, {
+        message: `Leave: ${member} - ${date}`,
+        content: toBase64(content),
+        branch:  CONFIG.BRANCH,
+        ...(existing?.sha ? { sha: existing.sha } : {})
+      });
+      $("leaveDate").value = "";
+      $("leaveMember").value = "";
+      showLeaveAlert("success", `✓ Leave marked for <strong>${member}</strong> on <strong>${date}</strong>`);
+    } catch(err) {
+      const msg = err.message.includes("401")
+        ? `Token expired. Click <strong>🔑 Token</strong> to update.`
+        : `Failed: ${err.message}`;
+      showLeaveAlert("error", msg);
+    } finally {
+      $("leaveBtn").disabled = false;
+      $("leaveBtn").textContent = "🏖 Mark Leave";
+    }
   });
 </script>
 </body>
