@@ -526,6 +526,7 @@ async function loadWeek(fridayISO) {
   if (!getGH()) { $("ghOverlay").classList.add("on"); return; }
 
   $("results").style.display = "none";
+  $("stateBox").style.display = "";
   $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading audit results…</div><div>Reading from GitHub</div>`;
 
   try {
