@@ -283,13 +283,12 @@
     .detail-body li { margin: 0.3rem 0; color: var(--text2); }
     .detail-body hr { border: none; border-top: 1.5px solid var(--border); margin: 1.2rem 0; }
     .detail-body code { font-family: 'IBM Plex Mono', monospace; font-size: 0.8em; background: var(--border); padding: 0.1em 0.4em; border-radius: 4px; }
-    .total-row {
-      display: flex; justify-content: space-between; align-items: center;
-      background: var(--accent); color: #fff;
-      border-radius: 8px; padding: 0.6rem 1rem; margin: 0.75rem 0;
-      font-weight: 700; font-size: 0.9rem;
-    }
-    .total-score { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; }
+    .detail-body table { width: 100%; border-collapse: collapse; margin: 0.75rem 0 1rem; font-size: 0.85rem; }
+    .detail-body th { background: var(--accent); color: #fff; font-weight: 700; padding: 0.5rem 0.75rem; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    .detail-body td { padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+    .detail-body tr:last-child td { border-bottom: none; }
+    .detail-body tr:nth-child(even) td { background: rgba(79,70,229,0.03); }
+    .detail-body tr.total-tr td { background: rgba(79,70,229,0.08); color: var(--text); font-weight: 700; border-top: 2px solid var(--accent); }
 
     .detail-footer { display: flex; gap: 0.75rem; margin-top: 1.25rem; }
 
@@ -622,22 +621,27 @@ function renderMarkdown(md) {
     .replace(/\*(.+?)\*/g,"<em>$1</em>")
     .replace(/`(.+?)`/g,"<code>$1</code>");
 
-  const parseCell = s => inline(s.trim());
-
-  // Group lines, collect table blocks together
   const lines = md.split("\n");
   let html = "", inUl = false, inSub = false, tableLines = [];
 
   const flushTable = () => {
     if (!tableLines.length) return;
-    // Find TOTAL row only
-    const totalRow = tableLines.find(l => /TOTAL/i.test(l));
-    if (totalRow) {
-      const cells = totalRow.split("|").map(s => s.trim().replace(/\*\*/g,"")).filter(Boolean);
-      const label = cells[0] || "TOTAL";
-      const score = cells[cells.length - 1] || "";
-      html += `<div class="total-row"><span class="total-label">${esc(label)}</span><span class="total-score">${esc(score)}</span></div>`;
+    // First row = header, rows starting with |---|  = separator (skip), rest = body
+    const rows = tableLines;
+    let thtml = "<table><thead><tr>";
+    const headerCells = rows[0].split("|").map(s => s.trim()).filter(Boolean);
+    headerCells.forEach(c => { thtml += `<th>${inline(c)}</th>`; });
+    thtml += "</tr></thead><tbody>";
+    for (let i = 1; i < rows.length; i++) {
+      if (/^[\s|:-]+$/.test(rows[i])) continue; // skip separator row
+      const cells = rows[i].split("|").map(s => s.trim()).filter(Boolean);
+      const isTotalRow = /^[\*_]*TOTAL[\*_]*/i.test(cells[0] || "");
+      thtml += isTotalRow ? `<tr class="total-tr">` : `<tr>`;
+      cells.forEach(c => { thtml += `<td>${inline(c)}</td>`; });
+      thtml += "</tr>";
     }
+    thtml += "</tbody></table>";
+    html += thtml;
     tableLines = [];
   };
 
@@ -645,30 +649,22 @@ function renderMarkdown(md) {
   const closeUl  = () => { closeSub(); if (inUl) { html += "</ul>"; inUl = false; } };
 
   for (const l of lines) {
-    if (/^\|/.test(l)) {
+    if (/^\|/.test(l.trim())) {
       closeUl();
-      if (!/^[\s|:-]+$/.test(l)) tableLines.push(l); // skip separator rows
+      tableLines.push(l);
       continue;
     } else {
       flushTable();
     }
 
-    if (/^### /.test(l))      { closeUl(); html += `<h3>${inline(l.slice(4))}</h3>`; }
-    else if (/^## /.test(l))  { closeUl(); html += `<h2>${inline(l.slice(3))}</h2>`; }
-    else if (/^# /.test(l))   { closeUl(); html += `<h1>${inline(l.slice(2))}</h1>`; }
-    else if (/^---+$/.test(l.trim())) { closeUl(); html += "<hr>"; }
-    else if (/^[-*] /.test(l)) {
-      closeSub();
-      if (!inUl) { html += "<ul>"; inUl = true; }
-      html += `<li>${inline(l.slice(2))}`;
-    }
-    else if (/^\s{2,}[-*] /.test(l)) {
-      const text = l.replace(/^\s+[-*] /, "");
-      if (!inSub) { html += "<ul>"; inSub = true; }
-      html += `<li>${inline(text)}</li>`;
-    }
-    else if (l.trim() === "")  { closeUl(); }
-    else                       { closeUl(); html += `<p>${inline(l)}</p>`; }
+    if      (/^### /.test(l))              { closeUl(); html += `<h3>${inline(l.slice(4))}</h3>`; }
+    else if (/^## /.test(l))               { closeUl(); html += `<h2>${inline(l.slice(3))}</h2>`; }
+    else if (/^# /.test(l))                { closeUl(); html += `<h1>${inline(l.slice(2))}</h1>`; }
+    else if (/^---+$/.test(l.trim()))      { closeUl(); html += "<hr>"; }
+    else if (/^[-*] /.test(l))             { closeSub(); if (!inUl) { html += "<ul>"; inUl = true; } html += `<li>${inline(l.slice(2))}`; }
+    else if (/^\s{2,}[-*] /.test(l))       { if (!inSub) { html += "<ul>"; inSub = true; } html += `<li>${inline(l.replace(/^\s+[-*] /,""))}</li>`; }
+    else if (l.trim() === "")              { closeUl(); }
+    else                                   { closeUl(); html += `<p>${inline(l)}</p>`; }
   }
   flushTable();
   closeUl();
