@@ -526,7 +526,7 @@ async function loadWeek(fridayISO) {
 
   $("results").style.display = "none";
   $("stateBox").style.display = "";
-  $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading audit results…</div><div>Reading from GitHub</div>`;
+  $("stateBox").innerHTML = `<div class="spin"></div><div class="state-title">Loading audit results…</div><div>Summary Loading</div>`;
 
   try {
     const files = await listDir(`summary/${fridayISO}`);
