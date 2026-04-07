@@ -3,891 +3,867 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EOD Report — Digital Marketing Team</title>
+  <title>EOD Report — Digit Web Lanka</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --brand:       #4f46e5;
-      --brand-light: #6366f1;
-      --brand-dim:   rgba(79,70,229,0.08);
-      --brand-dim2:  rgba(79,70,229,0.18);
-      --bg:          #f0f2f8;
-      --surface:     #ffffff;
-      --surface2:    #f8f9fb;
-      --border:      #e4e7ef;
-      --border-focus:#4f46e5;
-      --text:        #0f1724;
-      --text-2:      #6b7280;
-      --text-3:      #adb5bd;
-      --success:     #10b981;
-      --success-dim: rgba(16,185,129,0.10);
-      --error:       #ef4444;
-      --error-dim:   rgba(239,68,68,0.08);
-      --field-h:     48px;
+      --bg:          #eef2f7;
+      --white:       #ffffff;
+      --surface2:    #f8fafc;
+      --surface3:    #f1f5f9;
+      --border:      #e2e8f0;
+      --border2:     #cbd5e1;
+
+      --blue:        #2563eb;
+      --blue-hover:  #1d4ed8;
+      --blue-dim:    rgba(37,99,235,0.07);
+      --blue-dim2:   rgba(37,99,235,0.14);
+      --blue-glow:   rgba(37,99,235,0.22);
+
+      --teal:        #0d9488;
+      --teal-dim:    rgba(13,148,136,0.08);
+
+      --success:     #059669;
+      --success-dim: rgba(5,150,105,0.08);
+      --error:       #dc2626;
+      --error-dim:   rgba(220,38,38,0.07);
+      --warn:        #d97706;
+      --warn-dim:    rgba(217,119,6,0.08);
+
+      --text:        #0f172a;
+      --text-2:      #475569;
+      --text-3:      #94a3b8;
+      --text-4:      #cbd5e1;
+
+      --sidebar-w:   256px;
+      --field-h:     46px;
       --radius-sm:   10px;
       --radius:      14px;
-      --radius-lg:   22px;
-      --shadow-sm:   0 1px 4px rgba(0,0,0,0.07);
-      --shadow:      0 6px 28px rgba(79,70,229,0.08), 0 1px 4px rgba(0,0,0,0.05);
-      --shadow-top:  0 -1px 0 rgba(0,0,0,0.04);
+      --radius-lg:   18px;
+      --radius-xl:   24px;
+
+      --shadow-xs:   0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+      --shadow-sm:   0 2px 8px rgba(15,23,42,0.07), 0 1px 3px rgba(15,23,42,0.04);
+      --shadow:      0 4px 16px rgba(15,23,42,0.08), 0 1px 4px rgba(15,23,42,0.04);
+      --shadow-blue: 0 4px 18px rgba(37,99,235,0.28);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 1rem 5rem;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ════════════════════════════════
-       SETUP OVERLAY
-    ════════════════════════════════ */
+    /* ═══════════════════ SETUP OVERLAY ═══════════════════ */
     .setup-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(15,23,36,0.5);
-      z-index: 200;
-      align-items: center; justify-content: center;
-      padding: 1rem;
-      backdrop-filter: blur(4px);
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,23,42,0.45); z-index: 400;
+      align-items: center; justify-content: center; padding: 1.25rem;
+      backdrop-filter: blur(8px);
     }
-
-    .setup-overlay.visible { display: flex; animation: fadeIn 0.2s ease; }
+    .setup-overlay.visible { display: flex; animation: fadein .2s ease; }
 
     .setup-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2.25rem;
-      width: 100%; max-width: 440px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
-      animation: slideUp 0.28s cubic-bezier(0.34,1.2,0.64,1);
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); padding: 2.5rem;
+      width: 100%; max-width: 460px;
+      box-shadow: var(--shadow), 0 20px 60px rgba(15,23,42,0.1);
+      animation: cardin .32s cubic-bezier(.34,1.2,.64,1);
     }
 
-    .setup-icon {
-      width: 54px; height: 54px;
-      background: var(--brand-dim);
-      border: 1.5px solid var(--brand-dim2);
-      border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin-bottom: 1.25rem;
-    }
+    .setup-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.75rem; }
+    .setup-logo img { width: 42px; height: 42px; border-radius: 10px; border: 1.5px solid var(--border2); object-fit: cover; }
+    .setup-logo-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; font-weight: 800; }
+    .setup-logo-sub  { font-size: 0.75rem; color: var(--text-3); }
 
-    .setup-title { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
-    .setup-sub   { font-size: 0.875rem; color: var(--text-2); line-height: 1.6; margin-bottom: 1.5rem; }
-
-    .setup-label { font-size: 0.8125rem; font-weight: 600; margin-bottom: 0.4rem; display: block; }
+    .setup-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.45rem; }
+    .setup-desc  { font-size: 0.875rem; color: var(--text-2); line-height: 1.7; margin-bottom: 1.75rem; }
+    .field-label { font-size: 0.8rem; font-weight: 600; color: var(--text-2); margin-bottom: 0.4rem; display: block; }
 
     .token-wrap { position: relative; }
-
     .token-wrap input {
-      width: 100%;
-      height: var(--field-h);
-      background: var(--surface2);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0 2.75rem 0 0.9rem;
-      font-family: monospace; font-size: 0.875rem; color: var(--text);
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    .token-wrap input:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--brand-dim2);
-    }
-
-    .toggle-vis {
-      position: absolute; right: 0.8rem; top: 50%; transform: translateY(-50%);
-      background: none; border: none; cursor: pointer;
-      color: var(--text-3); font-size: 1rem; line-height: 1;
-    }
-
-    .token-hint { font-size: 0.75rem; color: var(--text-3); margin-top: 0.4rem; }
-
-    .setup-error { font-size: 0.8125rem; color: #dc2626; margin-top: 0.75rem; display: none; }
-
-    .btn-save {
-      width: 100%; height: var(--field-h);
-      background: linear-gradient(135deg, var(--brand), var(--brand-light));
-      color: #fff; font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem; font-weight: 700;
-      border: none; border-radius: var(--radius-sm);
-      cursor: pointer; margin-top: 1.25rem;
-      box-shadow: 0 4px 16px rgba(79,70,229,0.3);
-      transition: opacity 0.15s;
-    }
-
-    .btn-save:hover:not(:disabled) { opacity: 0.9; }
-    .btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    /* ════════════════════════════════
-       TOP BAR
-    ════════════════════════════════ */
-    .topbar {
-      width: 100%;
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 62px;
-      margin-bottom: 2.5rem;
-      position: sticky; top: 0; z-index: 10;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .topbar-left { display: flex; align-items: center; gap: 0.75rem; }
-
-    .topbar-logo {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--brand), var(--brand-light));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem; color: #fff; font-weight: 800;
-      box-shadow: 0 2px 8px rgba(79,70,229,0.3);
-    }
-
-    .topbar-name { font-weight: 700; font-size: 0.9375rem; letter-spacing: -0.01em; }
-
-    .topbar-badge {
-      font-size: 0.6875rem; font-weight: 600;
-      color: var(--brand); background: var(--brand-dim);
-      border: 1px solid var(--brand-dim2);
-      padding: 0.2rem 0.65rem; border-radius: 100px; letter-spacing: 0.04em;
-    }
-
-    .topbar-right { display: flex; align-items: center; gap: 1rem; }
-
-    .topbar-date {
-      font-size: 0.8125rem; color: var(--text-2); font-weight: 500;
-    }
-
-    .btn-nav {
-      font-size: 0.75rem; font-weight: 600; color: var(--brand);
-      background: var(--brand-dim); border: 1.5px solid var(--brand-dim2);
-      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      text-decoration: none;
-      transition: background 0.15s, border-color 0.15s;
-      display: flex; align-items: center; gap: 0.3rem;
-    }
-
-    .btn-nav:hover { background: var(--brand-dim2); border-color: var(--brand); }
-
-    .btn-token {
-      font-size: 0.75rem; font-weight: 600; color: var(--text-3);
-      background: none; border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0.35rem 0.75rem;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      transition: color 0.15s, border-color 0.15s;
-      display: flex; align-items: center; gap: 0.3rem;
-    }
-
-    .btn-token:hover { color: var(--brand); border-color: var(--brand); }
-
-    /* ════════════════════════════════
-       PAGE LAYOUT
-    ════════════════════════════════ */
-    .page {
-      width: 100%; max-width: 1100px;
-      display: flex; flex-direction: column; gap: 1.25rem;
-    }
-
-    .page-title { display: flex; flex-direction: column; gap: 0.2rem; }
-    .page-title h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
-    .page-title p  { font-size: 0.875rem; color: var(--text-2); }
-
-    /* ════════════════════════════════
-       CARD
-    ════════════════════════════════ */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      box-shadow: var(--shadow);
-    }
-
-    .section-label {
-      font-size: 0.6875rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.09em; color: var(--text-3); margin-bottom: 1.1rem;
-    }
-
-    /* ════════════════════════════════
-       FORM FIELDS
-    ════════════════════════════════ */
-    .form-row {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 1rem; margin-bottom: 1.25rem;
-    }
-
-    .date-display {
       width: 100%; height: var(--field-h);
       background: var(--surface2); border: 1.5px solid var(--border);
       border-radius: var(--radius-sm);
-      display: flex; align-items: center; padding: 0 0.9rem;
-      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 600;
-      color: var(--brand); letter-spacing: 0.01em;
+      padding: 0 2.75rem 0 0.875rem;
+      font-family: 'Courier New', monospace; font-size: 0.875rem; color: var(--text);
+      outline: none; transition: border-color .18s, box-shadow .18s, background .18s;
+    }
+    .token-wrap input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim2); background: var(--white); }
+    .toggle-vis {
+      position: absolute; right: 0.75rem; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--text-3); font-size: 1rem;
+      transition: color .15s;
+    }
+    .toggle-vis:hover { color: var(--text-2); }
+    .token-hint  { font-size: 0.7375rem; color: var(--text-3); margin-top: 0.45rem; }
+    .setup-error { font-size: 0.8125rem; color: var(--error); margin-top: 0.75rem; display: none; }
+
+    .btn-primary {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%; height: var(--field-h);
+      background: var(--blue); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; font-weight: 700;
+      border: none; border-radius: var(--radius-sm);
+      cursor: pointer; margin-top: 1.5rem;
+      box-shadow: var(--shadow-blue);
+      transition: background .15s, transform .1s, box-shadow .15s;
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--blue-hover); box-shadow: 0 6px 24px var(--blue-glow); transform: translateY(-1px); }
+    .btn-primary:active:not(:disabled) { transform: scale(.985); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+
+    /* ═══════════════════ SHELL ═══════════════════ */
+    .shell { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--white); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+    }
+
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1.5rem 1.25rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand-logo { width: 38px; height: 38px; border-radius: 9px; overflow: hidden; border: 1.5px solid var(--border2); flex-shrink: 0; }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .brand-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.9rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25; }
+    .brand-tag  { font-size: 0.6875rem; color: var(--text-3); letter-spacing: 0.03em; }
+
+    .sidebar-nav { flex: 1; padding: 1.125rem 0.875rem; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+
+    .nav-label {
+      font-size: 0.6375rem; font-weight: 700; color: var(--text-3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0 0.5rem; margin: 1rem 0 0.3rem;
+    }
+
+    .nav-link {
+      display: flex; align-items: center; gap: 0.6875rem;
+      padding: 0.6rem 0.75rem; border-radius: var(--radius-sm);
+      font-size: 0.875rem; font-weight: 500; color: var(--text-2);
+      cursor: pointer; text-decoration: none;
+      transition: background .14s, color .14s;
+      border: 1px solid transparent; position: relative;
+    }
+    .nav-link:hover { background: var(--surface3); color: var(--text); }
+    .nav-link.active {
+      background: var(--blue-dim); color: var(--blue);
+      border-color: var(--blue-dim2); font-weight: 600;
+    }
+    .nav-link.active::before {
+      content: ''; position: absolute; left: -0.875rem; top: 22%; bottom: 22%;
+      width: 3px; border-radius: 0 3px 3px 0; background: var(--blue);
+    }
+    .nav-icon {
+      width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
+      background: var(--surface3);
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+      transition: background .14s;
+    }
+    .nav-link.active .nav-icon { background: var(--blue-dim2); }
+
+    .sidebar-bottom { padding: 1.125rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .date-widget {
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.875rem 1rem;
+    }
+    .date-widget-label { font-size: 0.6375rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .date-widget-val   { font-size: 0.84rem; font-weight: 600; color: var(--text); line-height: 1.45; }
+
+    .btn-ghost-sm {
+      display: flex; align-items: center; gap: 0.45rem;
+      width: 100%; padding: 0.5rem 0.75rem;
+      background: none; border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; font-weight: 600;
+      color: var(--text-3); cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .btn-ghost-sm:hover { color: var(--blue); border-color: rgba(37,99,235,.3); background: var(--blue-dim); }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: rgba(255,255,255,0.9); border-bottom: 1px solid var(--border);
+      padding: 0 2.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 30;
+      backdrop-filter: blur(16px); box-shadow: var(--shadow-xs);
+    }
+    .topbar-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.0625rem; font-weight: 800; letter-spacing: -0.015em; }
+    .topbar-sub   { font-size: 0.73rem; color: var(--text-3); }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    .live-badge {
+      display: flex; align-items: center; gap: 0.45rem;
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: 100px; padding: 0.3rem 0.8rem;
+      font-size: 0.73rem; font-weight: 600; color: var(--text-2);
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); box-shadow: 0 0 0 2px rgba(5,150,105,0.15);
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .btn-link {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      background: var(--blue-dim); border: 1.5px solid var(--blue-dim2);
+      border-radius: var(--radius-sm); color: var(--blue);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-link:hover { background: var(--blue-dim2); border-color: rgba(37,99,235,.32); }
+
+    /* ═══════════════════ CONTENT ═══════════════════ */
+    .content { padding: 2rem 2.25rem 4rem; display: flex; flex-direction: column; gap: 1.75rem; }
+
+    .page-header { display: flex; align-items: center; justify-content: space-between; animation: slideup .38s ease both; }
+    .page-header-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.025em; }
+    .page-header-sub   { font-size: 0.84rem; color: var(--text-3); margin-top: 0.15rem; }
+
+    .page-chips { display: flex; align-items: center; gap: 0.6rem; }
+    .chip {
+      display: flex; align-items: center; gap: 0.35rem;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.38rem 0.875rem;
+      font-size: 0.78rem; font-weight: 600; color: var(--text-2);
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; animation: slideup .38s ease both; animation-delay:.06s; }
+
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem 1.375rem;
+      display: flex; align-items: flex-start; gap: 0.875rem;
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow .2s, transform .2s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+    .stat-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .stat-card.s-blue::after   { background: var(--blue); }
+    .stat-card.s-teal::after   { background: var(--teal); }
+    .stat-card.s-slate::after  { background: #64748b; }
+    .stat-card.s-indigo::after { background: #6366f1; }
+
+    .stat-icon { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+    .stat-icon.s-blue   { background: var(--blue-dim);              border: 1px solid var(--blue-dim2); }
+    .stat-icon.s-teal   { background: var(--teal-dim);              border: 1px solid rgba(13,148,136,.15); }
+    .stat-icon.s-slate  { background: rgba(100,116,139,.07);        border: 1px solid rgba(100,116,139,.15); }
+    .stat-icon.s-indigo { background: rgba(99,102,241,.07);         border: 1px solid rgba(99,102,241,.15); }
+
+    .stat-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; margin-bottom: 0.2rem; }
+    .stat-label { font-size: 0.73rem; color: var(--text-3); font-weight: 500; }
+
+    /* GRID */
+    .report-grid { display: grid; grid-template-columns: 1fr 310px; gap: 1.5rem; align-items: start; animation: slideup .38s ease both; animation-delay:.12s; }
+
+    /* CARD */
+    .card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden; }
+
+    .card-head { padding: 1.5rem 1.75rem 0; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .card-head-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.015em; margin-bottom: 0.15rem; }
+    .card-head-sub   { font-size: 0.75rem; color: var(--text-3); }
+    .card-badge {
+      display: inline-flex; align-items: center;
+      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em;
+      padding: 0.25rem 0.75rem; border-radius: 100px; text-transform: uppercase;
+    }
+    .cb-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue-dim2); }
+    .cb-teal { background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(13,148,136,.18); }
+
+    .card-body { padding: 0 1.75rem 1.75rem; }
+
+    /* FORM */
+    .sep { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .sep-text { font-size: 0.6875rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.09em; white-space: nowrap; }
+    .sep-line { flex: 1; height: 1px; background: var(--border); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; margin-bottom: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 0.25rem; }
+    .req { color: var(--blue); }
+
+    .date-display {
+      height: var(--field-h); background: var(--surface3); border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; padding: 0 0.875rem; gap: 0.5rem;
+      font-size: 0.875rem; font-weight: 700; color: var(--blue);
       pointer-events: none; user-select: none;
     }
 
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-
-    .form-group label { font-size: 0.8125rem; font-weight: 600; color: var(--text); }
-    .form-group label .req { color: var(--brand); margin-left: 2px; }
-
-    /* All field base style */
-    select,
-    textarea {
-      width: 100%;
-      background: var(--surface2);
-      color: var(--text);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-      -webkit-appearance: none;
-      appearance: none;
+    select, textarea, input[type="date"] {
+      width: 100%; background: var(--surface2); color: var(--text);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      outline: none; -webkit-appearance: none; appearance: none;
+      transition: border-color .18s, box-shadow .18s, background .18s;
     }
-
-    select:focus,
-    textarea:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--brand-dim2);
-      background: #fff;
+    select:focus, textarea:focus, input[type="date"]:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim2); background: var(--white);
     }
-
-    /* Select */
     select {
-      height: var(--field-h);
-      padding: 0 2.5rem 0 0.9rem;
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 0.875rem center;
+      height: var(--field-h); padding: 0 2.5rem 0 0.875rem; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.875rem center; background-color: var(--surface2);
     }
-
     select option { background: #fff; color: var(--text); }
     select option:disabled { color: var(--text-3); }
+    textarea { min-height: 215px; resize: vertical; line-height: 1.8; padding: 0.875rem; }
+    textarea::placeholder { color: var(--text-4); }
+    input[type="date"] { height: var(--field-h); padding: 0 0.875rem; color-scheme: light; cursor: pointer; }
 
+    .char-hint { font-size: 0.73rem; color: var(--text-3); text-align: right; margin-top: 0.3rem; }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
 
-    /* Textarea */
-    textarea {
-      min-height: 210px;
-      resize: vertical;
-      line-height: 1.75;
-      padding: 0.75rem 0.9rem;
-    }
-
-    textarea::placeholder { color: var(--text-3); }
-
-    .char-hint { font-size: 0.75rem; color: var(--text-3); text-align: right; margin-top: 0.3rem; }
-
-    .divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-
-    /* ════════════════════════════════
-       TWO-COLUMN LAYOUT
-    ════════════════════════════════ */
-    .main-layout {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 1.5rem;
-      align-items: start;
-    }
-
-    /* ════════════════════════════════
-       LEAVE SECTION
-    ════════════════════════════════ */
-    .leave-hint {
-      font-size: 0.8125rem; color: var(--text-2);
-      margin-bottom: 1.25rem; line-height: 1.6;
-    }
-
-    .leave-date-input {
-      width: 100%; height: var(--field-h);
-      background: var(--surface2); border: 1.5px solid var(--border);
-      border-radius: var(--radius-sm); padding: 0 0.9rem;
-      font-family: 'Inter', sans-serif; font-size: 0.9375rem; font-weight: 500;
-      color: var(--text); outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-      -webkit-appearance: none; appearance: none; cursor: pointer;
-    }
-    .leave-date-input:focus {
-      border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px var(--brand-dim2);
-    }
-
-.btn-leave {
-      width: 100%; height: var(--field-h);
-      border-radius: var(--radius-sm); cursor: pointer;
-      font-family: 'Inter', sans-serif; font-size: 0.9rem; font-weight: 700;
-      color: #92400e;
-      border: 1.5px solid rgba(217,119,6,0.4);
-      background: rgba(217,119,6,0.08);
-      transition: background 0.15s, border-color 0.15s;
-    }
-    .btn-leave:hover:not(:disabled) { background: rgba(217,119,6,0.15); border-color: rgba(217,119,6,0.7); }
-    .btn-leave:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* ════════════════════════════════
-       SUBMIT BUTTON
-    ════════════════════════════════ */
+    /* SUBMIT */
     .btn-submit {
       width: 100%; height: var(--field-h);
-      background: linear-gradient(135deg, var(--brand), var(--brand-light));
-      color: #fff; font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem; font-weight: 700;
-      border: none; border-radius: var(--radius-sm);
-      cursor: pointer;
+      background: var(--blue); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; font-weight: 700;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s;
-      letter-spacing: -0.01em;
-      box-shadow: 0 4px 16px rgba(79,70,229,0.35);
+      box-shadow: var(--shadow-blue); letter-spacing: 0.01em;
+      transition: background .15s, transform .1s, box-shadow .15s;
     }
+    .btn-submit:hover:not(:disabled) { background: var(--blue-hover); box-shadow: 0 6px 24px var(--blue-glow); transform: translateY(-1px); }
+    .btn-submit:active:not(:disabled) { transform: scale(.985); }
+    .btn-submit:disabled { opacity: .45; cursor: not-allowed; }
 
-    .btn-submit:hover:not(:disabled) { opacity: 0.92; box-shadow: 0 6px 22px rgba(79,70,229,0.45); }
-    .btn-submit:active:not(:disabled) { transform: scale(0.985); }
-    .btn-submit:disabled { opacity: 0.55; cursor: not-allowed; }
-
-    .spinner {
-      width: 17px; height: 17px;
-      border: 2.5px solid rgba(255,255,255,0.3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
+    .spinner { width: 17px; height: 17px; border: 2.5px solid rgba(255,255,255,.25); border-top-color: #fff; border-radius: 50%; animation: spin .65s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ════════════════════════════════
-       ALERTS
-    ════════════════════════════════ */
+    /* ALERTS */
     .alert {
-      padding: 0.8rem 1rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.875rem;
-      display: flex; align-items: flex-start; gap: 0.5rem;
-      margin-top: 0.9rem;
-      animation: fadeUp 0.2s ease;
-      line-height: 1.5;
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px solid;
+      font-size: 0.8375rem; font-weight: 500; line-height: 1.55;
+      margin-top: 1rem; animation: slideup .2s ease;
     }
+    .alert-icon { flex-shrink: 0; font-size: 0.875rem; margin-top: 1px; }
+    .alert-error   { background: var(--error-dim);   border-color: rgba(220,38,38,.2);   color: var(--error); }
+    .alert-success { background: var(--success-dim); border-color: rgba(5,150,105,.2);   color: var(--success); }
+    .alert-warning { background: var(--warn-dim);    border-color: rgba(217,119,6,.2);   color: var(--warn); }
 
-    .alert-icon { flex-shrink: 0; }
+    /* SUCCESS */
+    .success-screen { display: none; flex-direction: column; align-items: center; text-align: center; padding: 1rem 0 0.5rem; }
+    .success-screen.visible { display: flex; animation: slideup .3s ease; }
 
-    .alert-error   { background: var(--error-dim); border: 1px solid rgba(239,68,68,0.2); color: #dc2626; }
-    .alert-warning { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.25); color: #b45309; }
-
-    /* ════════════════════════════════
-       SUCCESS SCREEN
-    ════════════════════════════════ */
-    .success-screen {
-      display: none;
-      flex-direction: column; align-items: center; text-align: center;
-      padding: 0.5rem 0 1rem;
-    }
-
-    .success-screen.visible { display: flex; animation: fadeUp 0.3s ease; }
-
-    .success-icon-wrap {
-      width: 84px; height: 84px;
-      background: var(--success-dim);
-      border: 2.5px solid var(--success);
-      border-radius: 50%;
+    .success-icon {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(5,150,105,0.08); border: 2px solid rgba(5,150,105,0.2);
       display: flex; align-items: center; justify-content: center;
-      font-size: 2.25rem; margin-bottom: 1.25rem;
-      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+      font-size: 2rem; margin-bottom: 1.375rem; color: var(--success);
+      animation: popin .45s cubic-bezier(.34,1.56,.64,1);
+    }
+    .success-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .success-sub   { font-size: 0.875rem; color: var(--text-2); margin-bottom: 1.75rem; line-height: 1.6; }
+
+    .success-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.75rem; width: 100%; margin-bottom: 1.25rem; }
+    .success-item { background: var(--surface3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.875rem; text-align: left; }
+    .si-label { font-size: 0.63rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .si-value { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+
+    .file-tag {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      background: var(--blue-dim); border: 1px solid var(--blue-dim2);
+      color: var(--blue); border-radius: var(--radius-sm);
+      padding: 0.45rem 0.875rem; font-size: 0.78rem; font-weight: 600;
+      word-break: break-all; margin-bottom: 1.75rem;
     }
 
-    .success-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.4rem; letter-spacing: -0.02em; }
-    .success-sub   { font-size: 0.875rem; color: var(--text-2); margin-bottom: 1.75rem; }
+    .btn-reset {
+      padding: 0.7rem 2.25rem; background: var(--white); color: var(--text-2);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .btn-reset:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
 
-    .success-meta {
-      background: var(--surface2); border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.5rem;
-      display: flex; gap: 2rem; justify-content: center;
-      width: 100%; margin-bottom: 1.25rem;
+    /* LEAVE */
+    .leave-info {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      background: #eff6ff; border: 1px solid #bfdbfe;
+      border-radius: var(--radius-sm); padding: 0.8rem 0.9rem;
+      font-size: 0.8125rem; color: #1d4ed8; line-height: 1.55; margin-bottom: 1.375rem;
     }
 
-    .meta-item  { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; }
-    .meta-label { font-size: 0.6875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); }
-    .meta-value { font-size: 0.9375rem; font-weight: 700; }
-
-    .file-path {
-      font-size: 0.75rem; color: var(--brand);
-      background: var(--brand-dim); border: 1px solid var(--brand-dim2);
-      border-radius: var(--radius-sm); padding: 0.375rem 0.875rem;
-      margin-bottom: 1.75rem; word-break: break-all; font-weight: 500;
+    .btn-leave {
+      width: 100%; height: var(--field-h);
+      background: var(--white); color: #1d4ed8;
+      border: 1.5px solid #bfdbfe; border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      transition: background .15s, border-color .15s, transform .1s;
     }
+    .btn-leave:hover:not(:disabled) { background: #eff6ff; border-color: #93c5fd; transform: translateY(-1px); }
+    .btn-leave:disabled { opacity: .45; cursor: not-allowed; }
 
-    .btn-again {
-      padding: 0.7rem 2rem; background: transparent; color: var(--brand);
-      font-family: 'Inter', sans-serif; font-size: 0.875rem; font-weight: 600;
-      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
-      cursor: pointer; transition: border-color 0.15s, background 0.15s;
+    /* ═══════════════════ ANIMATIONS ═══════════════════ */
+    @keyframes fadein  { from{opacity:0}                                  to{opacity:1} }
+    @keyframes slideup { from{opacity:0;transform:translateY(12px)}       to{opacity:1;transform:translateY(0)} }
+    @keyframes cardin  { from{transform:translateY(24px) scale(.97);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+    @keyframes popin   { from{transform:scale(.3);opacity:0}              to{transform:scale(1);opacity:1} }
+
+    /* ═══════════════════ RESPONSIVE ═══════════════════ */
+    @media (max-width:1100px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .report-grid { grid-template-columns: 1fr; }
     }
-
-    .btn-again:hover { border-color: var(--brand); background: var(--brand-dim); }
-
-    /* ════════════════════════════════
-       FOOTER
-    ════════════════════════════════ */
-    .footer {
-      margin-top: 1.75rem; font-size: 0.75rem; color: var(--text-3); text-align: center;
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-    }
-
-    .footer-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
-
-    /* ════════════════════════════════
-       ANIMATIONS
-    ════════════════════════════════ */
-    @keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeUp  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes slideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    @keyframes popIn   { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-    /* ════════════════════════════════
-       RESPONSIVE
-    ════════════════════════════════ */
-    @media (max-width: 900px) {
-      .main-layout { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 540px) {
-      .topbar { padding: 0 1rem; }
-      .topbar-date { display: none; }
-      .card { padding: 1.5rem; }
+    @media (max-width:768px) {
+      :root { --sidebar-w: 0px; }
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .topbar { padding: 0 1.25rem; }
+      .content { padding: 1.25rem 1.25rem 4rem; }
+      .page-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
       .form-row { grid-template-columns: 1fr; }
-      .success-meta { flex-direction: column; gap: 0.875rem; }
+      .card-head, .card-body { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .success-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width:480px) {
+      .stats-row { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ══ SETUP OVERLAY ══ -->
-  <div class="setup-overlay" id="setupOverlay">
-    <div class="setup-card">
-      <div class="setup-icon">🔑</div>
-      <div class="setup-title">One-time Setup</div>
-      <div class="setup-sub">
-        Enter your GitHub Personal Access Token to connect to the EOD reports repository.
-        Saved only in <strong>your browser</strong> — no one else can see it.
+<!-- SETUP OVERLAY -->
+<div class="setup-overlay" id="setupOverlay">
+  <div class="setup-card">
+    <div class="setup-logo">
+      <img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" />
+      <div>
+        <div class="setup-logo-name">Digit Web Lanka</div>
+        <div class="setup-logo-sub">EOD Report Portal</div>
       </div>
-      <label class="setup-label" for="tokenInput">GitHub Personal Access Token</label>
-      <div class="token-wrap">
-        <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
-        <button class="toggle-vis" id="toggleVis" type="button">👁</button>
+    </div>
+    <div class="setup-title">Connect to Repository</div>
+    <div class="setup-desc">Enter your GitHub Personal Access Token to sync EOD reports. Stored only in <strong>your browser</strong> — never shared with anyone.</div>
+    <label class="field-label" for="tokenInput">GitHub Personal Access Token</label>
+    <div class="token-wrap">
+      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+      <button class="toggle-vis" id="toggleVis" type="button">👁</button>
+    </div>
+    <div class="token-hint">Requires <strong>repo</strong> scope · Stored in localStorage only</div>
+    <div class="setup-error" id="setupError"></div>
+    <button class="btn-primary" id="saveTokenBtn">Verify &amp; Continue</button>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" />
       </div>
-      <div class="token-hint">Needs <strong>repo</strong> scope · Stored in localStorage only</div>
-      <div class="setup-error" id="setupError"></div>
-      <button class="btn-save" id="saveTokenBtn">Save &amp; Continue →</button>
+      <div>
+        <div class="brand-name">Digit Web Lanka</div>
+        <div class="brand-tag">Digital Marketing</div>
+      </div>
     </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-label">Reports</span>
+      <a href="index.html" class="nav-link active">
+        <span class="nav-icon">📝</span> EOD Report
+      </a>
+      <a href="summary.html" class="nav-link">
+        <span class="nav-icon">📊</span> Summary View
+      </a>
+      <span class="nav-label">Team</span>
+      <a href="#leaveSection" class="nav-link">
+        <span class="nav-icon">🏖</span> Mark Leave
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="date-widget">
+        <div class="date-widget-label">Today</div>
+        <div class="date-widget-val" id="sidebarDate">Loading…</div>
+      </div>
+      <button class="btn-ghost-sm" id="resetTokenBtn">🔑 Update GitHub Token</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">End of Day Report</div>
+        <div class="topbar-sub" id="topbarDate">Daily Status Update</div>
+      </div>
+      <div class="topbar-right">
+        <div class="live-badge"><span class="live-dot"></span> Live</div>
+        <a href="summary.html" class="btn-link">📊 Summary</a>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-header-title">Submit Your Report</h1>
+          <p class="page-header-sub">Digital Marketing Team — Daily Status Update</p>
+        </div>
+        <div class="page-chips">
+          <div class="chip">👥 14 members</div>
+          <div class="chip">📅 <span id="metaDate">Today</span></div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row">
+        <div class="stat-card s-blue">
+          <div class="stat-icon s-blue">👥</div>
+          <div><div class="stat-value">14</div><div class="stat-label">Team Members</div></div>
+        </div>
+        <div class="stat-card s-teal">
+          <div class="stat-icon s-teal">📋</div>
+          <div><div class="stat-value">EOD</div><div class="stat-label">Report Type</div></div>
+        </div>
+<div class="stat-card s-slate">
+  <div class="stat-icon s-slate">🕐</div>
+  <div>
+    <div class="stat-label" id="statLKDay">--</div>
+    <div class="stat-value" id="statLKTime" style="font-size:1.15rem; letter-spacing:0.04em;">--:--:--</div>
+    
   </div>
+</div>
+        <div class="stat-card s-indigo">
+          <div class="stat-icon s-indigo">🗓</div>
+          <div><div class="stat-value" id="statDate">—</div><div class="stat-label">Report Date</div></div>
+        </div>
+      </div>
 
-  <!-- ══ TOP BAR ══ -->
-  <div class="topbar">
-    <div class="topbar-left">
-      <img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" class="topbar-logo" style="object-fit:cover;" />
-      <span class="topbar-name">Digit Web Lanka</span>
-      <span class="topbar-badge">EOD Portal</span>
-    </div>
-    <div class="topbar-right">
-      <div class="topbar-date" id="topbarDate"></div>
-      <a href="summary.html" class="btn-nav">📊 Summary</a>
-      <button class="btn-token" id="resetTokenBtn">🔑 Token</button>
-    </div>
-  </div>
+      <!-- REPORT GRID -->
+      <div class="report-grid">
 
-  <!-- ══ PAGE ══ -->
-  <div class="page">
-
-    <div class="page-title">
-      <h2>End of Day Report</h2>
-      <p>Digital Marketing Team — Daily Status Update</p>
-    </div>
-
-    <div class="main-layout">
-
-    <div class="card">
-
-      <!-- FORM VIEW -->
-      <div id="formView">
-        <div class="section-label">Team Member Details</div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="memberSelect">Your Name <span class="req">*</span></label>
-            <select id="memberSelect">
-              <option value="" disabled selected>Select name…</option>
-              <option>Kuberan</option>
-              <option>Piranav</option>
-              <option>Mahima</option>
-              <option>Sonya</option>
-              <option>Kamshi</option>
-              <option>Hetheesa</option>
-              <option>Dilaksi</option>
-              <option>Sukirtha</option>
-              <option>Thishoban</option>
-              <option>Theekshy</option>
-              <option>Thivajini</option>
-              <option>Ripson</option>
-              <option>Jefry</option>
-              <option>Sajeepan</option>
-            </select>
+        <!-- FORM CARD -->
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <div class="card-head-title">Daily Activity Report</div>
+              <div class="card-head-sub">Fill in your work summary for today</div>
+            </div>
+            <span class="card-badge cb-blue">EOD</span>
           </div>
-          <div class="form-group">
-            <label>Today's Date</label>
-            <div class="date-display" id="formDateDisplay"></div>
+          <div class="card-body">
+
+            <div id="formView">
+              <div class="sep"><span class="sep-text">Member Details</span><span class="sep-line"></span></div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="memberSelect">Your Name <span class="req">*</span></label>
+                  <select id="memberSelect">
+                    <option value="" disabled selected>Select your name…</option>
+                    <option>Kuberan</option><option>Piranav</option><option>Mahima</option>
+                    <option>Sonya</option><option>Kamshi</option><option>Hetheesa</option>
+                    <option>Dilaksi</option><option>Sukirtha</option><option>Thishoban</option>
+                    <option>Theekshy</option><option>Thivajini</option><option>Ripson</option>
+                    <option>Jefry</option><option>Sajeepan</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Today's Date</label>
+                  <div class="date-display" id="formDateDisplay"><span>📅</span><span>—</span></div>
+                </div>
+              </div>
+
+              <div class="sep"><span class="sep-text">Report Content</span><span class="sep-line"></span></div>
+
+              <div class="form-group" style="margin-bottom:.5rem">
+                <label class="form-label" for="eodText">Today's Report <span class="req">*</span></label>
+                <textarea id="eodText" placeholder="Summarise your day…&#10;&#10;• Campaigns managed or updated&#10;• Content created or published&#10;• Ads reviewed or optimised&#10;• Meetings attended&#10;• Blockers or issues&#10;• Plan for tomorrow"></textarea>
+                <div class="char-hint" id="charHint">0 characters · Ctrl+Enter to submit</div>
+              </div>
+
+              <hr class="form-divider" />
+
+              <button class="btn-submit" id="submitBtn" type="button">
+                <span id="btnIcon">✦</span><span id="btnLabel">Submit EOD Report</span>
+              </button>
+              <div id="alertBox"></div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="success-screen" id="successView">
+              <div class="success-icon">✓</div>
+              <div class="success-title">Report Submitted!</div>
+              <div class="success-sub">Your EOD report has been saved to the repository successfully.</div>
+              <div class="success-grid">
+                <div class="success-item"><div class="si-label">Member</div><div class="si-value" id="sName">—</div></div>
+                <div class="success-item"><div class="si-label">Date</div><div class="si-value" id="sDate">—</div></div>
+                <div class="success-item"><div class="si-label">Status</div><div class="si-value" id="sAction">—</div></div>
+              </div>
+              <div class="file-tag">📁 <span id="sPath">—</span></div>
+              <button class="btn-reset" id="submitAnotherBtn">Submit Another Report</button>
+            </div>
+
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:1.25rem">
-          <label for="eodText">Today's Report <span class="req">*</span></label>
-          <textarea id="eodText" placeholder="Summarise your day…&#10;&#10;• Campaigns managed / updated&#10;• Content created or published&#10;• Ads reviewed or optimised&#10;• Meetings attended&#10;• Blockers or issues&#10;• Plan for tomorrow"></textarea>
-          <div class="char-hint" id="charHint">0 characters</div>
-        </div>
-
-        <hr class="divider" />
-
-        <button class="btn-submit" id="submitBtn" type="button">
-          <span id="btnIcon">✦</span>
-          <span id="btnLabel">Submit EOD Report</span>
-        </button>
-
-        <div id="alertBox"></div>
-      </div>
-
-      <!-- SUCCESS VIEW -->
-      <div class="success-screen" id="successView">
-        <div class="success-icon-wrap">✓</div>
-        <div class="success-title">Report Submitted!</div>
-        <div class="success-sub">Your EOD report has been saved to the repository.</div>
-        <div class="success-meta">
-          <div class="meta-item">
-            <span class="meta-label">Member</span>
-            <span class="meta-value" id="sName">—</span>
+        <!-- LEAVE CARD -->
+        <div class="card" id="leaveSection">
+          <div class="card-head">
+            <div>
+              <div class="card-head-title">Mark Leave</div>
+              <div class="card-head-sub">Log an absence for the team</div>
+            </div>
+            <span class="card-badge cb-teal">Leave</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Date</span>
-            <span class="meta-value" id="sDate">—</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Action</span>
-            <span class="meta-value" id="sAction">—</span>
+          <div class="card-body">
+            <div class="leave-info">
+              <span>ℹ️</span>
+              <span>Select your name and the date you were on leave to record it in the system.</span>
+            </div>
+            <div class="form-group" style="margin-bottom:1.125rem">
+              <label class="form-label" for="leaveMember">Your Name <span class="req">*</span></label>
+              <select id="leaveMember">
+                <option value="" disabled selected>Select your name…</option>
+                <option>Kuberan</option><option>Piranav</option><option>Mahima</option>
+                <option>Sonya</option><option>Kamshi</option><option>Hetheesa</option>
+                <option>Dilaksi</option><option>Sukirtha</option><option>Thishoban</option>
+                <option>Theekshy</option><option>Thivajini</option><option>Ripson</option>
+                <option>Jefry</option><option>Sajeepan</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:1.375rem">
+              <label class="form-label" for="leaveDate">Leave Date <span class="req">*</span></label>
+              <input type="date" id="leaveDate" />
+            </div>
+            <button class="btn-leave" id="leaveBtn" type="button">🏖 Mark as Leave</button>
+            <div id="leaveAlert"></div>
           </div>
         </div>
-        <div class="file-path" id="sPath">—</div>
-        <button class="btn-again" id="submitAnotherBtn">Submit Another Report</button>
-      </div>
 
-    </div>
-
-    <!-- LEAVE CARD — right column -->
-    <div class="card leave-card">
-      <div class="section-label">Mark as Leave</div>
-      <p class="leave-hint">Select your name and the date you were on leave.</p>
-      <div class="form-group" style="margin-bottom:1rem">
-        <label for="leaveMember">Your Name <span class="req">*</span></label>
-        <select id="leaveMember">
-          <option value="" disabled selected>Select name…</option>
-          <option>Kuberan</option>
-          <option>Piranav</option>
-          <option>Mahima</option>
-          <option>Sonya</option>
-          <option>Kamshi</option>
-          <option>Hetheesa</option>
-          <option>Dilaksi</option>
-          <option>Sukirtha</option>
-          <option>Thishoban</option>
-          <option>Theekshy</option>
-          <option>Thivajini</option>
-          <option>Ripson</option>
-          <option>Jefry</option>
-          <option>Sajeepan</option>
-        </select>
-      </div>
-      <div class="form-group" style="margin-bottom:1rem">
-        <label for="leaveDate">Leave Date <span class="req">*</span></label>
-        <input type="date" id="leaveDate" class="leave-date-input" />
-      </div>
-      <button class="btn-leave" id="leaveBtn" type="button">🏖 Mark Leave</button>
-      <div id="leaveAlert"></div>
-    </div>
-
-    </div><!-- end main-layout -->
-
-    <div class="footer">
-      <span>Saved to GitHub via Contents API</span>
-      <span class="footer-dot"></span>
-      <span>Digit Web Lanka — Digital Marketing Team</span>
-    </div>
-
-  </div>
+      </div><!-- end report-grid -->
+    </div><!-- end content -->
+  </main>
+</div><!-- end shell -->
 
 <script>
-  const CONFIG = {
-    REPO_OWNER: "digitalmarketing69140951-sys",
-    REPO_NAME:  "eod-reports",
-    BRANCH:     "main"
-  };
-
-  const TOKEN_KEY  = "eod_gh_token";
-  const getToken   = () => localStorage.getItem(TOKEN_KEY) || "";
-  const saveToken  = (t) => localStorage.setItem(TOKEN_KEY, t.trim());
+  const CONFIG = { REPO_OWNER:"digitalmarketing69140951-sys", REPO_NAME:"eod-reports", BRANCH:"main" };
+  const TOKEN_KEY = "eod_gh_token";
+  const getToken  = () => localStorage.getItem(TOKEN_KEY) || "";
+  const saveToken = t  => localStorage.setItem(TOKEN_KEY, t.trim());
   const clearToken = () => localStorage.removeItem(TOKEN_KEY);
+  const $ = id => document.getElementById(id);
 
-  // ── Date ─────────────────────────────
   function todayISO() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
   }
 
   function updateDate() {
+
+    function updateLiveClock() {
+  const now = new Date();
+  const lkTime = now.toLocaleTimeString("en-GB", {
+    timeZone: "Asia/Colombo",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
+  const lkDay = now.toLocaleDateString("en-GB", {
+    timeZone: "Asia/Colombo",
+    weekday: "long"
+  });
+  const t = $("statLKTime"); if (t) t.textContent = lkTime;
+  const d = $("statLKDay");  if (d) d.textContent = lkDay;
+}
+
+updateLiveClock();
+setInterval(updateLiveClock, 1000);
+
     const now = new Date();
-    topbarDate.textContent = now.toLocaleDateString("en-GB", {
-      weekday: "long", day: "numeric", month: "long", year: "numeric"
-    });
-    const formDate = $("formDateDisplay");
-    if (formDate) formDate.textContent = now.toLocaleDateString("en-GB", {
-      weekday: "short", day: "numeric", month: "short", year: "numeric"
-    });
+    const full  = now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+    const short = now.toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+    const tiny  = now.toLocaleDateString("en-GB",{day:"numeric",month:"short"});
+    const set = (id,v) => { const e=$(id); if(e) e.textContent=v; };
+    set("topbarDate", full); set("sidebarDate", full);
+    set("metaDate", tiny);   set("statDate", tiny);
+    const fd = $("formDateDisplay");
+    if(fd) fd.innerHTML = `<span>📅</span><span>${short}</span>`;
   }
 
   function scheduleMidnight() {
     const now = new Date();
-    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 5);
-    setTimeout(() => { updateDate(); scheduleMidnight(); }, next - now);
+    const next = new Date(now.getFullYear(),now.getMonth(),now.getDate()+1,0,0,5);
+    setTimeout(()=>{ updateDate(); scheduleMidnight(); }, next-now);
   }
 
-  // ── GitHub API ────────────────────────
-  const toBase64 = (str) => btoa(unescape(encodeURIComponent(str)));
+  updateDate(); scheduleMidnight();
 
-  const apiURL = (member, date) =>
-    `https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/contents/eods/${encodeURIComponent(member)}/${date}.md`;
-
+  const toBase64 = s => btoa(unescape(encodeURIComponent(s)));
+  const apiURL   = (m,d) => `https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}/contents/eods/${encodeURIComponent(m)}/${d}.md`;
   const ghHeaders = () => ({
-    "Authorization": `Bearer ${getToken()}`,
-    "Accept": "application/vnd.github+json",
-    "Content-Type": "application/json",
-    "X-GitHub-Api-Version": "2022-11-28"
+    "Authorization":`Bearer ${getToken()}`,
+    "Accept":"application/vnd.github+json",
+    "Content-Type":"application/json",
+    "X-GitHub-Api-Version":"2022-11-28"
   });
 
   async function getFile(url) {
-    const r = await fetch(url, { headers: ghHeaders() });
-    if (r.status === 404) return null;
-    if (!r.ok) { const b = await r.json().catch(()=>{}); throw new Error(`GET ${r.status}: ${b?.message||r.statusText}`); }
+    const r = await fetch(url,{headers:ghHeaders()});
+    if(r.status===404) return null;
+    if(!r.ok){const b=await r.json().catch(()=>{});throw new Error(`GET ${r.status}: ${b?.message||r.statusText}`);}
     return r.json();
   }
 
-  async function putFile(url, payload) {
-    const r = await fetch(url, { method:"PUT", headers: ghHeaders(), body: JSON.stringify(payload) });
+  async function putFile(url,payload) {
+    const r = await fetch(url,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(payload)});
     const b = await r.json().catch(()=>{});
-    if (!r.ok) throw new Error(`PUT ${r.status}: ${b?.message||r.statusText}`);
+    if(!r.ok) throw new Error(`PUT ${r.status}: ${b?.message||r.statusText}`);
     return b;
   }
 
-  // ── DOM ───────────────────────────────
-  const $ = (id) => document.getElementById(id);
-  const setupOverlay  = $("setupOverlay");
-  const tokenInput    = $("tokenInput");
-  const toggleVis     = $("toggleVis");
-  const saveTokenBtn  = $("saveTokenBtn");
-  const setupError    = $("setupError");
-  const resetTokenBtn = $("resetTokenBtn");
-  const memberSelect  = $("memberSelect");
-  const eodText       = $("eodText");
-  const charHint      = $("charHint");
-  const submitBtn     = $("submitBtn");
-  const btnLabel      = $("btnLabel");
-  const alertBox      = $("alertBox");
-  const formView      = $("formView");
-  const successView   = $("successView");
-  const submitAnotherBtn = $("submitAnotherBtn");
-  const topbarDate    = $("topbarDate");
+  if(!getToken()) showSetup();
 
-  // ── Init ─────────────────────────────
-  updateDate();
-  scheduleMidnight();
-  if (!getToken()) showSetup();
-
-  eodText.addEventListener("input", () => {
-    const n = eodText.value.length;
-    charHint.textContent = n === 0 ? "0 characters" : `${n.toLocaleString()} character${n!==1?"s":""}`;
-  });
-
-  // ── Setup ─────────────────────────────
   function showSetup() {
-    tokenInput.value = "";
-    setupError.style.display = "none";
-    setupOverlay.classList.add("visible");
-    setTimeout(() => tokenInput.focus(), 200);
+    $("tokenInput").value=""; $("setupError").style.display="none";
+    $("setupOverlay").classList.add("visible");
+    setTimeout(()=>$("tokenInput").focus(), 200);
   }
+  function hideSetup() { $("setupOverlay").classList.remove("visible"); }
 
-  function hideSetup() { setupOverlay.classList.remove("visible"); }
-
-  toggleVis.addEventListener("click", () => {
-    const show = tokenInput.type === "password";
-    tokenInput.type  = show ? "text" : "password";
-    toggleVis.textContent = show ? "🙈" : "👁";
+  $("toggleVis").addEventListener("click",()=>{
+    const inp=$("tokenInput"), show=inp.type==="password";
+    inp.type = show?"text":"password";
+    $("toggleVis").textContent = show?"🙈":"👁";
   });
 
-  saveTokenBtn.addEventListener("click", async () => {
-    const token = tokenInput.value.trim();
-    setupError.style.display = "none";
-    if (!token.startsWith("ghp_") && !token.startsWith("github_pat_")) {
-      setupError.textContent = "⚠ Enter a valid GitHub token (starts with ghp_)";
-      setupError.style.display = "block"; return;
+  $("saveTokenBtn").addEventListener("click", async()=>{
+    const token=$("tokenInput").value.trim(), errEl=$("setupError");
+    errEl.style.display="none";
+    if(!token.startsWith("ghp_")&&!token.startsWith("github_pat_")){
+      errEl.textContent="⚠ Enter a valid GitHub token (starts with ghp_)";
+      errEl.style.display="block"; return;
     }
-    saveTokenBtn.disabled = true;
-    saveTokenBtn.textContent = "Verifying…";
+    const btn=$("saveTokenBtn");
+    btn.disabled=true; btn.textContent="Verifying…";
     try {
-      const r = await fetch(`https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}`, {
-        headers: { "Authorization": `Bearer ${token}`, "Accept": "application/vnd.github+json" }
+      const r = await fetch(`https://api.github.com/repos/${CONFIG.REPO_OWNER}/${CONFIG.REPO_NAME}`,{
+        headers:{"Authorization":`Bearer ${token}`,"Accept":"application/vnd.github+json"}
       });
-      if (r.status === 401) throw new Error("Invalid token — copy it again in full.");
-      if (r.status === 404) throw new Error("Repo not found. Check CONFIG values.");
-      if (!r.ok) throw new Error(`GitHub error ${r.status}`);
-      saveToken(token);
-      hideSetup();
-    } catch (err) {
-      setupError.textContent = `⚠ ${err.message}`;
-      setupError.style.display = "block";
-    } finally {
-      saveTokenBtn.disabled = false;
-      saveTokenBtn.textContent = "Save & Continue →";
-    }
+      if(r.status===401) throw new Error("Invalid token — copy it again in full.");
+      if(r.status===404) throw new Error("Repository not found. Check CONFIG values.");
+      if(!r.ok) throw new Error(`GitHub error ${r.status}`);
+      saveToken(token); hideSetup();
+    } catch(err) {
+      errEl.textContent=`⚠ ${err.message}`; errEl.style.display="block";
+    } finally { btn.disabled=false; btn.textContent="Verify & Continue"; }
   });
 
-  tokenInput.addEventListener("keydown", (e) => { if (e.key==="Enter") saveTokenBtn.click(); });
-  resetTokenBtn.addEventListener("click", () => { clearToken(); showSetup(); });
+  $("tokenInput").addEventListener("keydown",e=>{ if(e.key==="Enter") $("saveTokenBtn").click(); });
+  $("resetTokenBtn").addEventListener("click",()=>{ clearToken(); showSetup(); });
 
-  // ── Alert ─────────────────────────────
-  function showAlert(type, msg) {
-    alertBox.innerHTML = `<div class="alert alert-${type}"><span class="alert-icon">${type==="error"?"✕":"!"}</span><span>${msg}</span></div>`;
+  function showAlert(type,msg) {
+    $("alertBox").innerHTML=`<div class="alert alert-${type}"><span class="alert-icon">${type==="error"?"✕":"⚠"}</span><span>${msg}</span></div>`;
   }
-  function clearAlert() { alertBox.innerHTML = ""; }
+  function clearAlert() { $("alertBox").innerHTML=""; }
 
-  // ── Loading ───────────────────────────
   function setLoading(on) {
-    submitBtn.disabled = on;
-    if (on) {
-      const ic = submitBtn.querySelector("#btnIcon");
-      if (ic) ic.outerHTML = `<span class="spinner" id="btnIcon"></span>`;
-      btnLabel.textContent = "Submitting…";
+    const btn=$("submitBtn"); btn.disabled=on;
+    if(on) {
+      const ic=btn.querySelector("#btnIcon"); if(ic) ic.outerHTML=`<span class="spinner" id="btnIcon"></span>`;
+      $("btnLabel").textContent="Submitting…";
     } else {
-      const sp = submitBtn.querySelector(".spinner");
-      if (sp) sp.outerHTML = `<span id="btnIcon">✦</span>`;
-      btnLabel.textContent = "Submit EOD Report";
+      const sp=btn.querySelector(".spinner"); if(sp) sp.outerHTML=`<span id="btnIcon">✦</span>`;
+      $("btnLabel").textContent="Submit EOD Report";
     }
   }
 
-  // ── Submit ────────────────────────────
   async function handleSubmit() {
     clearAlert();
-    const member = memberSelect.value.trim();
-    const report = eodText.value.trim();
-    const date   = todayISO();
-
-    if (!member) { showAlert("error","Please select your name."); memberSelect.focus(); return; }
-    if (!report) { showAlert("error","Report cannot be empty."); eodText.focus(); return; }
-    if (!getToken()) { showSetup(); return; }
-
+    const member=$("memberSelect").value.trim(), report=$("eodText").value.trim(), date=todayISO();
+    if(!member){showAlert("error","Please select your name."); $("memberSelect").focus(); return;}
+    if(!report){showAlert("error","Report cannot be empty."); $("eodText").focus(); return;}
+    if(!getToken()){showSetup(); return;}
     setLoading(true);
     try {
-      const url      = apiURL(member, date);
-      const existing = await getFile(url);
-      const isUpdate = existing !== null;
-      await putFile(url, {
-        message: `EOD: ${member} - ${date}`,
-        content: toBase64(report),
-        branch:  CONFIG.BRANCH,
-        ...(isUpdate && existing.sha ? { sha: existing.sha } : {})
-      });
-      $("sName").textContent   = member;
-      $("sDate").textContent   = date;
-      $("sAction").textContent = isUpdate ? "Updated" : "Created";
-      $("sPath").textContent   = `📁 eods/${member}/${date}.md`;
-      formView.style.display   = "none";
-      successView.classList.add("visible");
-      setLoading(false);
+      const url=apiURL(member,date), existing=await getFile(url), isUpdate=existing!==null;
+      await putFile(url,{message:`EOD: ${member} - ${date}`,content:toBase64(report),branch:CONFIG.BRANCH,...(isUpdate&&existing.sha?{sha:existing.sha}:{})});
+      $("sName").textContent=member; $("sDate").textContent=date;
+      $("sAction").textContent=isUpdate?"Updated":"Created";
+      $("sPath").textContent=`eods/${member}/${date}.md`;
+      $("formView").style.display="none"; $("successView").classList.add("visible");
     } catch(err) {
-      console.error("[EOD]", err);
-      const msg = err.message.includes("401")
-        ? `Token expired. Click <strong>🔑 Token</strong> in the top bar to update.`
-        : `Submission failed: ${err.message}`;
-      showAlert("error", msg);
-      setLoading(false);
-    }
+      const msg=err.message.includes("401")?`Token expired. Click <strong>Update GitHub Token</strong> in the sidebar.`:`Submission failed: ${err.message}`;
+      showAlert("error",msg);
+    } finally { setLoading(false); }
   }
 
-  // ── Reset ─────────────────────────────
   function resetForm() {
-    memberSelect.value   = "";
-    eodText.value        = "";
-    charHint.textContent = "0 characters";
-    clearAlert();
-    successView.classList.remove("visible");
-    formView.style.display = "";
+    $("memberSelect").value=""; $("eodText").value="";
+    $("charHint").textContent="0 characters · Ctrl+Enter to submit";
+    clearAlert(); $("successView").classList.remove("visible"); $("formView").style.display="";
   }
 
-  submitBtn.addEventListener("click", handleSubmit);
-  submitAnotherBtn.addEventListener("click", resetForm);
-  eodText.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") handleSubmit();
+  $("submitBtn").addEventListener("click",handleSubmit);
+  $("submitAnotherBtn").addEventListener("click",resetForm);
+  $("eodText").addEventListener("input",()=>{
+    const n=$("eodText").value.length;
+    $("charHint").textContent=n===0?"0 characters · Ctrl+Enter to submit":`${n.toLocaleString()} character${n!==1?"s":""} · Ctrl+Enter to submit`;
   });
+  $("eodText").addEventListener("keydown",e=>{ if((e.ctrlKey||e.metaKey)&&e.key==="Enter") handleSubmit(); });
 
-  // ── Leave ─────────────────────────────
-  function showLeaveAlert(type, msg) {
-    $("leaveAlert").innerHTML = `<div class="alert alert-${type}" style="margin-top:0.75rem">${msg}</div>`;
-    setTimeout(() => { $("leaveAlert").innerHTML = ""; }, 4000);
+  function showLeaveAlert(type,msg) {
+    const el=$("leaveAlert");
+    el.innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
+    setTimeout(()=>{ el.innerHTML=""; },5000);
   }
 
-  $("leaveBtn").addEventListener("click", async () => {
-    const member = $("leaveMember").value.trim();
-    const date   = $("leaveDate").value;
-    if (!member) { showLeaveAlert("error","Please select your name."); $("leaveMember").focus(); return; }
-    if (!date)   { showLeaveAlert("error","Please select a leave date."); return; }
-    if (!getToken()) { showSetup(); return; }
-
-    $("leaveBtn").disabled = true;
-    $("leaveBtn").textContent = "Saving…";
+  $("leaveBtn").addEventListener("click", async()=>{
+    const member=$("leaveMember").value.trim(), date=$("leaveDate").value;
+    if(!member){showLeaveAlert("error","Please select your name."); $("leaveMember").focus(); return;}
+    if(!date){showLeaveAlert("error","Please select a leave date."); return;}
+    if(!getToken()){showSetup(); return;}
+    const btn=$("leaveBtn");
+    btn.disabled=true; btn.innerHTML=`<span class="spinner" style="border-top-color:#1d4ed8;border-color:#bfdbfe"></span> Saving…`;
     try {
-      const url      = apiURL(member, date);
-      const existing = await getFile(url);
-      const content  = `# Leave\n\nMember: ${member}\nDate: ${date}\nStatus: On Leave`;
-      await putFile(url, {
-        message: `Leave: ${member} - ${date}`,
-        content: toBase64(content),
-        branch:  CONFIG.BRANCH,
-        ...(existing?.sha ? { sha: existing.sha } : {})
-      });
-      $("leaveDate").value = "";
-      $("leaveMember").value = "";
-      showLeaveAlert("success", `✓ Leave marked for <strong>${member}</strong> on <strong>${date}</strong>`);
+      const url=apiURL(member,date), existing=await getFile(url);
+      const content=`# Leave\n\nMember: ${member}\nDate: ${date}\nStatus: On Leave`;
+      await putFile(url,{message:`Leave: ${member} - ${date}`,content:toBase64(content),branch:CONFIG.BRANCH,...(existing?.sha?{sha:existing.sha}:{})});
+      $("leaveDate").value=""; $("leaveMember").value="";
+      showLeaveAlert("success",`✓ Leave marked for <strong>${member}</strong> on <strong>${date}</strong>`);
     } catch(err) {
-      const msg = err.message.includes("401")
-        ? `Token expired. Click <strong>🔑 Token</strong> to update.`
-        : `Failed: ${err.message}`;
-      showLeaveAlert("error", msg);
-    } finally {
-      $("leaveBtn").disabled = false;
-      $("leaveBtn").textContent = "🏖 Mark Leave";
-    }
+      const msg=err.message.includes("401")?`Token expired. Click <strong>Update GitHub Token</strong>.`:`Failed: ${err.message}`;
+      showLeaveAlert("error",msg);
+    } finally { btn.disabled=false; btn.innerHTML=`🏖 Mark as Leave`; }
   });
 </script>
 </body>
