@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Daily Attendance · Digit Web Lanka</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ══════════════════════ LIGHT THEME ══════════════════════ */
+    :root,
+    [data-theme="light"] {
+      --bg:          #eef2f7;
+      --white:       #ffffff;
+      --surface2:    #f8fafc;
+      --surface3:    #f1f5f9;
+      --border:      #e2e8f0;
+      --border2:     #cbd5e1;
+
+      --blue:        #2563eb;
+      --blue-hover:  #1d4ed8;
+      --blue-dim:    rgba(37,99,235,0.07);
+      --blue-dim2:   rgba(37,99,235,0.14);
+      --blue-glow:   rgba(37,99,235,0.22);
+
+      --teal:        #0d9488;
+      --teal-dim:    rgba(13,148,136,0.08);
+
+      --success:     #059669;
+      --success-dim: rgba(5,150,105,0.08);
+      --error:       #dc2626;
+      --error-dim:   rgba(220,38,38,0.07);
+      --warn:        #d97706;
+      --warn-dim:    rgba(217,119,6,0.08);
+      --indigo:      #6366f1;
+      --indigo-dim:  rgba(99,102,241,0.07);
+
+      --text:        #0f172a;
+      --text-2:      #475569;
+      --text-3:      #94a3b8;
+      --text-4:      #cbd5e1;
+
+      --shadow-xs:   0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+      --shadow-sm:   0 2px 8px rgba(15,23,42,0.07), 0 1px 3px rgba(15,23,42,0.04);
+      --shadow:      0 4px 16px rgba(15,23,42,0.08), 0 1px 4px rgba(15,23,42,0.04);
+      --shadow-blue: 0 4px 18px rgba(37,99,235,0.28);
+
+      --topbar-bg:   rgba(255,255,255,0.9);
+      --overlay-bg:  rgba(15,23,42,0.45);
+
+      --toggle-bg:     #f1f5f9;
+      --toggle-border: #e2e8f0;
+      --toggle-thumb:  #ffffff;
+      --toggle-thumb-shadow: 0 1px 4px rgba(15,23,42,0.15);
+    }
+
+    /* ══════════════════════ DARK THEME ══════════════════════ */
+    [data-theme="dark"] {
+      --bg:          #0b0f1a;
+      --white:       #131929;
+      --surface2:    #1a2236;
+      --surface3:    #1f2b3e;
+      --border:      #2a3650;
+      --border2:     #3a4d6a;
+
+      --blue:        #3b82f6;
+      --blue-hover:  #60a5fa;
+      --blue-dim:    rgba(59,130,246,0.10);
+      --blue-dim2:   rgba(59,130,246,0.18);
+      --blue-glow:   rgba(59,130,246,0.30);
+
+      --teal:        #2dd4bf;
+      --teal-dim:    rgba(45,212,191,0.10);
+
+      --success:     #34d399;
+      --success-dim: rgba(52,211,153,0.10);
+      --error:       #f87171;
+      --error-dim:   rgba(248,113,113,0.10);
+      --warn:        #fbbf24;
+      --warn-dim:    rgba(251,191,36,0.10);
+      --indigo:      #818cf8;
+      --indigo-dim:  rgba(129,140,248,0.10);
+
+      --text:        #e2e8f0;
+      --text-2:      #94a3b8;
+      --text-3:      #4a5f7e;
+      --text-4:      #2a3a52;
+
+      --shadow-xs:   0 1px 3px rgba(0,0,0,0.30), 0 1px 2px rgba(0,0,0,0.20);
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.20);
+      --shadow:      0 4px 16px rgba(0,0,0,0.40), 0 1px 4px rgba(0,0,0,0.20);
+      --shadow-blue: 0 4px 18px rgba(59,130,246,0.35);
+
+      --topbar-bg:   rgba(19,25,41,0.92);
+      --overlay-bg:  rgba(0,0,0,0.65);
+
+      --toggle-bg:     #1f2b3e;
+      --toggle-border: #2a3650;
+      --toggle-thumb:  #3b82f6;
+      --toggle-thumb-shadow: 0 1px 6px rgba(59,130,246,0.50);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* ═══════════════════ THEME TOGGLE ═══════════════════ */
+    .theme-toggle {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--toggle-bg); border: 1px solid var(--toggle-border);
+      border-radius: 100px; padding: 0.28rem 0.6rem 0.28rem 0.5rem;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      user-select: none; flex-shrink: 0;
+    }
+    .theme-toggle:hover { border-color: var(--blue); background: var(--blue-dim); }
+    .toggle-track {
+      width: 34px; height: 18px; background: var(--border2);
+      border-radius: 100px; position: relative; transition: background 0.25s; flex-shrink: 0;
+    }
+    [data-theme="dark"] .toggle-track { background: var(--blue); }
+    .toggle-thumb {
+      position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+      border-radius: 50%; background: var(--toggle-thumb);
+      box-shadow: var(--toggle-thumb-shadow);
+      transition: transform 0.25s cubic-bezier(.34,1.4,.64,1), background 0.25s;
+    }
+    [data-theme="dark"] .toggle-thumb { transform: translateX(16px); }
+    .toggle-icon { font-size: 0.875rem; line-height: 1; }
+    .toggle-label { font-size: 0.72rem; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+
+    /* ═══════════════════ LAYOUT VARS ═══════════════════ */
+    :root {
+      --sidebar-w: 256px;
+      --field-h:   46px;
+      --radius-sm: 10px;
+      --radius:    14px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+    }
+
+    /* ═══════════════════ SHELL ═══════════════════ */
+    .shell { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-w); background: var(--white); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1.5rem 1.25rem 1.25rem; border-bottom: 1px solid var(--border);
+    }
+    .brand-logo { width: 38px; height: 38px; border-radius: 9px; overflow: hidden; border: 1.5px solid var(--border2); flex-shrink: 0; }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .brand-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.9rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25; }
+    .brand-tag  { font-size: 0.6875rem; color: var(--text-3); letter-spacing: 0.03em; }
+
+    .sidebar-nav { flex: 1; padding: 1.125rem 0.875rem; display: flex; flex-direction: column; gap: 2px; overflow-y: auto; }
+    .nav-label {
+      font-size: 0.6375rem; font-weight: 700; color: var(--text-3);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0 0.5rem; margin: 1rem 0 0.3rem;
+    }
+    .nav-link {
+      display: flex; align-items: center; gap: 0.6875rem;
+      padding: 0.6rem 0.75rem; border-radius: var(--radius-sm);
+      font-size: 0.875rem; font-weight: 500; color: var(--text-2);
+      cursor: pointer; text-decoration: none;
+      transition: background .14s, color .14s;
+      border: 1px solid transparent; position: relative;
+    }
+    .nav-link:hover { background: var(--surface3); color: var(--text); }
+    .nav-link.active {
+      background: var(--blue-dim); color: var(--blue);
+      border-color: var(--blue-dim2); font-weight: 600;
+    }
+    .nav-link.active::before {
+      content: ''; position: absolute; left: -0.875rem; top: 22%; bottom: 22%;
+      width: 3px; border-radius: 0 3px 3px 0; background: var(--blue);
+    }
+    .nav-icon {
+      width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
+      background: var(--surface3);
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+      transition: background .14s;
+    }
+    .nav-link.active .nav-icon { background: var(--blue-dim2); }
+
+    .sidebar-bottom { padding: 1.125rem; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 0.5rem; }
+    .date-widget {
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.875rem 1rem;
+    }
+    .date-widget-label { font-size: 0.6375rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.3rem; }
+    .date-widget-val   { font-size: 0.84rem; font-weight: 600; color: var(--text); line-height: 1.45; }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
+
+    .topbar {
+      background: var(--topbar-bg); border-bottom: 1px solid var(--border);
+      padding: 0 2.25rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 30;
+      backdrop-filter: blur(16px); box-shadow: var(--shadow-xs);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .topbar-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.0625rem; font-weight: 800; letter-spacing: -0.015em; }
+    .topbar-sub   { font-size: 0.73rem; color: var(--text-3); }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    .admin-badge {
+      display: flex; align-items: center; gap: 0.45rem;
+      background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.2);
+      border-radius: 100px; padding: 0.3rem 0.8rem;
+      font-size: 0.73rem; font-weight: 700; color: var(--error);
+      letter-spacing: 0.05em;
+    }
+
+    .btn-link {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      background: var(--blue-dim); border: 1.5px solid var(--blue-dim2);
+      border-radius: var(--radius-sm); color: var(--blue);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; text-decoration: none;
+      transition: background .15s, border-color .15s;
+    }
+    .btn-link:hover { background: var(--blue-dim2); border-color: rgba(37,99,235,.32); }
+
+    /* ═══════════════════ CONTENT ═══════════════════ */
+    .content { padding: 2rem 2.25rem 4rem; display: flex; flex-direction: column; gap: 1.75rem; }
+
+    .page-header { display: flex; align-items: center; justify-content: space-between; animation: slideup .38s ease both; flex-wrap: wrap; gap: 1rem; }
+    .page-header-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.025em; }
+    .page-header-sub   { font-size: 0.84rem; color: var(--text-3); margin-top: 0.15rem; }
+
+    /* DATE PICKER ROW */
+    .date-row {
+      display: flex; align-items: center; gap: 0.875rem; flex-wrap: wrap;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-xs); animation: slideup .38s ease both; animation-delay:.04s;
+    }
+    .date-row-label { font-size: 0.8rem; font-weight: 600; color: var(--text-2); white-space: nowrap; }
+    input[type="date"] {
+      height: var(--field-h); padding: 0 0.875rem;
+      background: var(--surface2); color: var(--text);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      outline: none; -webkit-appearance: none; appearance: none;
+      color-scheme: light; cursor: pointer;
+      transition: border-color .18s, box-shadow .18s, background .18s;
+    }
+    [data-theme="dark"] input[type="date"] { color-scheme: dark; }
+    input[type="date"]:focus { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim2); background: var(--white); }
+
+    .btn-check {
+      height: var(--field-h); padding: 0 1.5rem;
+      background: var(--blue); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; font-weight: 700;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; gap: 0.45rem;
+      box-shadow: var(--shadow-blue);
+      transition: background .15s, transform .1s, box-shadow .15s;
+    }
+    .btn-check:hover:not(:disabled) { background: var(--blue-hover); transform: translateY(-1px); box-shadow: 0 6px 24px var(--blue-glow); }
+    .btn-check:disabled { opacity: .5; cursor: not-allowed; }
+
+    .date-row-divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
+
+    .quick-btns { display: flex; align-items: center; gap: 0.45rem; }
+    .quick-btn {
+      height: 32px; padding: 0 0.875rem;
+      background: var(--surface3); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: var(--text-2);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; transition: background .14s, color .14s, border-color .14s;
+    }
+    .quick-btn:hover { background: var(--blue-dim); border-color: var(--blue-dim2); color: var(--blue); }
+
+    /* STATS */
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; animation: slideup .38s ease both; animation-delay:.08s; }
+    .stat-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.25rem 1.375rem;
+      display: flex; align-items: flex-start; gap: 0.875rem;
+      box-shadow: var(--shadow-xs);
+      transition: box-shadow .2s, transform .2s, background 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .stat-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+    .stat-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .stat-card.s-blue::after    { background: var(--blue); }
+    .stat-card.s-green::after   { background: var(--success); }
+    .stat-card.s-amber::after   { background: var(--warn); }
+    .stat-card.s-red::after     { background: var(--error); }
+
+    .stat-icon { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; }
+    .stat-icon.s-blue   { background: var(--blue-dim);          border: 1px solid var(--blue-dim2); }
+    .stat-icon.s-green  { background: var(--success-dim);       border: 1px solid rgba(5,150,105,.15); }
+    .stat-icon.s-amber  { background: var(--warn-dim);          border: 1px solid rgba(217,119,6,.15); }
+    .stat-icon.s-red    { background: var(--error-dim);         border: 1px solid rgba(220,38,38,.15); }
+
+    .stat-value { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1; margin-bottom: 0.2rem; }
+    .stat-label { font-size: 0.73rem; color: var(--text-3); font-weight: 500; }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;
+      animation: slideup .38s ease both; animation-delay:.12s;
+    }
+    .filter-bar-left { font-size: 0.84rem; color: var(--text-3); }
+    .filter-bar-left strong { color: var(--text); }
+    .filter-btns { display: flex; align-items: center; gap: 0.45rem; }
+    .filter-btn {
+      height: 34px; padding: 0 1rem;
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 100px; color: var(--text-2);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.775rem; font-weight: 600;
+      cursor: pointer; display: flex; align-items: center; gap: 0.35rem;
+      transition: background .14s, color .14s, border-color .14s;
+    }
+    .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+    .filter-btn.active { background: var(--blue-dim); border-color: var(--blue-dim2); color: var(--blue); }
+    .filter-btn .f-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .filter-btn .f-dot.green  { background: var(--success); }
+    .filter-btn .f-dot.amber  { background: var(--warn); }
+    .filter-btn .f-dot.red    { background: var(--error); }
+
+    /* MEMBERS GRID */
+    .members-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem; animation: slideup .38s ease both; animation-delay:.16s;
+    }
+
+    .member-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 1.125rem 1.25rem 1.125rem 1.375rem;
+      cursor: pointer; transition: box-shadow .2s, transform .2s, border-color .2s;
+      position: relative; overflow: hidden;
+    }
+    .member-card:hover { box-shadow: var(--shadow-sm); transform: translateY(-2px); border-color: var(--border2); }
+    .member-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    }
+    .member-card.submitted::before { background: var(--success); }
+    .member-card.leave::before     { background: var(--warn); }
+    .member-card.missing::before   { background: var(--error); }
+    .member-card.loading::before   { background: var(--border2); }
+
+    .mc-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; gap: 0.5rem; }
+    .mc-name { font-size: 0.9375rem; font-weight: 700; color: var(--text); }
+    .mc-badge {
+      display: inline-flex; align-items: center; gap: 0.3rem;
+      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 0.2rem 0.65rem; border-radius: 100px; border: 1px solid; flex-shrink: 0;
+    }
+    .badge-submitted { background: var(--success-dim); color: var(--success); border-color: rgba(5,150,105,.22); }
+    .badge-leave     { background: var(--warn-dim);    color: var(--warn);    border-color: rgba(217,119,6,.22); }
+    .badge-missing   { background: var(--error-dim);   color: var(--error);   border-color: rgba(220,38,38,.22); }
+    .badge-loading   { background: var(--surface3);    color: var(--text-3);  border-color: var(--border); }
+
+    .mc-preview {
+      font-size: 0.78rem; color: var(--text-3); line-height: 1.55;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+    }
+    .mc-preview.err { color: rgba(220,38,38,0.7); }
+
+    /* DETAIL MODAL */
+    .detail-overlay {
+      display: none; position: fixed; inset: 0;
+      background: var(--overlay-bg); z-index: 200;
+      align-items: center; justify-content: center;
+      padding: 1.5rem; backdrop-filter: blur(8px);
+    }
+    .detail-overlay.visible { display: flex; animation: fadein .2s ease; }
+
+    .detail-modal {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); width: 100%; max-width: 680px;
+      box-shadow: var(--shadow), 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden; animation: cardin .3s cubic-bezier(.34,1.2,.64,1);
+      max-height: 90vh; display: flex; flex-direction: column;
+    }
+
+    .detail-head {
+      padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-shrink: 0;
+    }
+    .detail-head-left { display: flex; align-items: center; gap: 0.875rem; }
+
+    .detail-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blue-dim); border: 2px solid var(--blue-dim2);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bricolage Grotesque', sans-serif; font-size: 0.875rem; font-weight: 800;
+      color: var(--blue); flex-shrink: 0; text-transform: uppercase;
+    }
+
+    .detail-name { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.125rem; font-weight: 800; letter-spacing: -0.015em; }
+    .detail-meta { font-size: 0.75rem; color: var(--text-3); margin-top: 0.15rem; }
+
+    .detail-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--surface3); border: 1px solid var(--border);
+      color: var(--text-3); font-size: 0.875rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s; flex-shrink: 0;
+    }
+    .detail-close:hover { background: var(--error-dim); color: var(--error); border-color: rgba(220,38,38,.2); }
+
+    .detail-body {
+      padding: 1.5rem 1.75rem; overflow-y: auto; flex: 1;
+    }
+
+    .detail-content {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 1.25rem;
+      font-size: 0.875rem; line-height: 1.85; color: var(--text-2);
+      white-space: pre-wrap; word-break: break-word;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      max-height: 55vh; overflow-y: auto;
+    }
+
+    .detail-empty {
+      text-align: center; padding: 2.5rem 1rem; color: var(--text-3);
+    }
+    .detail-empty-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .detail-empty-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1rem; font-weight: 800; color: var(--text-2); margin-bottom: 0.3rem; }
+
+    /* STATE BOX */
+    .state-box {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 4rem 2rem;
+      text-align: center; box-shadow: var(--shadow-xs);
+      animation: slideup .38s ease both;
+    }
+    .state-icon  { font-size: 2.75rem; margin-bottom: 0.875rem; }
+    .state-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.35rem; }
+    .state-sub   { font-size: 0.84rem; color: var(--text-3); line-height: 1.6; }
+
+    .spinner { width: 30px; height: 30px; border: 3px solid var(--border2); border-top-color: var(--blue); border-radius: 50%; animation: spin .65s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* PROGRESS BAR */
+    .progress-wrap { margin-top: 1rem; background: var(--surface3); border-radius: 100px; height: 6px; overflow: hidden; width: 200px; margin-left: auto; margin-right: auto; }
+    .progress-bar  { height: 100%; background: var(--blue); border-radius: 100px; transition: width 0.3s ease; }
+
+    /* ANIMATIONS */
+    @keyframes fadein  { from{opacity:0}                                       to{opacity:1} }
+    @keyframes slideup { from{opacity:0;transform:translateY(12px)}            to{opacity:1;transform:translateY(0)} }
+    @keyframes cardin  { from{transform:translateY(20px) scale(.97);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+
+    /* RESPONSIVE */
+    @media (max-width:1100px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width:768px) {
+      :root { --sidebar-w: 0px; }
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .topbar { padding: 0 1.25rem; }
+      .content { padding: 1.25rem 1.25rem 4rem; }
+      .toggle-label { display: none; }
+    }
+    @media (max-width:520px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .date-row-divider, .quick-btns { display: none; }
+    }
+    @media (max-width:400px) {
+      .stats-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-modal">
+    <div class="detail-head">
+      <div class="detail-head-left">
+        <div class="detail-avatar" id="detailAvatar"></div>
+        <div>
+          <div class="detail-name" id="detailName"></div>
+          <div class="detail-meta" id="detailMeta"></div>
+        </div>
+      </div>
+      <button class="detail-close" id="detailClose">✕</button>
+    </div>
+    <div class="detail-body">
+      <div id="detailContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" />
+      </div>
+      <div>
+        <div class="brand-name">Digit Web Lanka</div>
+        <div class="brand-tag">Digital Marketing</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <span class="nav-label">Reports</span>
+
+      </a>
+    
+      <span class="nav-label">Admin</span>
+      <a href="admin.html" class="nav-link active">
+        <span class="nav-icon">🛡</span> Daily Attendance
+      </a>
+  <a href="summary.html" class="nav-link">
+        <span class="nav-icon">📊</span> Summary View
+      </a>
+      </a>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="date-widget">
+        <div class="date-widget-label">Today</div>
+        <div class="date-widget-val" id="sidebarDate">Loading…</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">Daily Attendance</div>
+        <div class="topbar-sub" id="topbarSub">Admin — EOD Submission Tracker</div>
+      </div>
+      <div class="topbar-right">
+        <div class="admin-badge">🛡 Admin</div>
+
+        <button class="theme-toggle" id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+          <span class="toggle-icon">☀️</span>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          <span class="toggle-icon">🌙</span>
+          <span class="toggle-label" id="toggleLabel">Light</span>
+        </button>
+
+        <a href="summary.html" class="btn-link">📊 Summary</a>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- PAGE HEADER -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-header-title">EOD Attendance Tracker</h1>
+          <p class="page-header-sub">Check who has submitted, who's on leave, and who's missing</p>
+        </div>
+      </div>
+
+      <!-- DATE ROW -->
+      <div class="date-row">
+        <span class="date-row-label">📅 Check date</span>
+        <input type="date" id="dateInput" />
+        <button class="btn-check" id="checkBtn">
+          <span id="checkBtnIcon">🔍</span>
+          <span id="checkBtnLabel">Check Submissions</span>
+        </button>
+        <div class="date-row-divider"></div>
+        <div class="quick-btns">
+          <button class="quick-btn" id="btnToday">Today</button>
+          <button class="quick-btn" id="btnYesterday">Yesterday</button>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row" id="statsRow" style="display:none">
+        <div class="stat-card s-blue">
+          <div class="stat-icon s-blue">👥</div>
+          <div><div class="stat-value" id="statTotal">14</div><div class="stat-label">Total Members</div></div>
+        </div>
+        <div class="stat-card s-green">
+          <div class="stat-icon s-green">✅</div>
+          <div><div class="stat-value" id="statSub">—</div><div class="stat-label">Submitted</div></div>
+        </div>
+        <div class="stat-card s-amber">
+          <div class="stat-icon s-amber">🏖</div>
+          <div><div class="stat-value" id="statLeave">—</div><div class="stat-label">On Leave</div></div>
+        </div>
+        <div class="stat-card s-red">
+          <div class="stat-icon s-red">⚠️</div>
+          <div><div class="stat-value" id="statMiss">—</div><div class="stat-label">Missing</div></div>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar" id="filterBar" style="display:none">
+        <div class="filter-bar-left" id="filterLabel"></div>
+        <div class="filter-btns">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="submitted"><span class="f-dot green"></span> Submitted</button>
+          <button class="filter-btn" data-filter="leave"><span class="f-dot amber"></span> Leave</button>
+          <button class="filter-btn" data-filter="missing"><span class="f-dot red"></span> Missing</button>
+        </div>
+      </div>
+
+      <!-- MEMBERS GRID -->
+      <div class="members-grid" id="membersGrid" style="display:none"></div>
+
+      <!-- STATE BOX -->
+      <div class="state-box" id="stateBox">
+        <div class="state-icon">🛡</div>
+        <div class="state-title">Admin — Daily Attendance</div>
+        <div class="state-sub">Select a date and click <strong>Check Submissions</strong> to see who has submitted their EOD report.</div>
+      </div>
+
+    </div><!-- end content -->
+  </main>
+</div><!-- end shell -->
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-modal">
+    <div class="detail-head">
+      <div class="detail-head-left">
+        <div class="detail-avatar" id="detailAvatar"></div>
+        <div>
+          <div class="detail-name" id="detailName"></div>
+          <div class="detail-meta" id="detailMeta"></div>
+        </div>
+      </div>
+      <button class="detail-close" id="detailClose">✕</button>
+    </div>
+    <div class="detail-body">
+      <div id="detailContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ══════════════ CONFIG ══════════════ */
+  const REPO_OWNER = "digitalmarketing69140951-sys";
+  const REPO_NAME  = "eod-reports";
+  const BRANCH     = "main";
+  const TOKEN_KEY  = "eod_gh_token";
+  const THEME_KEY  = "eod_theme";
+
+  const MEMBERS = [
+    "Kuberan","Piranav","Mahima","Sonya","Kamshi","Hetheesa",
+    "Dilaksi","Sukirtha","Thishoban","Theekshy","Thivajini",
+    "Ripson","Jefry","Sajeepan"
+  ];
+
+  const $ = id => document.getElementById(id);
+  let allData   = [];
+  let curFilter = "all";
+  let curDate   = "";
+
+  /* ══════════════ THEME ══════════════ */
+  function applyTheme(t) {
+    document.documentElement.setAttribute("data-theme", t);
+    localStorage.setItem(THEME_KEY, t);
+    const l = $("toggleLabel"); if (l) l.textContent = t === "dark" ? "Dark" : "Light";
+  }
+  (function initTheme() {
+    const s = localStorage.getItem(THEME_KEY);
+    applyTheme(s || (window.matchMedia("(prefers-color-scheme:dark)").matches ? "dark" : "light"));
+  })();
+  $("themeToggle").addEventListener("click", () => {
+    applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  });
+
+  /* ══════════════ DATES ══════════════ */
+  function todayISO() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+  function offsetISO(days) {
+    const d = new Date(); d.setDate(d.getDate() + days);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  }
+  function formatDateLong(iso) {
+    const [y,m,d] = iso.split("-");
+    return new Date(+y, +m-1, +d).toLocaleDateString("en-GB", {weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  }
+  function formatDateShort(iso) {
+    const [y,m,d] = iso.split("-");
+    return new Date(+y, +m-1, +d).toLocaleDateString("en-GB", {weekday:"short",day:"numeric",month:"short"});
+  }
+
+  function updateSidebarDate() {
+    const now = new Date();
+    const full = now.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+    const s = $("sidebarDate"); if (s) s.textContent = full;
+    const t = $("topbarSub"); if (t) t.textContent = "Admin — " + formatDateShort(todayISO());
+  }
+  updateSidebarDate();
+  setInterval(updateSidebarDate, 60000);
+
+  $("dateInput").value = todayISO();
+  $("btnToday").onclick     = () => { $("dateInput").value = todayISO();      checkSubmissions(); };
+  $("btnYesterday").onclick = () => { $("dateInput").value = offsetISO(-1);   checkSubmissions(); };
+
+  /* ══════════════ GITHUB ══════════════ */
+  function getToken() { return localStorage.getItem(TOKEN_KEY) || ""; }
+
+  function ghHeaders() {
+    return {
+      "Authorization": `Bearer ${getToken()}`,
+      "Accept": "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28"
+    };
+  }
+
+  async function fetchFile(member, date) {
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/eods/${encodeURIComponent(member)}/${date}.md`;
+    const r = await fetch(url, { headers: ghHeaders(), cache: "no-store" });
+    if (r.status === 404) return null;
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const j = await r.json();
+    try {
+      const bytes = Uint8Array.from(atob(j.content.replace(/\n/g,"")), c => c.charCodeAt(0));
+      return new TextDecoder("utf-8").decode(bytes);
+    } catch(e) { return ""; }
+  }
+
+  function isLeave(content) {
+    return content !== null && /^#\s*Leave\b/im.test(content);
+  }
+
+  /* ══════════════ RENDER ══════════════ */
+  function avatarInitials(name) {
+    return name.split(" ").map(w => w[0]).join("").slice(0,2).toUpperCase();
+  }
+
+  function setLoading(on) {
+    const btn = $("checkBtn");
+    btn.disabled = on;
+    $("checkBtnIcon").textContent  = on ? "" : "🔍";
+    $("checkBtnLabel").textContent = on ? "Checking…" : "Check Submissions";
+    if (on) {
+      $("checkBtnIcon").innerHTML = `<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite;vertical-align:middle"></span>`;
+    }
+  }
+
+  function renderStats() {
+    const sub   = allData.filter(m => m.status === "submitted").length;
+    const leave = allData.filter(m => m.status === "leave").length;
+    const miss  = allData.filter(m => m.status === "missing").length;
+    $("statTotal").textContent = MEMBERS.length;
+    $("statSub").textContent   = sub;
+    $("statLeave").textContent = leave;
+    $("statMiss").textContent  = miss;
+    const pct = Math.round(((sub + leave) / MEMBERS.length) * 100);
+    $("filterLabel").innerHTML = `Showing results for <strong>${formatDateLong(curDate)}</strong> · ${pct}% accounted for`;
+  }
+
+  function renderCards(filter) {
+    curFilter = filter;
+    document.querySelectorAll(".filter-btn").forEach(b => {
+      b.classList.toggle("active", b.dataset.filter === filter);
+    });
+
+    const data = filter === "all" ? allData : allData.filter(m => m.status === filter);
+    const grid = $("membersGrid");
+
+    if (!data.length) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:2.5rem;color:var(--text-3);font-size:0.875rem">No members in this category</div>`;
+      return;
+    }
+
+    grid.innerHTML = data.map(m => {
+      const badgeClass = m.status === "submitted" ? "badge-submitted"
+                       : m.status === "leave"     ? "badge-leave"
+                       : m.status === "missing"   ? "badge-missing"
+                       : "badge-loading";
+      const badgeText  = m.status === "submitted" ? "✓ Submitted"
+                       : m.status === "leave"     ? "🏖 On Leave"
+                       : m.status === "missing"   ? "⚠ Missing"
+                       : "…";
+
+      const previewText = m.status === "submitted"
+        ? m.content.replace(/^#[^\n]+\n?/m, "").replace(/\n/g," ").trim().slice(0, 90) || "(no content)"
+        : m.status === "leave"
+        ? "Marked as on leave for this date"
+        : "No report found for this date";
+
+      const previewClass = m.status === "missing" ? "mc-preview err" : "mc-preview";
+
+      return `<div class="member-card ${m.status}" data-name="${m.name}">
+        <div class="mc-top">
+          <span class="mc-name">${m.name}</span>
+          <span class="mc-badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="${previewClass}">${previewText}</div>
+      </div>`;
+    }).join("");
+
+    grid.querySelectorAll(".member-card").forEach(card => {
+      card.onclick = () => openDetail(card.dataset.name);
+    });
+  }
+
+  function openDetail(name) {
+    const m = allData.find(x => x.name === name);
+    if (!m) return;
+
+    $("detailAvatar").textContent = avatarInitials(name);
+    $("detailName").textContent   = name;
+    $("detailMeta").textContent   = formatDateLong(curDate) + (
+      m.status === "submitted" ? " · Submitted" :
+      m.status === "leave"     ? " · On Leave"  : " · No submission"
+    );
+
+    if (m.status === "submitted" && m.content) {
+      $("detailContent").innerHTML = `<div class="detail-content">${escapeHtml(m.content)}</div>`;
+    } else if (m.status === "leave") {
+      $("detailContent").innerHTML = `
+        <div class="detail-empty">
+          <div class="detail-empty-icon">🏖</div>
+          <div class="detail-empty-title">${name} is on leave</div>
+          <div style="font-size:0.8rem;color:var(--text-3);margin-top:0.35rem">Leave recorded for ${formatDateLong(curDate)}</div>
+        </div>`;
+    } else {
+      $("detailContent").innerHTML = `
+        <div class="detail-empty">
+          <div class="detail-empty-icon">⚠️</div>
+          <div class="detail-empty-title">No report submitted</div>
+          <div style="font-size:0.8rem;color:var(--text-3);margin-top:0.35rem">${name} has not submitted their EOD report for ${formatDateLong(curDate)}</div>
+        </div>`;
+    }
+
+    $("detailOverlay").classList.add("visible");
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  $("detailClose").onclick    = () => $("detailOverlay").classList.remove("visible");
+  $("detailOverlay").onclick  = e => { if (e.target === $("detailOverlay")) $("detailOverlay").classList.remove("visible"); };
+  document.addEventListener("keydown", e => { if (e.key === "Escape") $("detailOverlay").classList.remove("visible"); });
+
+  document.querySelectorAll(".filter-btn").forEach(b => {
+    b.onclick = () => renderCards(b.dataset.filter);
+  });
+
+  /* ══════════════ MAIN CHECK ══════════════ */
+  async function checkSubmissions() {
+    const date = $("dateInput").value || todayISO();
+    curDate = date;
+
+    if (!getToken()) {
+      $("stateBox").style.display = "";
+      $("stateBox").innerHTML = `
+        <div class="state-icon">🔑</div>
+        <div class="state-title">GitHub Token Required</div>
+        <div class="state-sub">
+          Your GitHub token isn't saved. Go to the <a href="index.html" style="color:var(--blue);font-weight:600">EOD Report page</a>,
+          enter your token, and come back here.
+        </div>`;
+      $("statsRow").style.display   = "none";
+      $("filterBar").style.display  = "none";
+      $("membersGrid").style.display = "none";
+      return;
+    }
+
+    setLoading(true);
+    $("stateBox").style.display    = "";
+    $("stateBox").innerHTML = `
+      <div class="spinner"></div>
+      <div class="state-title">Checking ${formatDateLong(date)}…</div>
+      <div class="state-sub">Scanning all ${MEMBERS.length} members</div>
+      <div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>`;
+    $("statsRow").style.display    = "none";
+    $("filterBar").style.display   = "none";
+    $("membersGrid").style.display = "none";
+
+    let done = 0;
+    const results = await Promise.all(MEMBERS.map(async name => {
+      try {
+        const content = await fetchFile(name, date);
+        const status  = content === null ? "missing"
+                      : isLeave(content)  ? "leave"
+                      : "submitted";
+        done++;
+        const pb = $("progressBar");
+        if (pb) pb.style.width = Math.round((done / MEMBERS.length) * 100) + "%";
+        return { name, status, content };
+      } catch(err) {
+        done++;
+        return { name, status: "missing", content: null };
+      }
+    }));
+
+    allData = results;
+
+    // Sort: submitted first, leave second, missing last; alphabetically within groups
+    allData.sort((a,b) => {
+      const order = { submitted:0, leave:1, missing:2 };
+      if (order[a.status] !== order[b.status]) return order[a.status] - order[b.status];
+      return a.name.localeCompare(b.name);
+    });
+
+    setLoading(false);
+    $("stateBox").style.display    = "none";
+    $("statsRow").style.display    = "grid";
+    $("filterBar").style.display   = "flex";
+    $("membersGrid").style.display = "grid";
+
+    renderStats();
+    renderCards(curFilter);
+  }
+
+  $("checkBtn").addEventListener("click", checkSubmissions);
+  $("dateInput").addEventListener("keydown", e => { if (e.key === "Enter") checkSubmissions(); });
+
+  // Auto-load today if token is already saved
+  if (getToken()) checkSubmissions();
+</script>
+</body>
+</html>
