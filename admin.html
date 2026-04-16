@@ -294,6 +294,134 @@
     }
     .quick-btn:hover { background: var(--blue-dim); border-color: var(--blue-dim2); color: var(--blue); }
 
+    /* ═══════════════════ ADD EOD MODAL ═══════════════════ */
+    .eod-overlay {
+      display: none; position: fixed; inset: 0;
+      background: var(--overlay-bg); z-index: 300;
+      align-items: center; justify-content: center;
+      padding: 1.5rem; backdrop-filter: blur(8px);
+    }
+    .eod-overlay.visible { display: flex; animation: fadein .2s ease; }
+
+    .eod-modal {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius-xl); width: 100%; max-width: 560px;
+      box-shadow: var(--shadow), 0 20px 60px rgba(0,0,0,0.15);
+      overflow: hidden; animation: cardin .3s cubic-bezier(.34,1.2,.64,1);
+      max-height: 92vh; display: flex; flex-direction: column;
+    }
+
+    .eod-head {
+      padding: 1.375rem 1.75rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-shrink: 0;
+    }
+    .eod-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.125rem; font-weight: 800; letter-spacing: -0.015em; }
+    .eod-sub   { font-size: 0.75rem; color: var(--text-3); margin-top: 0.15rem; }
+    .eod-badge {
+      display: inline-flex; align-items: center;
+      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.04em;
+      padding: 0.25rem 0.75rem; border-radius: 100px; text-transform: uppercase;
+      background: var(--indigo-dim); color: var(--indigo); border: 1px solid rgba(99,102,241,.2);
+    }
+    .eod-close {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--surface3); border: 1px solid var(--border);
+      color: var(--text-3); font-size: 0.875rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background .15s, color .15s; flex-shrink: 0;
+    }
+    .eod-close:hover { background: var(--error-dim); color: var(--error); border-color: rgba(220,38,38,.2); }
+
+    .eod-body { padding: 1.5rem 1.75rem; overflow-y: auto; flex: 1; }
+
+    /* FORM ELEMENTS */
+    .sep { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
+    .sep-text { font-size: 0.6875rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.09em; white-space: nowrap; }
+    .sep-line { flex: 1; height: 1px; background: var(--border); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.125rem; margin-bottom: 1.25rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label { font-size: 0.8rem; font-weight: 600; color: var(--text-2); display: flex; align-items: center; gap: 0.25rem; }
+    .req { color: var(--blue); }
+
+    select, textarea {
+      width: 100%; background: var(--surface2); color: var(--text);
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 500;
+      outline: none; -webkit-appearance: none; appearance: none;
+      transition: border-color .18s, box-shadow .18s, background .18s, color .18s;
+    }
+    select:focus, textarea:focus {
+      border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-dim2); background: var(--white);
+    }
+    select {
+      height: var(--field-h); padding: 0 2.5rem 0 0.875rem; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.875rem center; background-color: var(--surface2);
+    }
+    select option { background: var(--white); color: var(--text); }
+    select option:disabled { color: var(--text-3); }
+    textarea { min-height: 190px; resize: vertical; line-height: 1.8; padding: 0.875rem; }
+    textarea::placeholder { color: var(--text-4); }
+
+    .char-hint { font-size: 0.73rem; color: var(--text-3); text-align: right; margin-top: 0.3rem; }
+    .form-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+
+    .btn-submit {
+      width: 100%; height: var(--field-h);
+      background: var(--blue); color: #fff;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; font-weight: 700;
+      border: none; border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      box-shadow: var(--shadow-blue); letter-spacing: 0.01em;
+      transition: background .15s, transform .1s, box-shadow .15s;
+    }
+    .btn-submit:hover:not(:disabled) { background: var(--blue-hover); box-shadow: 0 6px 24px var(--blue-glow); transform: translateY(-1px); }
+    .btn-submit:active:not(:disabled) { transform: scale(.985); }
+    .btn-submit:disabled { opacity: .45; cursor: not-allowed; }
+
+    .alert {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1px solid;
+      font-size: 0.8375rem; font-weight: 500; line-height: 1.55;
+      margin-top: 1rem; animation: slideup .2s ease;
+    }
+    .alert-icon { flex-shrink: 0; font-size: 0.875rem; margin-top: 1px; }
+    .alert-error   { background: var(--error-dim);   border-color: rgba(220,38,38,.2);   color: var(--error); }
+    .alert-success { background: var(--success-dim); border-color: rgba(5,150,105,.2);   color: var(--success); }
+
+    .eod-success { display: none; flex-direction: column; align-items: center; text-align: center; padding: 1rem 0 0.5rem; }
+    .eod-success.visible { display: flex; animation: slideup .3s ease; }
+    .success-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: rgba(5,150,105,0.08); border: 2px solid rgba(5,150,105,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.75rem; margin-bottom: 1.25rem; color: var(--success);
+      animation: popin .45s cubic-bezier(.34,1.56,.64,1);
+    }
+    .success-title { font-family: 'Bricolage Grotesque', sans-serif; font-size: 1.25rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.35rem; }
+    .success-sub   { font-size: 0.875rem; color: var(--text-2); margin-bottom: 1.5rem; line-height: 1.6; }
+    .success-grid  { display: grid; grid-template-columns: repeat(3,1fr); gap: 0.6rem; width: 100%; margin-bottom: 1rem; }
+    .success-item  { background: var(--surface3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.75rem; text-align: left; }
+    .si-label { font-size: 0.63rem; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+    .si-value { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+    .file-tag {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      background: var(--blue-dim); border: 1px solid var(--blue-dim2);
+      color: var(--blue); border-radius: var(--radius-sm);
+      padding: 0.45rem 0.875rem; font-size: 0.78rem; font-weight: 600;
+      word-break: break-all; margin-bottom: 1.5rem;
+    }
+    .btn-reset {
+      padding: 0.65rem 2rem; background: var(--white); color: var(--text-2);
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem; font-weight: 600;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .btn-reset:hover { border-color: var(--blue); color: var(--blue); background: var(--blue-dim); }
+
+    @keyframes popin { from{transform:scale(.3);opacity:0} to{transform:scale(1);opacity:1} }
+
     /* STATS */
     .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; animation: slideup .38s ease both; animation-delay:.08s; }
     .stat-card {
@@ -493,6 +621,76 @@
 </head>
 <body>
 
+<!-- ADD EOD OVERLAY -->
+<div class="eod-overlay" id="eodOverlay">
+  <div class="eod-modal">
+    <div class="eod-head">
+      <div style="display:flex;align-items:center;gap:0.875rem;">
+        <div>
+          <div class="eod-title">Add EOD Report</div>
+          <div class="eod-sub">Submit a report for any member on any date</div>
+        </div>
+        <span class="eod-badge">Admin</span>
+      </div>
+      <button class="eod-close" id="eodClose">✕</button>
+    </div>
+    <div class="eod-body">
+
+      <div id="eodFormView">
+        <div class="sep"><span class="sep-text">Member &amp; Date</span><span class="sep-line"></span></div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="eodMember">Member Name <span class="req">*</span></label>
+            <select id="eodMember">
+              <option value="" disabled selected>Select member…</option>
+              <option>Kuberan</option><option>Piranav</option><option>Mahima</option>
+              <option>Sonya</option><option>Kamshi</option><option>Hetheesa</option>
+              <option>Dilaksi</option><option>Sukirtha</option><option>Thishoban</option>
+              <option>Theekshy</option><option>Thivajini</option><option>Ripson</option>
+              <option>Jefry</option><option>Sajeepan</option><option>Jakshan</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="eodDate">Report Date <span class="req">*</span></label>
+            <input type="date" id="eodDate" />
+          </div>
+        </div>
+
+        <div class="sep"><span class="sep-text">Report Content</span><span class="sep-line"></span></div>
+
+        <div class="form-group" style="margin-bottom:.5rem">
+          <label class="form-label" for="eodText">EOD Report <span class="req">*</span></label>
+          <textarea id="eodText" placeholder="Enter the member's EOD report…&#10;&#10;• Tasks completed&#10;• Campaigns managed or updated&#10;• Content created or published&#10;• Meetings attended&#10;• Blockers or issues&#10;• Plan for tomorrow"></textarea>
+          <div class="char-hint" id="eodCharHint">0 characters · Ctrl+Enter to submit</div>
+        </div>
+
+        <hr class="form-divider" />
+
+        <button class="btn-submit" id="eodSubmitBtn" type="button">
+          <span id="eodBtnIcon">✦</span><span id="eodBtnLabel">Submit EOD Report</span>
+        </button>
+        <div id="eodAlertBox"></div>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="eod-success" id="eodSuccessView">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Report Submitted!</div>
+        <div class="success-sub">The EOD report has been saved to the repository successfully.</div>
+        <div class="success-grid">
+          <div class="success-item"><div class="si-label">Member</div><div class="si-value" id="eodSName">—</div></div>
+          <div class="success-item"><div class="si-label">Date</div><div class="si-value" id="eodSDate">—</div></div>
+          <div class="success-item"><div class="si-label">Status</div><div class="si-value" id="eodSAction">—</div></div>
+        </div>
+        <div class="file-tag">📁 <span id="eodSPath">—</span></div>
+        <button class="btn-reset" id="eodResetBtn">Add Another Report</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- DETAIL OVERLAY -->
 <div class="detail-overlay" id="detailOverlay">
   <div class="detail-modal">
@@ -536,9 +734,11 @@
       <a href="admin.html" class="nav-link active">
         <span class="nav-icon">🛡</span> Daily Attendance
       </a>
-  <a href="summary.html" class="nav-link">
-        <span class="nav-icon">📊</span> Summary View
+      <a href="#" class="nav-link" id="addEodNavLink" onclick="openEodModal(); return false;">
+        <span class="nav-icon">➕</span> Add EOD Report
       </a>
+      <a href="summary2.html" class="nav-link">
+        <span class="nav-icon">📊</span> Summary View
       </a>
     </nav>
 
@@ -567,7 +767,7 @@
           <span class="toggle-label" id="toggleLabel">Light</span>
         </button>
 
-        <a href="summary.html" class="btn-link">📊 Summary</a>
+        <a href="summary2.html" class="btn-link">📊 Summary</a>
       </div>
     </header>
 
@@ -940,6 +1140,108 @@
 
   // Auto-load today if token is already saved
   if (getToken()) checkSubmissions();
+
+  /* ══════════════ ADD EOD MODAL ══════════════ */
+  const toBase64 = s => btoa(unescape(encodeURIComponent(s)));
+
+  function apiURL(member, date) {
+    return `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/eods/${encodeURIComponent(member)}/${date}.md`;
+  }
+
+  async function getFile(url) {
+    const r = await fetch(url, { headers: ghHeaders(), cache: "no-store" });
+    if (r.status === 404) return null;
+    if (!r.ok) { const b = await r.json().catch(()=>{}); throw new Error(`${r.status}: ${b?.message||r.statusText}`); }
+    return r.json();
+  }
+
+  async function putFile(url, payload) {
+    const r = await fetch(url, { method: "PUT", headers: { ...ghHeaders(), "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    const b = await r.json().catch(()=>{});
+    if (!r.ok) throw new Error(`${r.status}: ${b?.message||r.statusText}`);
+    return b;
+  }
+
+  function openEodModal() {
+    $("eodDate").value = todayISO();
+    $("eodOverlay").classList.add("visible");
+    setTimeout(() => $("eodMember").focus(), 150);
+  }
+
+  function closeEodModal() {
+    $("eodOverlay").classList.remove("visible");
+  }
+
+  function resetEodForm() {
+    $("eodMember").value = "";
+    $("eodDate").value = todayISO();
+    $("eodText").value = "";
+    $("eodCharHint").textContent = "0 characters · Ctrl+Enter to submit";
+    $("eodAlertBox").innerHTML = "";
+    $("eodSuccessView").classList.remove("visible");
+    $("eodFormView").style.display = "";
+  }
+
+  function setEodLoading(on) {
+    const btn = $("eodSubmitBtn"); btn.disabled = on;
+    if (on) {
+      $("eodBtnIcon").outerHTML = `<span style="display:inline-block;width:16px;height:16px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite" id="eodBtnIcon"></span>`;
+      $("eodBtnLabel").textContent = "Submitting…";
+    } else {
+      const sp = $("eodSubmitBtn").querySelector("span[id='eodBtnIcon']");
+      if (sp) sp.outerHTML = `<span id="eodBtnIcon">✦</span>`;
+      $("eodBtnLabel").textContent = "Submit EOD Report";
+    }
+  }
+
+  async function handleEodSubmit() {
+    $("eodAlertBox").innerHTML = "";
+    const member = $("eodMember").value.trim();
+    const date   = $("eodDate").value;
+    const report = $("eodText").value.trim();
+
+    if (!member) { $("eodAlertBox").innerHTML = `<div class="alert alert-error"><span class="alert-icon">✕</span><span>Please select a member.</span></div>`; $("eodMember").focus(); return; }
+    if (!date)   { $("eodAlertBox").innerHTML = `<div class="alert alert-error"><span class="alert-icon">✕</span><span>Please select a date.</span></div>`; $("eodDate").focus(); return; }
+    if (!report) { $("eodAlertBox").innerHTML = `<div class="alert alert-error"><span class="alert-icon">✕</span><span>Report cannot be empty.</span></div>`; $("eodText").focus(); return; }
+    if (!getToken()) { $("eodAlertBox").innerHTML = `<div class="alert alert-error"><span class="alert-icon">✕</span><span>No GitHub token found. Save your token first.</span></div>`; return; }
+
+    setEodLoading(true);
+    try {
+      const url = apiURL(member, date);
+      const existing = await getFile(url);
+      const isUpdate = existing !== null;
+      await putFile(url, {
+        message: `EOD: ${member} - ${date} [admin]`,
+        content: toBase64(report),
+        branch: BRANCH,
+        ...(isUpdate && existing.sha ? { sha: existing.sha } : {})
+      });
+      $("eodSName").textContent   = member;
+      $("eodSDate").textContent   = date;
+      $("eodSAction").textContent = isUpdate ? "Updated" : "Created";
+      $("eodSPath").textContent   = `eods/${member}/${date}.md`;
+      $("eodFormView").style.display = "none";
+      $("eodSuccessView").classList.add("visible");
+    } catch(err) {
+      const msg = err.message.includes("401")
+        ? "Token expired — save a new token and try again."
+        : `Submission failed: ${err.message}`;
+      $("eodAlertBox").innerHTML = `<div class="alert alert-error"><span class="alert-icon">✕</span><span>${msg}</span></div>`;
+    } finally { setEodLoading(false); }
+  }
+
+  $("eodClose").addEventListener("click", closeEodModal);
+  $("eodOverlay").addEventListener("click", e => { if (e.target === $("eodOverlay")) closeEodModal(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") { closeEodModal(); $("detailOverlay").classList.remove("visible"); }
+  });
+  $("eodSubmitBtn").addEventListener("click", handleEodSubmit);
+  $("eodResetBtn").addEventListener("click", resetEodForm);
+  $("eodText").addEventListener("input", () => {
+    const n = $("eodText").value.length;
+    $("eodCharHint").textContent = n === 0 ? "0 characters · Ctrl+Enter to submit" : `${n.toLocaleString()} character${n!==1?"s":""} · Ctrl+Enter to submit`;
+  });
+  $("eodText").addEventListener("keydown", e => { if ((e.ctrlKey||e.metaKey) && e.key === "Enter") handleEodSubmit(); });
 </script>
 </body>
 </html>
