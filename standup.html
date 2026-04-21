@@ -266,6 +266,7 @@
 
     .spin { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .65s linear infinite; }
 
+
     @keyframes fadein  { from{opacity:0} to{opacity:1} }
     @keyframes slideup { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
     @keyframes cardin  { from{transform:translateY(20px) scale(.97);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
@@ -283,6 +284,8 @@
   </style>
 </head>
 <body>
+
+
 
 <!-- SETUP OVERLAY -->
 <div class="setup-overlay" id="setupOverlay">
@@ -346,16 +349,16 @@
 <!-- SHELL -->
 <div class="shell">
   <aside class="sidebar">
-    <div class="sidebar-brand">
+    <a href="admin.html" class="sidebar-brand" style="text-decoration:none;color:inherit;cursor:pointer;">
       <div class="brand-logo"><img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" /></div>
       <div><div class="brand-name">Digit Web Lanka</div><div class="brand-tag">Digital Marketing</div></div>
-    </div>
+    </a>
     <nav class="sidebar-nav">
       <span class="nav-label">Reports</span>
-      <a href="index.html" class="nav-link"><span class="nav-icon">📝</span> EOD Report</a>
-      <a href="summary.html" class="nav-link"><span class="nav-icon">📊</span> Summary View</a>
-      <span class="nav-label">Standup</span>
-      <a href="standup.html" class="nav-link active"><span class="nav-icon">📋</span> Truth Finder </a>
+      <span class="nav-label">Admin</span>
+      <a href="admin.html" class="nav-link"><span class="nav-icon">🛡</span> Daily Attendance</a>
+      <a href="standup.html" class="nav-link active"><span class="nav-icon">📋</span> Truth Finder</a>
+      <a href="summary2.html" class="nav-link"><span class="nav-icon">📊</span> Summary View</a>
     </nav>
     <div class="sidebar-bottom">
       <div class="date-widget">
@@ -388,7 +391,7 @@
             <span class="toggle-icon">🌙</span>
             <span class="toggle-label" id="toggleLabel">Light</span>
           </button>
-          <a href="summary.html" class="team-tab" style="text-decoration:none;">📊 Summary</a>
+          <a href="summary2.html" class="team-tab" style="text-decoration:none;">📊 Summary</a>
         </div>
       </div>
 
@@ -849,6 +852,8 @@
   populateMemberDropdown(currentTeam);
   $("filterDate").value=todayISO();
   if(getToken()) loadData();
+
+
 </script>
 </body>
 </html>
