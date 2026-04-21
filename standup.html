@@ -372,24 +372,24 @@
         <div class="topbar-title">Truth Finder DM Team</div>
         <div class="topbar-sub" id="topbarSub">Daily Task Tracker</div>
       </div>
-      <div class="topbar-right">
-        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-          <span class="toggle-icon">☀️</span>
-          <div class="toggle-track"><div class="toggle-thumb"></div></div>
-          <span class="toggle-icon">🌙</span>
-          <span class="toggle-label" id="toggleLabel">Light</span>
-        </button>
-        
-        <a href="summary.html" class="btn-link">📊 Summary</a>
-      </div>
+      <div class="topbar-right"></div>
     </header>
 
     <div class="content">
 
-      <!-- Team Tabs -->
-      <div class="team-tabs">
-        <button class="team-tab active" id="tabADS" onclick="switchTeam('ADS')">📢 ADS</button>
-        <button class="team-tab" id="tabSEO" onclick="switchTeam('SEO')">🔍 SEO</button>
+      <!-- Team Tabs + Dark Mode + Summary -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+        <div class="team-tabs">
+          <button class="team-tab active" id="tabADS" onclick="switchTeam('ADS')">📢 ADS</button>
+          <button class="team-tab" id="tabSEO" onclick="switchTeam('SEO')">🔍 SEO</button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" style="border-radius:var(--radius-sm);padding:.5rem .875rem;">
+            <span class="toggle-icon">☀️</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-icon">🌙</span>
+            <span class="toggle-label" id="toggleLabel">Light</span>
+          </button>
+          <a href="summary.html" class="team-tab" style="text-decoration:none;">📊 Summary</a>
+        </div>
       </div>
 
       <!-- Toolbar -->
@@ -576,10 +576,14 @@
         <td>${reasonInp}</td>
         <td>${resSel}</td>
         <td class="review-due">${r.review_due?fmtDate(r.review_due):"—"}</td>
-        <td title="${esc(r.measurable_impact)}">${r.measurable_impact||"—"}</td>
-        <td title="${esc(r.primary_failure_reason)}">${r.primary_failure_reason||"—"}</td>
-        <td>${blockerBadge(r.blocker)}</td>
-        <td title="${esc(r.leader_pivot)}">${r.leader_pivot||"—"}</td>
+        <td><input class="cell-input" type="text" value="${esc(r.measurable_impact)}" placeholder="—" onblur="inlineSave('${r.id}','measurable_impact',this.value)" /></td>
+        <td><input class="cell-input" type="text" value="${esc(r.primary_failure_reason)}" placeholder="—" onblur="inlineSave('${r.id}','primary_failure_reason',this.value)" /></td>
+        <td><select class="cell-select" onchange="inlineSave('${r.id}','blocker',this.value)">
+          <option value="" ${!r.blocker?"selected":""}>—</option>
+          <option value="yes" ${r.blocker==="yes"?"selected":""}>⚠ Yes</option>
+          <option value="no" ${r.blocker==="no"?"selected":""}>✅ No</option>
+        </select></td>
+        <td><input class="cell-input" type="text" value="${esc(r.leader_pivot)}" placeholder="—" onblur="inlineSave('${r.id}','leader_pivot',this.value)" /></td>
       </tr>`;
     }).join("") + buildTeamNewRows();
   }
