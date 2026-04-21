@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Truth Finder DM Team </title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root, [data-theme="light"] {
+      --bg: #eef2f7; --white: #ffffff; --surface2: #f8fafc; --surface3: #f1f5f9;
+      --border: #e2e8f0; --border2: #cbd5e1;
+      --blue: #2563eb; --blue-hover: #1d4ed8; --blue-dim: rgba(37,99,235,0.07);
+      --blue-dim2: rgba(37,99,235,0.14); --blue-glow: rgba(37,99,235,0.22);
+      --success: #059669; --success-dim: rgba(5,150,105,0.08);
+      --error: #dc2626; --error-dim: rgba(220,38,38,0.07);
+      --warn: #d97706; --warn-dim: rgba(217,119,6,0.08);
+      --text: #0f172a; --text-2: #475569; --text-3: #94a3b8; --text-4: #cbd5e1;
+      --shadow-xs: 0 1px 3px rgba(15,23,42,0.06),0 1px 2px rgba(15,23,42,0.04);
+      --shadow-sm: 0 2px 8px rgba(15,23,42,0.07),0 1px 3px rgba(15,23,42,0.04);
+      --shadow: 0 4px 16px rgba(15,23,42,0.08),0 1px 4px rgba(15,23,42,0.04);
+      --shadow-blue: 0 4px 18px rgba(37,99,235,0.28);
+      --topbar-bg: rgba(255,255,255,0.9); --overlay-bg: rgba(15,23,42,0.45);
+      --toggle-bg: #f1f5f9; --toggle-border: #e2e8f0; --toggle-thumb: #ffffff;
+      --toggle-thumb-shadow: 0 1px 4px rgba(15,23,42,0.15);
+      --standup-bg: #e0f7fa; --standup-border: #b2ebf2; --standup-text: #006064;
+      --eod-bg: #fff3e0; --eod-border: #ffcc80; --eod-text: #e65100;
+      --review-bg: #fff8e1; --review-border: #ffe082; --review-text: #f57f17;
+    }
+    [data-theme="dark"] {
+      --bg: #0b0f1a; --white: #131929; --surface2: #1a2236; --surface3: #1f2b3e;
+      --border: #2a3650; --border2: #3a4d6a;
+      --blue: #3b82f6; --blue-hover: #60a5fa; --blue-dim: rgba(59,130,246,0.10);
+      --blue-dim2: rgba(59,130,246,0.18); --blue-glow: rgba(59,130,246,0.30);
+      --success: #34d399; --success-dim: rgba(52,211,153,0.10);
+      --error: #f87171; --error-dim: rgba(248,113,113,0.10);
+      --warn: #fbbf24; --warn-dim: rgba(251,191,36,0.10);
+      --text: #e2e8f0; --text-2: #94a3b8; --text-3: #4a5f7e; --text-4: #2a3a52;
+      --shadow-xs: 0 1px 3px rgba(0,0,0,0.30),0 1px 2px rgba(0,0,0,0.20);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.35),0 1px 3px rgba(0,0,0,0.20);
+      --shadow: 0 4px 16px rgba(0,0,0,0.40),0 1px 4px rgba(0,0,0,0.20);
+      --shadow-blue: 0 4px 18px rgba(59,130,246,0.35);
+      --topbar-bg: rgba(19,25,41,0.92); --overlay-bg: rgba(0,0,0,0.65);
+      --toggle-bg: #1f2b3e; --toggle-border: #2a3650; --toggle-thumb: #3b82f6;
+      --toggle-thumb-shadow: 0 1px 6px rgba(59,130,246,0.50);
+      --standup-bg: rgba(0,96,100,0.15); --standup-border: rgba(0,96,100,0.3); --standup-text: #4dd0e1;
+      --eod-bg: rgba(230,81,0,0.12); --eod-border: rgba(230,81,0,0.3); --eod-text: #ffb74d;
+      --review-bg: rgba(245,127,23,0.10); --review-border: rgba(245,127,23,0.25); --review-text: #ffd54f;
+    }
+
+    :root { --sidebar-w: 256px; --field-h: 42px; --radius-sm: 10px; --radius: 14px; --radius-lg: 18px; --radius-xl: 24px; }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; transition: background .3s, color .3s; }
+
+    /* THEME TOGGLE */
+    .theme-toggle { display:flex; align-items:center; gap:.5rem; background:var(--toggle-bg); border:1px solid var(--toggle-border); border-radius:100px; padding:.28rem .6rem .28rem .5rem; cursor:pointer; transition:background .2s,border-color .2s; user-select:none; flex-shrink:0; }
+    .theme-toggle:hover { border-color:var(--blue); background:var(--blue-dim); }
+    .toggle-track { width:34px; height:18px; background:var(--border2); border-radius:100px; position:relative; transition:background .25s; flex-shrink:0; }
+    [data-theme="dark"] .toggle-track { background:var(--blue); }
+    .toggle-thumb { position:absolute; top:2px; left:2px; width:14px; height:14px; border-radius:50%; background:var(--toggle-thumb); box-shadow:var(--toggle-thumb-shadow); transition:transform .25s cubic-bezier(.34,1.4,.64,1); }
+    [data-theme="dark"] .toggle-thumb { transform:translateX(16px); }
+    .toggle-icon { font-size:.875rem; line-height:1; }
+    .toggle-label { font-size:.72rem; font-weight:600; color:var(--text-2); white-space:nowrap; }
+
+    /* SETUP OVERLAY */
+    .setup-overlay { display:none; position:fixed; inset:0; background:var(--overlay-bg); z-index:500; align-items:center; justify-content:center; padding:1.25rem; backdrop-filter:blur(8px); }
+    .setup-overlay.visible { display:flex; animation:fadein .2s ease; }
+    .setup-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-xl); padding:2.5rem; width:100%; max-width:460px; box-shadow:var(--shadow),0 20px 60px rgba(0,0,0,0.15); animation:cardin .32s cubic-bezier(.34,1.2,.64,1); }
+    .setup-logo { display:flex; align-items:center; gap:.75rem; margin-bottom:1.75rem; }
+    .setup-logo img { width:42px; height:42px; border-radius:10px; border:1.5px solid var(--border2); object-fit:cover; }
+    .setup-logo-name { font-family:'Bricolage Grotesque',sans-serif; font-size:1rem; font-weight:800; }
+    .setup-logo-sub { font-size:.75rem; color:var(--text-3); }
+    .setup-title { font-family:'Bricolage Grotesque',sans-serif; font-size:1.375rem; font-weight:800; letter-spacing:-.02em; margin-bottom:.45rem; }
+    .setup-desc { font-size:.875rem; color:var(--text-2); line-height:1.7; margin-bottom:1.75rem; }
+    .field-label { font-size:.8rem; font-weight:600; color:var(--text-2); margin-bottom:.4rem; display:block; }
+    .token-wrap { position:relative; }
+    .token-wrap input { width:100%; height:var(--field-h); background:var(--surface2); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:0 2.75rem 0 .875rem; font-family:'Courier New',monospace; font-size:.875rem; color:var(--text); outline:none; transition:border-color .18s,box-shadow .18s; }
+    .token-wrap input:focus { border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-dim2); background:var(--white); }
+    .toggle-vis { position:absolute; right:.75rem; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--text-3); font-size:1rem; }
+    .token-hint { font-size:.7375rem; color:var(--text-3); margin-top:.45rem; }
+    .setup-error { font-size:.8125rem; color:var(--error); margin-top:.75rem; display:none; }
+    .btn-primary { display:flex; align-items:center; justify-content:center; gap:.5rem; width:100%; height:var(--field-h); background:var(--blue); color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:.9375rem; font-weight:700; border:none; border-radius:var(--radius-sm); cursor:pointer; margin-top:1.5rem; box-shadow:var(--shadow-blue); transition:background .15s,transform .1s; }
+    .btn-primary:hover:not(:disabled) { background:var(--blue-hover); transform:translateY(-1px); }
+    .btn-primary:disabled { opacity:.5; cursor:not-allowed; }
+
+    /* SHELL */
+    .shell { display:flex; min-height:100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width:var(--sidebar-w); background:var(--white); border-right:1px solid var(--border); display:flex; flex-direction:column; position:fixed; top:0; left:0; bottom:0; z-index:50; transition:background .3s,border-color .3s; }
+    .sidebar-brand { display:flex; align-items:center; gap:.75rem; padding:1.5rem 1.25rem 1.25rem; border-bottom:1px solid var(--border); }
+    .brand-logo { width:38px; height:38px; border-radius:9px; overflow:hidden; border:1.5px solid var(--border2); flex-shrink:0; }
+    .brand-logo img { width:100%; height:100%; object-fit:cover; display:block; }
+    .brand-name { font-family:'Bricolage Grotesque',sans-serif; font-size:.9rem; font-weight:800; letter-spacing:-.01em; line-height:1.25; }
+    .brand-tag { font-size:.6875rem; color:var(--text-3); letter-spacing:.03em; }
+    .sidebar-nav { flex:1; padding:1.125rem .875rem; display:flex; flex-direction:column; gap:2px; overflow-y:auto; }
+    .nav-label { font-size:.6375rem; font-weight:700; color:var(--text-3); letter-spacing:.1em; text-transform:uppercase; padding:0 .5rem; margin:1rem 0 .3rem; }
+    .nav-link { display:flex; align-items:center; gap:.6875rem; padding:.6rem .75rem; border-radius:var(--radius-sm); font-size:.875rem; font-weight:500; color:var(--text-2); cursor:pointer; text-decoration:none; transition:background .14s,color .14s; border:1px solid transparent; position:relative; }
+    .nav-link:hover { background:var(--surface3); color:var(--text); }
+    .nav-link.active { background:var(--blue-dim); color:var(--blue); border-color:var(--blue-dim2); font-weight:600; }
+    .nav-link.active::before { content:''; position:absolute; left:-.875rem; top:22%; bottom:22%; width:3px; border-radius:0 3px 3px 0; background:var(--blue); }
+    .nav-icon { width:30px; height:30px; border-radius:7px; flex-shrink:0; background:var(--surface3); display:flex; align-items:center; justify-content:center; font-size:.85rem; transition:background .14s; }
+    .nav-link.active .nav-icon { background:var(--blue-dim2); }
+    .sidebar-bottom { padding:1.125rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.5rem; }
+    .date-widget { background:var(--surface3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:.875rem 1rem; }
+    .date-widget-label { font-size:.6375rem; font-weight:700; color:var(--text-3); text-transform:uppercase; letter-spacing:.08em; margin-bottom:.3rem; }
+    .date-widget-val { font-size:.84rem; font-weight:600; color:var(--text); line-height:1.45; }
+    .btn-ghost-sm { display:flex; align-items:center; gap:.45rem; width:100%; padding:.5rem .75rem; background:none; border:1px solid var(--border); border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:.75rem; font-weight:600; color:var(--text-3); cursor:pointer; transition:color .15s,border-color .15s,background .15s; }
+    .btn-ghost-sm:hover { color:var(--blue); border-color:rgba(37,99,235,.3); background:var(--blue-dim); }
+
+    /* MAIN */
+    .main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; }
+    .topbar { background:var(--topbar-bg); border-bottom:1px solid var(--border); padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:30; backdrop-filter:blur(16px); box-shadow:var(--shadow-xs); transition:background .3s,border-color .3s; }
+    .topbar-title { font-family:'Bricolage Grotesque',sans-serif; font-size:1.0625rem; font-weight:800; letter-spacing:-.015em; }
+    .topbar-sub { font-size:.73rem; color:var(--text-3); }
+    .topbar-right { display:flex; align-items:center; gap:.75rem; }
+    .btn-link { display:flex; align-items:center; gap:.4rem; padding:.45rem 1rem; background:var(--blue-dim); border:1.5px solid var(--blue-dim2); border-radius:var(--radius-sm); color:var(--blue); font-family:'Plus Jakarta Sans',sans-serif; font-size:.8rem; font-weight:700; cursor:pointer; text-decoration:none; transition:background .15s,border-color .15s; }
+    .btn-link:hover { background:var(--blue-dim2); }
+
+    /* CONTENT */
+    .content { padding:1.5rem 2rem 4rem; display:flex; flex-direction:column; gap:1.25rem; }
+
+    /* TEAM TABS */
+    .team-tabs { display:flex; gap:.5rem; }
+    .team-tab { display:flex; align-items:center; gap:.5rem; padding:.55rem 1.375rem; border-radius:var(--radius-sm); font-size:.875rem; font-weight:700; cursor:pointer; border:1.5px solid var(--border); background:var(--white); color:var(--text-2); transition:all .15s; box-shadow:var(--shadow-xs); }
+    .team-tab:hover { border-color:var(--border2); color:var(--text); }
+    .team-tab.active { background:var(--blue); color:#fff; border-color:var(--blue); box-shadow:var(--shadow-blue); }
+
+    /* TOOLBAR — single row with date, member filter, add button, row count */
+    .toolbar { display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
+    .filter-input { height:36px; padding:0 .875rem; background:var(--white); border:1.5px solid var(--border); border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:.8rem; color:var(--text); outline:none; transition:border-color .18s,box-shadow .18s; }
+    .filter-input:focus { border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-dim2); }
+    input[type="date"].filter-input { cursor:pointer; color-scheme:light; }
+    [data-theme="dark"] input[type="date"].filter-input { color-scheme:dark; }
+    .btn-add { display:flex; align-items:center; gap:.4rem; height:36px; padding:0 1.125rem; background:var(--blue); color:#fff; border:none; border-radius:var(--radius-sm); font-family:'Plus Jakarta Sans',sans-serif; font-size:.8rem; font-weight:700; cursor:pointer; box-shadow:var(--shadow-blue); transition:background .15s,transform .1s; white-space:nowrap; }
+    .btn-add:hover { background:var(--blue-hover); transform:translateY(-1px); }
+    .row-count { font-size:.78rem; color:var(--text-3); white-space:nowrap; margin-left:auto; }
+
+    /* SHEET */
+    .sheet-wrap { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:var(--shadow-xs); overflow:hidden; }
+    .sheet-scroll { overflow-x:auto; overflow-y:auto; max-height:calc(100vh - 250px); }
+    .sheet-table { border-collapse:collapse; width:100%; min-width:1500px; font-size:.75rem; }
+
+    .sh-row th { padding:.45rem .75rem; font-family:'Bricolage Grotesque',sans-serif; font-size:.7rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; text-align:center; border:1px solid var(--border); }
+    .sh-blank    { background:var(--surface3); }
+    .sh-standup  { background:var(--standup-bg); color:var(--standup-text); border-color:var(--standup-border) !important; }
+    .sh-eod      { background:var(--eod-bg); color:var(--eod-text); border-color:var(--eod-border) !important; }
+    .sh-review   { background:var(--review-bg); color:var(--review-text); border-color:var(--review-border) !important; }
+
+    .ch-row th { padding:.5rem .65rem; font-size:.695rem; font-weight:700; color:var(--text-2); background:var(--surface2); border:1px solid var(--border); white-space:nowrap; position:sticky; top:0; z-index:10; }
+    .ch-standup { background:rgba(0,96,100,0.04); }
+    .ch-eod     { background:rgba(230,81,0,0.04); }
+    .ch-review  { background:rgba(245,127,23,0.04); }
+
+    .sheet-table tbody tr { border-bottom:1px solid var(--border); transition:background .12s; }
+    .sheet-table tbody tr:hover { background:var(--surface3); }
+    .sheet-table td { padding:.42rem .65rem; border:1px solid var(--border); vertical-align:middle; white-space:nowrap; max-width:200px; overflow:hidden; text-overflow:ellipsis; }
+
+    .staff-sonya     { color:#e53935; font-weight:700; }
+    .staff-mahima    { color:#8e24aa; font-weight:700; }
+    .staff-jefry     { color:#1565c0; font-weight:700; }
+    .staff-sajeepan  { color:#00695c; font-weight:700; }
+    .staff-theekshy  { color:#ef6c00; font-weight:700; }
+    .staff-thivajini { color:#6a1b9a; font-weight:700; }
+    .staff-thishoban { color:#2e7d32; font-weight:700; }
+    .staff-kamshi    { color:#c62828; font-weight:700; }
+    .staff-sukirtha  { color:#0277bd; font-weight:700; }
+    .staff-dilakshi  { color:#558b2f; font-weight:700; }
+    .staff-hetheesa  { color:#f57f17; font-weight:700; }
+    .staff-jakshan   { color:#4527a0; font-weight:700; }
+
+    .badge { display:inline-flex; align-items:center; justify-content:center; padding:.15rem .55rem; border-radius:100px; font-size:.68rem; font-weight:700; white-space:nowrap; }
+    .badge-yes  { background:var(--success-dim); color:var(--success); border:1px solid rgba(5,150,105,.2); }
+    .badge-no   { background:var(--error-dim);   color:var(--error);   border:1px solid rgba(220,38,38,.2); }
+    .badge-part { background:var(--warn-dim);    color:var(--warn);    border:1px solid rgba(217,119,6,.2); }
+    .badge-empty{ background:var(--surface3);    color:var(--text-3);  border:1px solid var(--border); }
+
+    .action-cell { display:flex; gap:.35rem; align-items:center; flex-wrap:nowrap; }
+    .btn-edit { display:inline-flex; align-items:center; gap:.3rem; padding:.2rem .6rem; background:var(--blue-dim); color:var(--blue); border:1px solid var(--blue-dim2); border-radius:6px; font-size:.68rem; font-weight:700; cursor:pointer; transition:background .14s; white-space:nowrap; }
+    .btn-edit:hover { background:var(--blue-dim2); }
+    .btn-edit-review { background:var(--warn-dim); color:var(--warn); border-color:rgba(217,119,6,.25); }
+    .btn-edit-review:hover { background:rgba(217,119,6,.15); }
+    .btn-delete { display:inline-flex; align-items:center; gap:.3rem; padding:.2rem .6rem; background:var(--error-dim); color:var(--error); border:1px solid rgba(220,38,38,.2); border-radius:6px; font-size:.68rem; font-weight:700; cursor:pointer; transition:background .14s; white-space:nowrap; }
+    .btn-delete:hover { background:rgba(220,38,38,.15); }
+
+    .empty-row td { text-align:center; padding:3rem 1rem; color:var(--text-3); font-size:.84rem; }
+
+    .cell-select { height:28px; padding:0 1.4rem 0 .45rem; font-size:.72rem; border-radius:6px; min-width:88px; width:auto; background-size:10px; background-position:right .35rem center; border-width:1px; }
+    .cell-input  { height:28px; padding:0 .5rem; font-size:.72rem; border-radius:6px; min-width:110px; width:100%; border-width:1px; }
+    .cell-select:focus, .cell-input:focus { border-color:var(--blue); box-shadow:0 0 0 2px var(--blue-dim2); }
+    .review-due  { font-size:.72rem; color:var(--warn); font-weight:600; }
+
+    .new-task-row td { background:var(--blue-dim); border-color:var(--blue-dim2) !important; }
+    .new-task-row .member-hint { font-size:.72rem; font-weight:700; color:var(--blue); }
+    .new-task-row .date-hint   { font-size:.72rem; color:var(--text-3); }
+    .btn-save-row { display:inline-flex; align-items:center; gap:.25rem; padding:.2rem .65rem; background:var(--blue); color:#fff; border:none; border-radius:6px; font-size:.7rem; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .btn-save-row:hover { background:var(--blue-hover); }
+
+    /* MODAL */
+    .modal-overlay { display:none; position:fixed; inset:0; background:var(--overlay-bg); z-index:400; align-items:center; justify-content:center; padding:1.25rem; backdrop-filter:blur(8px); }
+    .modal-overlay.visible { display:flex; animation:fadein .2s ease; }
+    .modal { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-xl); width:100%; max-width:640px; max-height:92vh; display:flex; flex-direction:column; box-shadow:var(--shadow),0 20px 60px rgba(0,0,0,0.15); animation:cardin .3s cubic-bezier(.34,1.2,.64,1); }
+    .modal-head { padding:1.375rem 1.75rem; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-shrink:0; }
+    .modal-title { font-family:'Bricolage Grotesque',sans-serif; font-size:1.1rem; font-weight:800; letter-spacing:-.015em; }
+    .modal-sub { font-size:.75rem; color:var(--text-3); margin-top:.15rem; }
+    .modal-close { width:32px; height:32px; border-radius:8px; background:var(--surface3); border:1px solid var(--border); color:var(--text-3); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.875rem; transition:background .15s,color .15s; flex-shrink:0; }
+    .modal-close:hover { background:var(--error-dim); color:var(--error); border-color:rgba(220,38,38,.2); }
+    .modal-body { padding:1.375rem 1.75rem; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:1.125rem; }
+    .modal-footer { padding:1rem 1.75rem; border-top:1px solid var(--border); display:flex; gap:.75rem; justify-content:flex-end; flex-shrink:0; }
+
+    .form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:.875rem; }
+    .form-group { display:flex; flex-direction:column; gap:.35rem; }
+    .form-label { font-size:.78rem; font-weight:600; color:var(--text-2); }
+    .req { color:var(--blue); }
+
+    .sep { display:flex; align-items:center; gap:.6rem; }
+    .sep-line { flex:1; height:1px; background:var(--border); }
+    .sep-label { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; white-space:nowrap; padding:.2rem .6rem; border-radius:100px; }
+    .sep-standup { background:var(--standup-bg); color:var(--standup-text); }
+    .sep-eod     { background:var(--eod-bg);     color:var(--eod-text); }
+    .sep-review  { background:var(--review-bg);  color:var(--review-text); }
+
+    .task-card { background:var(--surface3); border:1px solid var(--border); border-radius:var(--radius); padding:1rem; display:flex; flex-direction:column; gap:.875rem; }
+    .task-num { font-family:'Bricolage Grotesque',sans-serif; font-size:.75rem; font-weight:800; color:var(--text-3); letter-spacing:.05em; text-transform:uppercase; }
+
+    select, textarea, input[type="text"], input[type="date"] {
+      width:100%; background:var(--surface2); color:var(--text); border:1.5px solid var(--border); border-radius:var(--radius-sm);
+      font-family:'Plus Jakarta Sans',sans-serif; font-size:.875rem; font-weight:500; outline:none;
+      -webkit-appearance:none; appearance:none; transition:border-color .18s,box-shadow .18s,background .18s;
+    }
+    select:focus, textarea:focus, input:focus { border-color:var(--blue); box-shadow:0 0 0 3px var(--blue-dim2); background:var(--white); }
+    select { height:var(--field-h); padding:0 2.5rem 0 .875rem; cursor:pointer;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat:no-repeat; background-position:right .875rem center; background-color:var(--surface2); }
+    select option { background:var(--white); color:var(--text); }
+    select option:disabled { color:var(--text-3); }
+    textarea { min-height:64px; resize:vertical; line-height:1.7; padding:.65rem .875rem; }
+    textarea::placeholder { color:var(--text-4); }
+    input[type="text"] { height:var(--field-h); padding:0 .875rem; }
+    input[type="date"] { height:var(--field-h); padding:0 .875rem; color-scheme:light; cursor:pointer; }
+    [data-theme="dark"] input[type="date"] { color-scheme:dark; }
+
+    .toggle-group { display:flex; gap:.35rem; flex-wrap:wrap; }
+    .toggle-opt { padding:.3rem .85rem; border-radius:var(--radius-sm); border:1.5px solid var(--border); background:var(--surface2); font-size:.775rem; font-weight:600; cursor:pointer; transition:all .15s; color:var(--text-2); user-select:none; }
+    .toggle-opt:hover { border-color:var(--border2); color:var(--text); }
+    .toggle-opt.sel-yes  { background:var(--success-dim); color:var(--success); border-color:rgba(5,150,105,.35); }
+    .toggle-opt.sel-no   { background:var(--error-dim);   color:var(--error);   border-color:rgba(220,38,38,.35); }
+    .toggle-opt.sel-part { background:var(--warn-dim);    color:var(--warn);    border-color:rgba(217,119,6,.35); }
+
+    .readonly-field { background:var(--surface3); border:1px solid var(--border); border-radius:var(--radius-sm); padding:.6rem .875rem; font-size:.8rem; color:var(--text-2); min-height:36px; line-height:1.6; }
+
+    .btn-submit { height:var(--field-h); padding:0 1.5rem; background:var(--blue); color:#fff; font-family:'Plus Jakarta Sans',sans-serif; font-size:.875rem; font-weight:700; border:none; border-radius:var(--radius-sm); cursor:pointer; display:flex; align-items:center; gap:.45rem; box-shadow:var(--shadow-blue); transition:background .15s,transform .1s; white-space:nowrap; }
+    .btn-submit:hover:not(:disabled) { background:var(--blue-hover); transform:translateY(-1px); }
+    .btn-submit:disabled { opacity:.45; cursor:not-allowed; }
+    .btn-cancel { height:var(--field-h); padding:0 1.25rem; background:var(--white); color:var(--text-2); font-family:'Plus Jakarta Sans',sans-serif; font-size:.875rem; font-weight:600; border:1.5px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; transition:all .15s; }
+    .btn-cancel:hover { border-color:var(--border2); color:var(--text); }
+
+    .alert { display:flex; align-items:flex-start; gap:.6rem; padding:.7rem .9rem; border-radius:var(--radius-sm); border:1px solid; font-size:.8rem; font-weight:500; line-height:1.5; animation:slideup .2s ease; }
+    .alert-error   { background:var(--error-dim);   border-color:rgba(220,38,38,.2);   color:var(--error); }
+    .alert-success { background:var(--success-dim); border-color:rgba(5,150,105,.2);   color:var(--success); }
+
+    .spin { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .65s linear infinite; }
+
+
+    @keyframes fadein  { from{opacity:0} to{opacity:1} }
+    @keyframes slideup { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes cardin  { from{transform:translateY(20px) scale(.97);opacity:0} to{transform:translateY(0) scale(1);opacity:1} }
+    @keyframes spin    { to{transform:rotate(360deg)} }
+
+    @media(max-width:768px) {
+      :root { --sidebar-w:0px; }
+      .sidebar { display:none; }
+      .main { margin-left:0; }
+      .topbar { padding:0 1.25rem; }
+      .content { padding:1.25rem 1rem 4rem; }
+      .toggle-label { display:none; }
+      .form-row-2 { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+
+
+<!-- SETUP OVERLAY -->
+<div class="setup-overlay" id="setupOverlay">
+  <div class="setup-card">
+    <div class="setup-logo">
+      <img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" />
+      <div><div class="setup-logo-name">Digit Web Lanka</div><div class="setup-logo-sub">Truth Finder DM Team</div></div>
+    </div>
+    <div class="setup-title">Connect to Repository</div>
+    <div class="setup-desc">Enter your GitHub Personal Access Token to sync standup data. Stored only in <strong>your browser</strong>.</div>
+    <label class="field-label" for="tokenInput">GitHub Personal Access Token</label>
+    <div class="token-wrap">
+      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" spellcheck="false" />
+      <button class="toggle-vis" id="toggleVis" type="button">👁</button>
+    </div>
+    <div class="token-hint">Requires <strong>repo</strong> scope · Stored in localStorage only</div>
+    <div class="setup-error" id="setupError"></div>
+    <button class="btn-primary" id="saveTokenBtn">Verify &amp; Continue</button>
+  </div>
+</div>
+
+<!-- ADD ROW MODAL -->
+<div class="modal-overlay" id="addModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Add Daily Standup</div>
+        <div class="modal-sub" id="addModalSub">3 tasks per member</div>
+      </div>
+      <button class="modal-close" id="addModalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="taskForms"></div>
+      <div id="addAlertBox"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="addModalCancel">Cancel</button>
+      <button class="btn-submit" id="addSubmitBtn"><span id="addBtnIcon">✦</span><span id="addBtnLabel"> Submit Standup</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewModal">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Fill 14-Day Review</div>
+        <div class="modal-sub" id="reviewModalSub"></div>
+      </div>
+      <button class="modal-close" id="reviewModalClose">✕</button>
+    </div>
+    <div class="modal-body" id="reviewModalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="reviewModalCancel">Cancel</button>
+      <button class="btn-submit" id="reviewSubmitBtn"><span id="reviewBtnIcon">✦</span><span id="reviewBtnLabel"> Save Review</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- SHELL -->
+<div class="shell">
+  <aside class="sidebar">
+    <a href="index.html" class="sidebar-brand" style="text-decoration:none;color:inherit;cursor:pointer;">
+      <div class="brand-logo"><img src="https://lh3.googleusercontent.com/p/AF1QipNp7Vykx7WuwLOTnfLruHpe6RscyUUKTi6hKPSJ=w243-h203-n-k-no-nu" alt="Logo" /></div>
+      <div><div class="brand-name">Digit Web Lanka</div><div class="brand-tag">Digital Marketing</div></div>
+    </a>
+<nav class="sidebar-nav">
+  <span class="nav-label">Reports</span>
+  <a href="index.html" class="nav-link">
+    <span class="nav-icon">📝</span> EOD Report
+  </a>
+  <span class="nav-label">Task Reports</span>
+  <a href="standup2.html" class="nav-link active">
+    <span class="nav-icon">📋</span> Truth Finder
+  </a>
+  <a href="summary.html" class="nav-link">
+    <span class="nav-icon">📊</span> Summary View
+  </a>
+
+</nav>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="date-widget">
+        <div class="date-widget-label">Today</div>
+        <div class="date-widget-val" id="sidebarDate">Loading…</div>
+      </div>
+      <button class="btn-ghost-sm" id="resetTokenBtn">🔑 Update GitHub Token</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <div class="topbar-title">Truth Finder DM Team</div>
+        <div class="topbar-sub" id="topbarSub">Daily Task Tracker</div>
+      </div>
+      <div class="topbar-right"></div>
+    </header>
+
+    <div class="content">
+
+      <!-- Team Tabs + Dark Mode + Summary -->
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;">
+        <div class="team-tabs">
+          <button class="team-tab active" id="tabADS" onclick="switchTeam('ADS')">📢 ADS</button>
+          <button class="team-tab" id="tabSEO" onclick="switchTeam('SEO')">🔍 SEO</button>
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" style="border-radius:var(--radius-sm);padding:.5rem .875rem;">
+            <span class="toggle-icon">☀️</span>
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+            <span class="toggle-icon">🌙</span>
+            <span class="toggle-label" id="toggleLabel">Light</span>
+          </button>
+          <a href="summary.html" class="team-tab" style="text-decoration:none;">📊 Summary</a>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar" style="flex-wrap:wrap;">
+        <input type="date" class="filter-input" id="filterDate" style="width:160px;padding:0 .875rem 0 1.1rem;letter-spacing:.03em;" />
+        <button class="btn-cancel" onclick="setDate(0)" style="height:36px;padding:0 .9rem;font-size:.8rem;">Today</button>
+        <button class="btn-cancel" onclick="setDate(-1)" style="height:36px;padding:0 .9rem;font-size:.8rem;">Yesterday</button>
+        <select class="filter-input" id="toolbarMember" style="width:160px;height:36px;padding:0 2rem 0 .75rem">
+          <option value="">All Members</option>
+        </select>
+        <button class="btn-cancel" onclick="clearFilters()" style="height:36px;padding:0 1rem;font-size:.8rem;">📋 All Data</button>
+        <span class="row-count" id="rowCount"></span>
+      </div>
+
+      <!-- Sheet -->
+      <div class="sheet-wrap">
+        <div class="sheet-scroll">
+          <table class="sheet-table" id="sheetTable">
+            <thead>
+              <tr class="sh-row">
+                <th colspan="2" class="sh-blank"></th>
+                <th colspan="3" class="sh-standup">Standup</th>
+                <th colspan="4" class="sh-eod">EOD</th>
+                <th colspan="4" class="sh-review">Reviews 14 Days</th>
+              </tr>
+              <tr class="ch-row">
+                <th>Date</th>
+                <th>Staff Name</th>
+                <th class="ch-standup">Task Type</th>
+                <th class="ch-standup">Daily Task</th>
+                <th class="ch-standup">Business Impact</th>
+                <th class="ch-eod">Completed</th>
+                <th class="ch-eod">Reason if Missed</th>
+                <th class="ch-eod">Result Achieved</th>
+                <th class="ch-eod">Reviews Date</th>
+                <th class="ch-review">Measurable Impact</th>
+                <th class="ch-review">Primary Failure Reason</th>
+                <th class="ch-review">Blocker?</th>
+                <th class="ch-review">Leader Pivot</th>
+              </tr>
+            </thead>
+            <tbody id="sheetBody">
+              <tr class="empty-row"><td colspan="14">Loading data…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  const REPO_OWNER = "digitalmarketing69140951-sys";
+  const REPO_NAME  = "eod-reports";
+  const BRANCH     = "main";
+  const TOKEN_KEY  = "eod_gh_token";
+  const THEME_KEY  = "eod_theme";
+
+  const TEAM_MEMBERS = {
+    ADS: ["Sonya","Mahima","Jefry","Sajeepan","Theekshy","Thivajini","Thishoban"],
+    SEO: ["Kamshi","Sukirtha","Dilakshi","Hetheesa","Jakshan"]
+  };
+  const ADS_TYPES = ["Google Ads","Shopify","Feed Optimisation","Campaign Review","Performance Review","Customer Segment","Asset Group","Analytics","Reporting","Other"];
+  const SEO_TYPES = ["On Page SEO","Technical SEO","Content Creation","Link Building","Keyword Research","Site Audit","GMB / Local SEO","Analytics","Reporting","Other"];
+  const STAFF_CLS = { sonya:"staff-sonya",mahima:"staff-mahima",jefry:"staff-jefry",sajeepan:"staff-sajeepan",theekshy:"staff-theekshy",thivajini:"staff-thivajini",thishoban:"staff-thishoban",kamshi:"staff-kamshi",sukirtha:"staff-sukirtha",dilakshi:"staff-dilakshi",hetheesa:"staff-hetheesa",jakshan:"staff-jakshan" };
+
+  const $ = id => document.getElementById(id);
+  let currentTeam = "ADS", allRows = [], editingId = null, currentSha = null;
+
+  /* THEME */
+  function applyTheme(t) { document.documentElement.setAttribute("data-theme",t); localStorage.setItem(THEME_KEY,t); const l=$("toggleLabel"); if(l) l.textContent=t==="dark"?"Dark":"Light"; }
+  (()=>{ const s=localStorage.getItem(THEME_KEY); applyTheme(s||(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")); })();
+  $("themeToggle").onclick = () => applyTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark");
+
+  /* TOKEN */
+  const getToken   = () => localStorage.getItem(TOKEN_KEY)||"";
+  const saveToken  = t  => localStorage.setItem(TOKEN_KEY,t.trim());
+  const clearToken = () => localStorage.removeItem(TOKEN_KEY);
+  function showSetup() { $("tokenInput").value=""; $("setupError").style.display="none"; $("setupOverlay").classList.add("visible"); setTimeout(()=>$("tokenInput").focus(),200); }
+  function hideSetup() { $("setupOverlay").classList.remove("visible"); }
+  if (!getToken()) showSetup();
+  $("toggleVis").onclick = () => { const i=$("tokenInput"),s=i.type==="password"; i.type=s?"text":"password"; $("toggleVis").textContent=s?"🙈":"👁"; };
+  $("saveTokenBtn").onclick = async () => {
+    const token=$("tokenInput").value.trim(), err=$("setupError"); err.style.display="none";
+    if (!token.startsWith("ghp_")&&!token.startsWith("github_pat_")) { err.textContent="⚠ Enter a valid GitHub token"; err.style.display="block"; return; }
+    const btn=$("saveTokenBtn"); btn.disabled=true; btn.textContent="Verifying…";
+    try {
+      const r=await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`,{headers:{"Authorization":`Bearer ${token}`,"Accept":"application/vnd.github+json"}});
+      if(r.status===401) throw new Error("Invalid token.");
+      if(r.status===404) throw new Error("Repository not found.");
+      if(!r.ok) throw new Error(`GitHub error ${r.status}`);
+      saveToken(token); hideSetup(); loadData();
+    } catch(e){ err.textContent=`⚠ ${e.message}`; err.style.display="block"; }
+    finally { btn.disabled=false; btn.textContent="Verify & Continue"; }
+  };
+  $("tokenInput").addEventListener("keydown",e=>{ if(e.key==="Enter") $("saveTokenBtn").click(); });
+  $("resetTokenBtn").onclick = () => { clearToken(); showSetup(); };
+
+  /* DATES */
+  function todayISO() { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+  function addDays(iso,n) { const d=new Date(iso); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+  function fmtDate(iso) { if(!iso) return "—"; const [y,m,d]=iso.split("-"); return new Date(+y,+m-1,+d).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+  (()=>{
+    const d=new Date(), full=d.toLocaleDateString("en-GB",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+    const s=$("sidebarDate"); if(s) s.textContent=full;
+    const t=$("topbarSub"); if(t) t.textContent="Daily Task Tracker · "+d.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"});
+  })();
+
+  /* GITHUB */
+  function ghHdr() { return {"Authorization":`Bearer ${getToken()}`,"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"}; }
+  const toB64 = s => btoa(unescape(encodeURIComponent(s)));
+  function fileURL(team) { return `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/standup/${team}.json`; }
+  async function loadJSON(team) {
+    const r=await fetch(fileURL(team),{headers:ghHdr(),cache:"no-store"});
+    if(r.status===404) return {data:[],sha:null};
+    if(!r.ok) throw new Error(`HTTP ${r.status}`);
+    const j=await r.json();
+    const bytes=Uint8Array.from(atob(j.content.replace(/\n/g,"")),c=>c.charCodeAt(0));
+    let data; try { data=JSON.parse(new TextDecoder("utf-8").decode(bytes)); } catch(e){ data=[]; }
+    if(!Array.isArray(data)) data=[];
+    return {data, sha:j.sha};
+  }
+  async function saveJSON(team,data,sha) {
+    const body={message:`standup: update ${team}`,content:toB64(JSON.stringify(data,null,2)),branch:BRANCH};
+    if(sha) body.sha=sha;
+    const r=await fetch(fileURL(team),{method:"PUT",headers:{...ghHdr(),"Content-Type":"application/json"},body:JSON.stringify(body)});
+    const b=await r.json().catch(()=>{});
+    if(!r.ok) throw new Error(`${r.status}: ${b?.message||r.statusText}`);
+    return b;
+  }
+
+  /* LOAD & RENDER */
+  async function loadData() {
+    $("sheetBody").innerHTML=`<tr class="empty-row"><td colspan="14">Loading…</td></tr>`;
+    if(!getToken()){ $("sheetBody").innerHTML=`<tr class="empty-row"><td colspan="14">⚠ GitHub token not set.</td></tr>`; return; }
+    try { const {data,sha}=await loadJSON(currentTeam); allRows=data; currentSha=sha; renderTable(); }
+    catch(e){ $("sheetBody").innerHTML=`<tr class="empty-row"><td colspan="14">⚠ Failed to load: ${e.message}</td></tr>`; }
+  }
+
+  function statusBadge(v) {
+    if(!v) return `<span class="badge badge-empty">—</span>`;
+    if(v==="yes")     return `<span class="badge badge-yes">✅ Yes</span>`;
+    if(v==="no")      return `<span class="badge badge-no">❌ No</span>`;
+    if(v==="partial") return `<span class="badge badge-part">🔴 Partial</span>`;
+    return `<span class="badge badge-empty">${v}</span>`;
+  }
+  function blockerBadge(v) {
+    if(!v) return "—";
+    return v==="yes" ? `<span class="badge badge-no">⚠ Yes</span>` : `<span class="badge badge-yes">No</span>`;
+  }
+
+  function renderTable() {
+    const fd=$("filterDate").value, fm=$("toolbarMember").value;
+    let rows=[...allRows].filter(r=>(!fd||r.date===fd)&&(!fm||r.member===fm));
+    rows.sort((a,b)=>b.date.localeCompare(a.date)||a.member.localeCompare(b.member));
+    $("rowCount").textContent=`${rows.length} row${rows.length!==1?"s":""}`;
+    $("sheetBody").innerHTML=rows.map(r=>{
+      const sc=STAFF_CLS[r.member.toLowerCase()]||"";
+      const reviewDone=r.measurable_impact||r.primary_failure_reason||r.blocker!=null;
+      const overdue=!reviewDone&&r.review_due&&new Date(r.review_due)<new Date();
+      const reviewBtn=reviewDone
+        ?`<button class="btn-edit" onclick="openReview('${r.id}')">✏ Edit Review</button>`
+        :`<button class="btn-edit btn-edit-review" onclick="openReview('${r.id}')">${overdue?"⚠ Overdue":"📋 Fill Review"}</button>`;
+      const cmpSel=`<select class="cell-select" onchange="inlineSave('${r.id}','completed',this.value)">
+        <option value="" ${!r.completed?"selected":""}>—</option>
+        <option value="yes" ${r.completed==="yes"?"selected":""}>✅ Yes</option>
+        <option value="no" ${r.completed==="no"?"selected":""}>❌ No</option>
+        <option value="partial" ${r.completed==="partial"?"selected":""}>🔴 Partial</option>
+      </select>`;
+      const resSel=`<select class="cell-select" onchange="inlineSave('${r.id}','result_achieved',this.value)">
+        <option value="" ${!r.result_achieved?"selected":""}>—</option>
+        <option value="yes" ${r.result_achieved==="yes"?"selected":""}>✅ Yes</option>
+        <option value="no" ${r.result_achieved==="no"?"selected":""}>❌ No</option>
+      </select>`;
+      const reasonInp=`<input class="cell-input" type="text" value="${esc(r.reason_if_missed)}" placeholder="—" onblur="inlineSave('${r.id}','reason_if_missed',this.value)" />`;
+      return `<tr>
+        <td>${fmtDate(r.date)}</td>
+        <td class="${sc}">${r.member}</td>
+        <td><input class="cell-input" type="text" value="${esc(r.task_type)}" placeholder="—" onblur="inlineSave('${r.id}','task_type',this.value)" /></td>
+        <td title="${esc(r.daily_task)}" style="max-width:220px">${r.daily_task||"—"}</td>
+        <td title="${esc(r.business_impact)}">${r.business_impact||"—"}</td>
+        <td>${cmpSel}</td>
+        <td>${reasonInp}</td>
+        <td>${resSel}</td>
+        <td class="review-due">${r.review_due?fmtDate(r.review_due):"—"}</td>
+        <td><input class="cell-input" type="text" value="${esc(r.measurable_impact)}" placeholder="—" onblur="inlineSave('${r.id}','measurable_impact',this.value)" /></td>
+        <td><input class="cell-input" type="text" value="${esc(r.primary_failure_reason)}" placeholder="—" onblur="inlineSave('${r.id}','primary_failure_reason',this.value)" /></td>
+        <td><select class="cell-select" onchange="inlineSave('${r.id}','blocker',this.value)">
+          <option value="" ${!r.blocker?"selected":""}>—</option>
+          <option value="yes" ${r.blocker==="yes"?"selected":""}>⚠ Yes</option>
+          <option value="no" ${r.blocker==="no"?"selected":""}>✅ No</option>
+        </select></td>
+        <td><input class="cell-input" type="text" value="${esc(r.leader_pivot)}" placeholder="—" onblur="inlineSave('${r.id}','leader_pivot',this.value)" /></td>
+      </tr>`;
+    }).join("") + buildTeamNewRows();
+  }
+
+  function buildTeamNewRows() {
+    const date=$("filterDate").value||todayISO();
+    const types=(currentTeam==="ADS"?ADS_TYPES:SEO_TYPES).map(t=>`<option value="${t}">${t}</option>`).join("");
+    const fm=$("toolbarMember").value;
+    const members=fm?[fm]:TEAM_MEMBERS[currentTeam];
+    return members.map(member=>{
+      const existing=allRows.filter(r=>r.member===member&&r.date===date).length;
+      const slots=Math.max(0,3-existing);
+      const sc=STAFF_CLS[member.toLowerCase()]||"";
+      return Array.from({length:slots},(_,i)=>{
+        const uid=`nr_${member.toLowerCase().replace(/\s/g,"_")}_${i}`;
+        return `<tr class="new-task-row">
+          <td class="date-hint">${fmtDate(date)}</td>
+          <td class="${sc}">${member}</td>
+          <td><input class="cell-input" id="${uid}_type" type="text" placeholder="Task type…" /></td>
+          <td><input class="cell-input" id="${uid}_task" type="text" placeholder="Daily task…" /></td>
+          <td><input class="cell-input" id="${uid}_impact" type="text" placeholder="Business impact…" onblur="saveRowById('${uid}','${member}')" onkeydown="if(event.key==='Enter')this.blur()" /></td>
+          <td><select class="cell-select" id="${uid}_completed">
+            <option value="">—</option>
+            <option value="yes">✅ Yes</option>
+            <option value="no">❌ No</option>
+            <option value="partial">🔴 Partial</option>
+          </select></td>
+          <td><input class="cell-input" id="${uid}_reason" type="text" placeholder="—" /></td>
+          <td><select class="cell-select" id="${uid}_result">
+            <option value="">—</option>
+            <option value="yes">✅ Yes</option>
+            <option value="no">❌ No</option>
+          </select></td>
+          <td class="review-due">${fmtDate(addDays(date,14))}</td>
+          <td><input class="cell-input" id="${uid}_impact14" type="text" placeholder="—" /></td>
+          <td><input class="cell-input" id="${uid}_fail" type="text" placeholder="—" /></td>
+          <td><select class="cell-select" id="${uid}_blocker">
+            <option value="">—</option>
+            <option value="yes">⚠ Yes</option>
+            <option value="no">✅ No</option>
+          </select></td>
+          <td><input class="cell-input" id="${uid}_pivot" type="text" placeholder="—" /></td>
+        </tr>`;
+      }).join("");
+    }).join("");
+  }
+
+  function esc(s){ return (s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;"); }
+
+  /* SAVE NEW ROW (auto on blur) */
+  async function saveRowById(uid, member) {
+    const type=document.getElementById(uid+"_type")?.value;
+    const task=document.getElementById(uid+"_task")?.value.trim();
+    const impact=document.getElementById(uid+"_impact")?.value.trim();
+    if(!type||!task||!impact) return;
+    const date=$("filterDate").value||todayISO();
+    const memberTeam=TEAM_MEMBERS.ADS.includes(member)?"ADS":"SEO";
+    const g=id=>document.getElementById(uid+id)?.value||"";
+    const newRow={id:`${Date.now()}_${Math.random().toString(36).slice(2,6)}`,member,team:memberTeam,date,review_due:addDays(date,14),submitted_at:new Date().toISOString(),task_type:type,daily_task:task,business_impact:impact,completed:g("_completed")||null,reason_if_missed:g("_reason"),result_achieved:g("_result")||null,reviews_date:"",measurable_impact:g("_impact14"),primary_failure_reason:g("_fail"),blocker:g("_blocker")||null,leader_pivot:g("_pivot")};
+    try {
+      const updated=[...allRows,newRow];
+      const res=await saveJSON(currentTeam,updated,currentSha);
+      allRows=updated; currentSha=res?.content?.sha||currentSha; renderTable();
+    } catch(e){
+      try {
+        const {data,sha}=await loadJSON(currentTeam);
+        const updated=[...data,newRow];
+        const res=await saveJSON(currentTeam,updated,sha);
+        allRows=updated; currentSha=res?.content?.sha||sha; renderTable();
+      } catch(e2){ alert(`Save failed: ${e2.message}`); }
+    }
+  }
+
+  /* INLINE SAVE */
+  async function inlineSave(id, field, value) {
+    const idx=allRows.findIndex(r=>r.id===id); if(idx===-1) return;
+    allRows[idx][field]=value;
+    try {
+      const di=allRows.findIndex(r=>r.id===id);
+      if(di!==-1) allRows[di][field]=value;
+      const res=await saveJSON(currentTeam,allRows,currentSha);
+      if(res?.content?.sha) currentSha=res.content.sha;
+    } catch(e){
+      // SHA stale — re-fetch and retry once
+      try {
+        const {data,sha}=await loadJSON(currentTeam);
+        const di=data.findIndex(r=>r.id===id);
+        if(di!==-1) data[di][field]=value;
+        const res=await saveJSON(currentTeam,data,sha);
+        allRows=data; currentSha=res?.content?.sha||sha;
+      } catch(e2){ alert(`Save failed: ${e2.message}`); }
+    }
+  }
+
+  /* DELETE ROW */
+  async function deleteRow(id) {
+    const row = allRows.find(r => r.id === id);
+    if (!row) return;
+    const confirmed = confirm(`Delete this entry?\n\n${row.member} · ${fmtDate(row.date)} · ${row.task_type||'No type'}\n\nThis cannot be undone.`);
+    if (!confirmed) return;
+    try {
+      const {data, sha} = await loadJSON(currentTeam);
+      const updated = data.filter(r => r.id !== id);
+      await saveJSON(currentTeam, updated, sha);
+      allRows = allRows.filter(r => r.id !== id);
+      renderTable();
+    } catch(e) {
+      alert(`Delete failed: ${e.message}`);
+    }
+  }
+
+  /* TEAM SWITCH */
+  function populateMemberDropdown(team) {
+    $("toolbarMember").innerHTML=`<option value="">All Members</option>`+TEAM_MEMBERS[team].map(m=>`<option>${m}</option>`).join("");
+  }
+  function switchTeam(t) {
+    currentTeam=t; $("tabADS").classList.toggle("active",t==="ADS"); $("tabSEO").classList.toggle("active",t==="SEO");
+    $("filterDate").value=""; populateMemberDropdown(t);
+    loadData();
+  }
+
+  /* ADD MODAL */
+  function buildTaskForms(team) {
+    const types=((team||currentTeam)==="ADS"?ADS_TYPES:SEO_TYPES).map(t=>`<option>${t}</option>`).join("");
+    return [1,2,3].map(i=>`
+      <div class="task-card">
+        <div class="task-num">Task ${i}</div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Task Type <span class="req">*</span></label>
+            <select id="t${i}type"><option value="" disabled selected>Select type…</option>${types}</select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Business Impact <span class="req">*</span></label>
+            <input type="text" id="t${i}impact" placeholder="e.g. Increase Sales, Improve ROAS" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Daily Task <span class="req">*</span></label>
+          <textarea id="t${i}task" placeholder="Describe what was done…"></textarea>
+        </div>
+      </div>`).join("");
+  }
+  function openAddModal() {
+    const member=$("toolbarMember").value;
+    if(!member){ alert("Please select a member first."); return; }
+    const team=TEAM_MEMBERS.ADS.includes(member)?"ADS":"SEO";
+    $("addModalSub").textContent=`${member} · ${team} Team · ${$("filterDate").value||todayISO()}`;
+    $("taskForms").innerHTML=buildTaskForms(team);
+    $("addAlertBox").innerHTML="";
+    setAddLoad(false);
+    $("addModal").classList.add("visible");
+  }
+  function closeAddModal(){ $("addModal").classList.remove("visible"); }
+  function setAddLoad(on){ $("addSubmitBtn").disabled=on; if(on){$("addBtnIcon").outerHTML=`<span class="spin" id="addBtnIcon"></span>`;$("addBtnLabel").textContent=" Saving…";}else{const sp=$("addSubmitBtn").querySelector(".spin");if(sp)sp.outerHTML=`<span id="addBtnIcon">✦</span>`;$("addBtnLabel").textContent=" Submit Standup";} }
+
+  async function handleAdd() {
+    $("addAlertBox").innerHTML="";
+    const member=$("toolbarMember").value, date=$("filterDate").value||todayISO();
+    if(!member){showAddAlert("error","Please select a member."); return;}
+    if(!date){showAddAlert("error","Please select a date."); return;}
+    const newRows=[];
+    for(let i=1;i<=3;i++){
+      const type=$(`t${i}type`).value, task=$(`t${i}task`).value.trim(), impact=$(`t${i}impact`).value.trim();
+      if(!type&&!task&&!impact) continue;
+      if(!type){showAddAlert("error",`Task ${i}: Select a task type.`); return;}
+      if(!task){showAddAlert("error",`Task ${i}: Daily task is required.`); return;}
+      if(!impact){showAddAlert("error",`Task ${i}: Business impact is required.`); return;}
+      const memberTeam=TEAM_MEMBERS.ADS.includes(member)?"ADS":"SEO";
+      newRows.push({id:`${Date.now()}_${i}_${Math.random().toString(36).slice(2,6)}`,member,team:memberTeam,date,review_due:addDays(date,14),submitted_at:new Date().toISOString(),task_type:type,daily_task:task,business_impact:impact,completed:null,reason_if_missed:"",result_achieved:null,reviews_date:"",measurable_impact:"",primary_failure_reason:"",blocker:null,leader_pivot:""});
+    }
+    if(!newRows.length){showAddAlert("error","Fill in at least one task."); return;}
+    setAddLoad(true);
+    try {
+      const {data,sha}=await loadJSON(currentTeam);
+      const updated=[...data,...newRows];
+      await saveJSON(currentTeam,updated,sha);
+      allRows=updated; renderTable(); closeAddModal();
+    } catch(e){ showAddAlert("error",`Save failed: ${e.message}`); }
+    finally{ setAddLoad(false); }
+  }
+  function showAddAlert(t,m){ $("addAlertBox").innerHTML=`<div class="alert alert-${t}"><span>⚠</span><span>${m}</span></div>`; }
+  $("addModalClose").onclick=closeAddModal; $("addModalCancel").onclick=closeAddModal;
+  $("addModal").addEventListener("click",e=>{ if(e.target===$("addModal")) closeAddModal(); });
+  $("addSubmitBtn").addEventListener("click",handleAdd);
+
+  /* REVIEW MODAL */
+  function openReview(id) {
+    const row=allRows.find(r=>r.id===id); if(!row) return;
+    editingId=id;
+    $("reviewModalSub").textContent=`${row.member} · ${fmtDate(row.date)} · Review due: ${fmtDate(row.review_due)}`;
+    function tog(field,val,label,cls){ return `<span class="toggle-opt${row[field]===val?" "+cls:""}" data-f="${field}" data-v="${val}" onclick="selTog(this)">${label}</span>`; }
+    $("reviewModalBody").innerHTML=`
+      <div class="sep"><span class="sep-line"></span><span class="sep-label sep-standup">Standup (Read Only)</span><span class="sep-line"></span></div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Task Type</label><div class="readonly-field">${row.task_type||"—"}</div></div>
+        <div class="form-group"><label class="form-label">Business Impact</label><div class="readonly-field">${row.business_impact||"—"}</div></div>
+      </div>
+      <div class="form-group"><label class="form-label">Daily Task</label><div class="readonly-field" style="min-height:44px">${row.daily_task||"—"}</div></div>
+      <div class="sep"><span class="sep-line"></span><span class="sep-label sep-eod">EOD (filled in sheet)</span><span class="sep-line"></span></div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Completed</label><div class="readonly-field">${row.completed?{yes:"✅ Yes",no:"❌ No",partial:"🔴 Partial"}[row.completed]:"—"}</div></div>
+        <div class="form-group"><label class="form-label">Result Achieved</label><div class="readonly-field">${row.result_achieved?{yes:"✅ Yes",no:"❌ No"}[row.result_achieved]:"—"}</div></div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Reason if Missed</label><div class="readonly-field">${row.reason_if_missed||"—"}</div></div>
+        <div class="form-group"><label class="form-label">Review Due Date</label><div class="readonly-field">${fmtDate(row.review_due)}</div></div>
+      </div>
+      <div class="sep"><span class="sep-line"></span><span class="sep-label sep-review">14-Day Review</span><span class="sep-line"></span></div>
+      <div class="form-row-2">
+        <div class="form-group"><label class="form-label">Measurable Impact</label><input type="text" id="rv_impact" value="${row.measurable_impact||""}" placeholder="e.g. £506.35, 571% ROAS" /></div>
+        <div class="form-group"><label class="form-label">Primary Failure Reason</label><input type="text" id="rv_fail" value="${row.primary_failure_reason||""}" placeholder="If applicable…" /></div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label class="form-label">Blocker?</label>
+          <div class="toggle-group">
+            <span class="toggle-opt${row.blocker==="yes"?" sel-no":""}" data-f="blocker" data-v="yes" onclick="selTog(this)">⚠ Yes</span>
+            <span class="toggle-opt${row.blocker==="no"?" sel-yes":""}" data-f="blocker" data-v="no" onclick="selTog(this)">✅ No</span>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Leader Pivot</label><input type="text" id="rv_pivot" value="${row.leader_pivot||""}" placeholder="Notes for leader…" /></div>
+      </div>
+      <div id="reviewAlert"></div>`;
+    setRevLoad(false);
+    $("reviewModal").classList.add("visible");
+  }
+  function selTog(el) {
+    const f=el.dataset.f;
+    document.querySelectorAll(`.toggle-opt[data-f="${f}"]`).forEach(o=>o.classList.remove("sel-yes","sel-no","sel-part"));
+    const v=el.dataset.v;
+    if(v==="yes") el.classList.add(f==="blocker"?"sel-no":"sel-yes");
+    else if(v==="no") el.classList.add(f==="blocker"?"sel-yes":"sel-no");
+    else el.classList.add("sel-part");
+  }
+  function getTog(f) { const s=document.querySelector(`.toggle-opt[data-f="${f}"].sel-yes,.toggle-opt[data-f="${f}"].sel-no,.toggle-opt[data-f="${f}"].sel-part`); return s?s.dataset.v:null; }
+  function closeReview(){ $("reviewModal").classList.remove("visible"); editingId=null; }
+  function setRevLoad(on){ $("reviewSubmitBtn").disabled=on; if(on){$("reviewBtnIcon").outerHTML=`<span class="spin" id="reviewBtnIcon"></span>`;$("reviewBtnLabel").textContent=" Saving…";}else{const sp=$("reviewSubmitBtn").querySelector(".spin");if(sp)sp.outerHTML=`<span id="reviewBtnIcon">✦</span>`;$("reviewBtnLabel").textContent=" Save Review";} }
+  async function handleReview() {
+    const idx=allRows.findIndex(r=>r.id===editingId); if(idx===-1) return;
+    const updated={...allRows[idx],completed:getTog("completed"),result_achieved:getTog("result_achieved"),blocker:getTog("blocker"),reason_if_missed:$("rv_reason").value.trim(),reviews_date:$("rv_rdate").value,measurable_impact:$("rv_impact").value.trim(),primary_failure_reason:$("rv_fail").value.trim(),leader_pivot:$("rv_pivot").value.trim()};
+    setRevLoad(true);
+    try {
+      const {data,sha}=await loadJSON(currentTeam);
+      const di=data.findIndex(r=>r.id===editingId);
+      if(di!==-1) data[di]=updated; else data.push(updated);
+      await saveJSON(currentTeam,data,sha);
+      allRows[idx]=updated; renderTable(); closeReview();
+    } catch(e){ $("reviewAlert").innerHTML=`<div class="alert alert-error"><span>⚠</span><span>Save failed: ${e.message}</span></div>`; }
+    finally{ setRevLoad(false); }
+  }
+  $("reviewModalClose").onclick=closeReview; $("reviewModalCancel").onclick=closeReview;
+  $("reviewModal").addEventListener("click",e=>{ if(e.target===$("reviewModal")) closeReview(); });
+  $("reviewSubmitBtn").addEventListener("click",handleReview);
+
+  /* FILTERS */
+  function clearFilters(){ $("filterDate").value=""; $("toolbarMember").value=""; renderTable(); }
+  function setDate(offset){ $("filterDate").value=addDays(todayISO(),offset); renderTable(); }
+  $("filterDate").addEventListener("change",renderTable);
+  $("toolbarMember").addEventListener("change",renderTable);
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"){closeAddModal();closeReview();} });
+
+  populateMemberDropdown(currentTeam);
+  $("filterDate").value=todayISO();
+  if(getToken()) loadData();
+
+
+</script>
+</body>
+</html>
