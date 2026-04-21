@@ -569,7 +569,7 @@
       return `<tr>
         <td>${fmtDate(r.date)}</td>
         <td class="${sc}">${r.member}</td>
-        <td>${r.task_type||"—"}</td>
+        <td><input class="cell-input" type="text" value="${esc(r.task_type)}" placeholder="—" onblur="inlineSave('${r.id}','task_type',this.value)" /></td>
         <td title="${esc(r.daily_task)}" style="max-width:220px">${r.daily_task||"—"}</td>
         <td title="${esc(r.business_impact)}">${r.business_impact||"—"}</td>
         <td>${cmpSel}</td>
@@ -602,7 +602,7 @@
         return `<tr class="new-task-row">
           <td class="date-hint">${fmtDate(date)}</td>
           <td class="${sc}">${member}</td>
-          <td><select class="cell-select" id="${uid}_type"><option value="" disabled selected>Type…</option>${types}</select></td>
+          <td><input class="cell-input" id="${uid}_type" type="text" placeholder="Task type…" /></td>
           <td><input class="cell-input" id="${uid}_task" type="text" placeholder="Daily task…" /></td>
           <td><input class="cell-input" id="${uid}_impact" type="text" placeholder="Business impact…" onblur="saveRowById('${uid}','${member}')" onkeydown="if(event.key==='Enter')this.blur()" /></td>
           <td><select class="cell-select" id="${uid}_completed">
