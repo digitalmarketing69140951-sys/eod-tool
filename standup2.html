@@ -582,8 +582,8 @@
         <td>${fmtDate(r.date)}</td>
         <td class="${sc}">${r.member}</td>
         <td><input class="cell-input" type="text" value="${esc(r.task_type)}" placeholder="—" onblur="inlineSave('${r.id}','task_type',this.value)" /></td>
-        <td title="${esc(r.daily_task)}" style="max-width:220px">${r.daily_task||"—"}</td>
-        <td title="${esc(r.business_impact)}">${r.business_impact||"—"}</td>
+        <td><input class="cell-input" type="text" value="${esc(r.daily_task)}" placeholder="—" onblur="inlineSave('${r.id}','daily_task',this.value)" /></td>
+        <td><input class="cell-input" type="text" value="${esc(r.business_impact)}" placeholder="—" onblur="inlineSave('${r.id}','business_impact',this.value)" /></td>
         <td>${cmpSel}</td>
         <td>${reasonInp}</td>
         <td>${resSel}</td>
