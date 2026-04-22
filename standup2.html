@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -671,22 +672,15 @@
   /* INLINE SAVE */
   async function inlineSave(id, field, value) {
     const idx=allRows.findIndex(r=>r.id===id); if(idx===-1) return;
+    if(allRows[idx][field]===value) return;
     allRows[idx][field]=value;
     try {
-      const di=allRows.findIndex(r=>r.id===id);
-      if(di!==-1) allRows[di][field]=value;
-      const res=await saveJSON(currentTeam,allRows,currentSha);
-      if(res?.content?.sha) currentSha=res.content.sha;
-    } catch(e){
-      // SHA stale — re-fetch and retry once
-      try {
-        const {data,sha}=await loadJSON(currentTeam);
-        const di=data.findIndex(r=>r.id===id);
-        if(di!==-1) data[di][field]=value;
-        const res=await saveJSON(currentTeam,data,sha);
-        allRows=data; currentSha=res?.content?.sha||sha;
-      } catch(e2){ alert(`Save failed: ${e2.message}`); }
-    }
+      const {data,sha}=await loadJSON(currentTeam);
+      const di=data.findIndex(r=>r.id===id);
+      if(di!==-1) data[di][field]=value;
+      const res=await saveJSON(currentTeam,data,sha);
+      allRows=data; currentSha=res?.content?.sha||sha;
+    } catch(e){ alert(`Save failed: ${e.message}`); }
   }
 
   /* DELETE ROW */
@@ -856,6 +850,25 @@
   $("filterDate").addEventListener("change",renderTable);
   $("toolbarMember").addEventListener("change",renderTable);
   document.addEventListener("keydown",e=>{ if(e.key==="Escape"){closeAddModal();closeReview();} });
+
+  function downloadXLSX() {
+    const fd=$("filterDate").value, fm=$("toolbarMember").value;
+    let rows=[...allRows].filter(r=>(!fd||r.date===fd)&&(!fm||r.member===fm));
+    rows.sort((a,b)=>b.date.localeCompare(a.date)||a.member.localeCompare(b.member));
+    if(!rows.length){ alert("No data to download."); return; }
+    const headers=["Date","Staff Name","Team","Task Type","Daily Task","Business Impact","Completed","Reason if Missed","Result Achieved","Reviews Date","Measurable Impact","Primary Failure Reason","Blocker","Leader Pivot"];
+    const data=[headers,...rows.map(r=>[
+      fmtDate(r.date), r.member||"", r.team||"", r.task_type||"", r.daily_task||"",
+      r.business_impact||"", r.completed||"", r.reason_if_missed||"", r.result_achieved||"",
+      fmtDate(r.reviews_date), r.measurable_impact||"", r.primary_failure_reason||"", r.blocker||"", r.leader_pivot||""
+    ])];
+    const ws=XLSX.utils.aoa_to_sheet(data);
+    ws["!cols"]=headers.map((_,i)=>({wch:[18,14,8,16,40,30,12,22,16,16,28,28,10,24][i]}));
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,"Standup");
+    const label=fd?fd:"all-data";
+    XLSX.writeFile(wb,`standup-${currentTeam.toLowerCase()}-${label}.xlsx`);
+  }
 
   populateMemberDropdown(currentTeam);
   $("filterDate").value=todayISO();
