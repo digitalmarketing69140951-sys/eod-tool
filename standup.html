@@ -665,7 +665,8 @@
   /* INLINE SAVE — queued to prevent concurrent SHA conflicts */
   let _saveQueue=Promise.resolve();
   const _pendingChanges={};
-  function inlineSave(id, field, value) {
+let _renderTimeout = null;
+function inlineSave(id, field, value) {
     const idx=allRows.findIndex(r=>r.id===id); if(idx===-1) return;
     if(allRows[idx][field]===value) return;
     allRows[idx][field]=value;
@@ -679,10 +680,13 @@
         const res=await saveJSON(currentTeam,data,sha);
         allRows=data; currentSha=res?.content?.sha||sha;
         delete _pendingChanges[id];
-        renderTable();
+        // Debounce the re-render so dropdown interaction isn't interrupted
+        clearTimeout(_renderTimeout);
+        _renderTimeout = setTimeout(() => renderTable(), 800);
       } catch(e){ alert(`Save failed: ${e.message}`); }
     });
-  }
+}
+
 
   /* DELETE ROW */
   async function deleteRow(id) {
