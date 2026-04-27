@@ -669,18 +669,28 @@
     }
   }
 
-  /* INLINE SAVE */
-  async function inlineSave(id, field, value) {
+/* INLINE SAVE */
+  let _saveQueue=Promise.resolve();
+  const _pendingChanges={};
+  let _renderTimeout=null;
+  function inlineSave(id, field, value) {
     const idx=allRows.findIndex(r=>r.id===id); if(idx===-1) return;
     if(allRows[idx][field]===value) return;
     allRows[idx][field]=value;
-    try {
-      const {data,sha}=await loadJSON(currentTeam);
-      const di=data.findIndex(r=>r.id===id);
-      if(di!==-1) data[di][field]=value;
-      const res=await saveJSON(currentTeam,data,sha);
-      allRows=data; currentSha=res?.content?.sha||sha;
-    } catch(e){ alert(`Save failed: ${e.message}`); }
+    if(!_pendingChanges[id]) _pendingChanges[id]={};
+    _pendingChanges[id][field]=value;
+    _saveQueue=_saveQueue.then(async()=>{
+      try {
+        const {data,sha}=await loadJSON(currentTeam);
+        const di=data.findIndex(r=>r.id===id);
+        if(di!==-1) Object.assign(data[di], _pendingChanges[id]||{});
+        const res=await saveJSON(currentTeam,data,sha);
+        allRows=data; currentSha=res?.content?.sha||sha;
+        delete _pendingChanges[id];
+        clearTimeout(_renderTimeout);
+        _renderTimeout=setTimeout(()=>renderTable(), 800);
+      } catch(e){ alert(`Save failed: ${e.message}`); }
+    });
   }
 
   /* DELETE ROW */
